@@ -5,7 +5,6 @@
 //  Created by Grava Andy on 04/03/2026.
 //
 
-import Foundation
 import Observation
 import SwiftUI
 
@@ -30,6 +29,7 @@ class Animal: Identifiable {
     var id = UUID()
     var photo: String?
     let species: Species
+    let race: String?
     let idNumber: String
     let name: String?
     let dateOfBirth: Date?
@@ -40,6 +40,7 @@ class Animal: Identifiable {
     init(
         photo: String? = nil,
         species: Species,
+        race: String? = nil,
         idNumber: String,
         name: String? = nil,
         dateOfBirth: Date? = nil,
@@ -49,6 +50,7 @@ class Animal: Identifiable {
     ) {
         self.photo = photo
         self.species = species
+        self.race = race
         self.idNumber = idNumber
         self.name = name
         self.dateOfBirth = dateOfBirth
@@ -86,6 +88,7 @@ class Employee: Identifiable {
 
 enum Event: String, CaseIterable, Identifiable {
     var id: RawValue { rawValue }
+    case heat = "Chaleur"
     case insemination = "Insémination"
     case pregnancy = "Gestation"
     case birth = "Mise bas"
@@ -103,8 +106,15 @@ class CommunityCategory: Identifiable {
     var threadNumber: Int
     let activeName: String
     let link: (any View)?
-    
-    init(id: UUID = UUID(), title: String, description: String, threadNumber: Int, activeName: String, link: (any View)? = nil) {
+
+    init(
+        id: UUID = UUID(),
+        title: String,
+        description: String,
+        threadNumber: Int,
+        activeName: String,
+        link: (any View)? = nil
+    ) {
         self.id = id
         self.title = title
         self.description = description
@@ -112,5 +122,72 @@ class CommunityCategory: Identifiable {
         self.activeName = activeName
         self.link = link
     }
-    
+
 }
+
+@Observable
+class MilkData: Identifiable {
+    var id: UUID = UUID()
+    var date: Date
+    var amount: Double
+    var tB: Double
+    var tP: Double
+    var cellCount: Double
+    var ketone: Double?
+
+    init(
+        id: UUID,
+        date: Date,
+        amount: Double,
+        tB: Double,
+        tP: Double,
+        cellCount: Double,
+        ketone: Double? = nil
+    ) {
+        self.id = id
+        self.date = date
+        self.amount = amount
+        self.tB = tB
+        self.tP = tP
+        self.cellCount = cellCount
+        self.ketone = ketone
+    }
+}
+
+@Observable
+class MeatData: Identifiable {
+    var id: UUID = UUID()
+    var date: Date
+    var amount: Double
+
+    init(id: UUID, date: Date, amount: Double) {
+        self.id = id
+        self.date = date
+        self.amount = amount
+    }
+}
+
+@Observable
+class WoolData: Identifiable {
+    var id: UUID = UUID()
+    var date: Date
+    var numberOfAnimals: Int
+    var amount: Double
+
+    init(id: UUID, date: Date, numberOfAnimals: Int, amount: Double) {
+        self.id = id
+        self.date = date
+        self.numberOfAnimals = numberOfAnimals
+        self.amount = amount
+    }
+
+}
+
+struct Document: Identifiable {
+    var id = UUID()
+    let title: String
+    let type: String
+    let size: Int
+    let date: Date
+}
+
