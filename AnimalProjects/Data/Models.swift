@@ -34,7 +34,7 @@ class Animal: Identifiable {
     let name: String?
     let dateOfBirth: Date?
     let isMale: Bool
-    let production: Production?
+    let productionType: Production?
     var isPregnant: Bool
 
     init(
@@ -45,7 +45,7 @@ class Animal: Identifiable {
         name: String? = nil,
         dateOfBirth: Date? = nil,
         isMale: Bool,
-        production: Production?,
+        productionType: Production?,
         isPregnant: Bool = false
     ) {
         self.photo = photo
@@ -55,7 +55,7 @@ class Animal: Identifiable {
         self.name = name
         self.dateOfBirth = dateOfBirth
         self.isMale = isMale
-        self.production = production
+        self.productionType = productionType
         self.isPregnant = isPregnant
     }
 }
@@ -190,4 +190,3 @@ struct Document: Identifiable {
     let size: Int
     let date: Date
 }
-
