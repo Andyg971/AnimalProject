@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommunityView: View {
     @State var viewModel = CommunityViewModel()
+    @State private var search = ""
     var body: some View {
         
         ZStack{
@@ -70,6 +71,7 @@ struct CommunityView: View {
 
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
+                .searchable(text: $search, prompt: "Rechercher un groupe")
             }
             
         }
