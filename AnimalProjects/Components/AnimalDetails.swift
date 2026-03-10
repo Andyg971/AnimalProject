@@ -44,18 +44,18 @@ struct AnimalDetails: View {
                         .padding(.bottom, 4)
                         
                         HStack {
-                            Text("Vaccins").foregroundColor(.gray)
+                            Text("Vaccins")
                             Spacer()
                             Text("À jour")
                                 .bold(true)
                         }
                         HStack {
-                            Text("Dernier Examen").foregroundColor(.gray)
+                            Text("Dernier Examen")
                             Spacer()
                             Text("21/02/2026").bold(true)
                         }
                         HStack {
-                            Text("Alertes").foregroundColor(.gray)
+                            Text("Alertes")
                             Spacer()
                             Text("Aucune")
                                 .bold(true)
@@ -63,7 +63,15 @@ struct AnimalDetails: View {
                     }
                     .frame(height: 100, alignment: .top)
                     .padding(16)
-                    .background(.white)
+                    .background(LinearGradient(
+                        colors: [
+                            .gray
+                                .opacity(0.1),
+                            .gray
+                                .opacity(0.2),
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing))
                     .cornerRadius(16)
                     .padding(.horizontal, 16)
                     .padding(.bottom, 8)
@@ -88,7 +96,15 @@ struct AnimalDetails: View {
                     }
                     .frame(height: 100, alignment: .top)
                     .padding(16)
-                    .background(.white)
+                    .background(LinearGradient(
+                        colors: [
+                            .gray
+                                .opacity(0.1),
+                            .gray
+                                .opacity(0.2),
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing))
                     .cornerRadius(16)
                     .padding(.horizontal, 16)
                     .padding(.bottom, 8)
@@ -113,7 +129,15 @@ struct AnimalDetails: View {
                     }
                     .frame(height: 100, alignment: .top)
                     .padding(16)
-                    .background(.white)
+                    .background(LinearGradient(
+                        colors: [
+                            .gray
+                                .opacity(0.1),
+                            .gray
+                                .opacity(0.2),
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing))
                     .cornerRadius(16)
                     .padding(.horizontal, 16)
                     .padding(.bottom, 8)

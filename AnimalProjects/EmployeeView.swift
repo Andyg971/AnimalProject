@@ -12,15 +12,6 @@ struct EmployeeView: View {
     var body: some View {
         
         ZStack{
-            
-//            LinearGradient(
-//                                colors: [
-//                                    Color.grisFond.opacity(0.99),
-//                                    Color.grisFond.opacity(0.8)
-//                                ],
-//                                startPoint: .top,
-//                                endPoint: .bottom
-//                            )
             Color.grisFond
             .ignoresSafeArea()
             
@@ -29,7 +20,10 @@ struct EmployeeView: View {
                 ScrollView(showsIndicators: false) {
                     LazyVStack() {
                         ForEach(viewModel.employees.sorted{$0.lastName < $1.lastName}) { employee in
-                            HStack{
+                            NavigationLink{
+                                EmployeeDetailView(employee: employee)
+                            }
+                            label: { HStack{
                                 Image(systemName:"person")
                                     .frame(width:40)
                                 VStack(alignment: .leading) {
@@ -43,20 +37,21 @@ struct EmployeeView: View {
                                 Image(systemName: "chevron.right")
                                     .foregroundStyle(.vertAccent)
                             } .padding(24)
-                                .background(LinearGradient(
-                                    colors: [
-                                        .gray
-                                            .opacity(0.1),
-                                        .gray
-                                            .opacity(0.3),
-                                    ],
-                                    startPoint: .leading,
-                                    endPoint: .trailing))
-                                .cornerRadius(16)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 4)
-                            
+                                    .background(LinearGradient(
+                                        colors: [
+                                            .gray
+                                                .opacity(0.1),
+                                            .gray
+                                                .opacity(0.3),
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing))
+                                    .cornerRadius(16)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 4)
+                                    .foregroundColor(.black)
                                 
+                            }
                         }
                         
                     }
