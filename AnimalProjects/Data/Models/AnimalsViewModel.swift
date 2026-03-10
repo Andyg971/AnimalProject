@@ -40,8 +40,7 @@ class AnimalsViewModel {
 
             let decoded = try decoder.decode(AnimalsResponse.self, from: data)
             let animals = decoded.records.map{$0.fields}
-            print (animals)
-            self.animals = []
+            self.animals = animals
             //                        return animals
         } catch {
             print("Échec du décodage: \(error)")
