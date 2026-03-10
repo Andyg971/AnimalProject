@@ -32,7 +32,11 @@ class AnimalsViewModel {
             let (data, _) = try await URLSession.shared.data(for: request)
 
             let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+
+            decoder.dateDecodingStrategy = .formatted(formatter)
 
             let decoded = try decoder.decode(AnimalsResponse.self, from: data)
             let animals = decoded.records.map{$0.fields}

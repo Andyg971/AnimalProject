@@ -11,9 +11,9 @@ import Observation
 struct AnimalsResponse: Codable {
     let records: [AnimalRecord]
 }
-struct AnimalRecord: Codable, Identifiable {
-    let id: String
-    let createdTime: Date
+struct AnimalRecord: Codable {
+//    let id: String
+//    let createdTime: Date
     let fields: Animal
 }
 
