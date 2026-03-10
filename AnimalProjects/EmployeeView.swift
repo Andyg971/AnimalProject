@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EmployeeView: View {
     @State var viewModel = EmployeeViewModel()
+    @State private var search = ""
     var body: some View {
         
         ZStack{
@@ -61,12 +62,15 @@ struct EmployeeView: View {
                     }
                     
                 }
+                
                 .navigationTitle("Employés")
                 
                 .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
 
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
+                .searchable(text: $search, prompt: "Rechercher un employé")
+
             }
             
         }
