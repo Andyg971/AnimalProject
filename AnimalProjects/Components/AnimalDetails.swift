@@ -13,7 +13,7 @@ struct AnimalDetails: View {
         ZStack {
             Color.grisFond
                 .ignoresSafeArea()
-
+            
             ScrollView(showsIndicators: false) {
                 VStack {
                     
@@ -33,114 +33,45 @@ struct AnimalDetails: View {
                         Text("STATUT")
                         Text("AGE")
                     }
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: "cross.case.fill")
-                                .foregroundColor(.red)
-                            Text("Santé".uppercased())
-                                .font(Font.system(size: 16, weight: .bold))
-                            
-                        }
-                        .padding(.bottom, 4)
-                        
-                        HStack {
-                            Text("Vaccins")
-                            Spacer()
-                            Text("À jour")
-                                .bold(true)
-                        }
-                        HStack {
-                            Text("Dernier Examen")
-                            Spacer()
-                            Text("21/02/2026").bold(true)
-                        }
-                        HStack {
-                            Text("Alertes")
-                            Spacer()
-                            Text("Aucune")
-                                .bold(true)
-                        }
-                    }
-                    .frame(height: 100, alignment: .top)
-                    .padding(16)
-                    .background(LinearGradient(
-                        colors: [
-                            .gray
-                                .opacity(0.1),
-                            .gray
-                                .opacity(0.2),
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing))
-                    .cornerRadius(16)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: "microbe.fill")
-                                .foregroundColor(.vertAccent)
-                            Text("Reproduction".uppercased())
-                                .font(Font.system(size: 16, weight: .bold))
-                            
-                        }
-                        .padding(.bottom, 4)
-                        HStack {
-                            Text("Insémination")
-                            Spacer()
-                            Text("Mise bas estimée")
-                               
-                        }
-                        .foregroundColor(.gray)
+                    DetailCard {
                         
+                        SectionHeader(
+                            icon: "cross.case.fill",
+                            color: .red,
+                            title: "Santé"
+                        )
+                        
+                        InfoRow(label: "Vaccins", value: "À jour")
+                        InfoRow(label: "Dernier Examen", value: "21/02/2026")
+                        InfoRow(label: "Alertes", value: "Aucune")
                     }
-                    .frame(height: 100, alignment: .top)
-                    .padding(16)
-                    .background(LinearGradient(
-                        colors: [
-                            .gray
-                                .opacity(0.1),
-                            .gray
-                                .opacity(0.2),
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing))
-                    .cornerRadius(16)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: "chart.bar.xaxis")
-                                .foregroundColor(.blue)
-                            Text("Production".uppercased())
-                                .font(Font.system(size: 16, weight: .bold))
-                            
-                        }
-                        .padding(.bottom, 4)
+                    DetailCard {
                         
-                        HStack {
-                            Text("Titre d'une info").foregroundColor(.gray)
-                            Spacer()
-                            Text("Détail de l'info").bold(true)
-                        }
+                        SectionHeader(
+                            icon: "microbe.fill",
+                            color: .vertAccent,
+                            title: "Reproduction"
+                        )
                         
-                        
+                        InfoRow(label: "Insémination", value: "-")
+                        InfoRow(label: "Mise bas estimée", value: "-")
                     }
-                    .frame(height: 100, alignment: .top)
-                    .padding(16)
-                    .background(LinearGradient(
-                        colors: [
-                            .gray
-                                .opacity(0.1),
-                            .gray
-                                .opacity(0.2),
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing))
-                    .cornerRadius(16)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
+                    
+                    DetailCard {
+                        
+                        SectionHeader(
+                            icon: "chart.bar.xaxis",
+                            color: .blue,
+                            title: "Production"
+                        )
+                        
+                        InfoRow(
+                            label: "Titre d'une info",
+                            value: "Détail de l'info"
+                        )
+                    }
                     
                 }
                 .navigationTitle("Détails de l'animal")
@@ -152,13 +83,13 @@ struct AnimalDetails: View {
                 .toolbarBackground(.visible, for: .navigationBar)
             }
         }
-
+        
     }
-
+    
 }
 
 #Preview {
     NavigationStack {
-            AnimalDetails(animal: animalTest)
-        }
+        AnimalDetails(animal: animalTest)
+    }
 }
