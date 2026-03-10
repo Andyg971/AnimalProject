@@ -66,3 +66,20 @@ class Animal: Codable, Identifiable {
     }
 }
 
+enum Species: String, Codable, CaseIterable, Identifiable {
+    var id: RawValue { rawValue }
+    case porcine = "Porcin"
+    case bovine = "Bovin"
+    case caprine = "Caprin"
+    case equine = "Équin"
+    case ovine = "Ovin"
+   
+}
+
+enum Production: String, Codable, CaseIterable, Identifiable {
+    var id: RawValue { rawValue }
+    case milk = "Lait"
+    case wool = "Laine"
+    case meat = "Viande"
+}
+

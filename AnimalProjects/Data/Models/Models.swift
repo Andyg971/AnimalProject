@@ -11,22 +11,7 @@ import SwiftUI
 
 
 
-enum Species: String, Codable, CaseIterable, Identifiable {
-    var id: RawValue { rawValue }
-    case porcine = "Porcin"
-    case bovine = "Bovin"
-    case caprine = "Caprin"
-    case equine = "Équin"
-    case ovine = "Ovin"
-   
-}
 
-enum Production: String, Codable, CaseIterable, Identifiable {
-    var id: RawValue { rawValue }
-    case milk = "Lait"
-    case wool = "Laine"
-    case meat = "Viande"
-}
 
 
 
@@ -43,6 +28,8 @@ enum Event: String, CaseIterable, Identifiable {
     case slaughter = "Abbattage"
     case disease = "Maladie"
 }
+
+
 
 
 @Observable
@@ -103,10 +90,3 @@ class WoolData: Identifiable {
 
 }
 
-struct Document: Identifiable {
-    var id = UUID()
-    let title: String
-    let type: String
-    let size: Int
-    let date: Date
-}

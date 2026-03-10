@@ -1,26 +1,18 @@
 //
-//  EmployeeView.swift
+//  DocumentsView.swift
 //  AnimalProjects
 //
-//  Created by Julia Canovas on 09/03/2026.
+//  Created by Julia Canovas on 10/03/2026.
 //
 
 import SwiftUI
 
-struct EmployeeView: View {
-    @State var viewModel = EmployeeViewModel()
+struct DocumentsView: View {
+    @State var viewModel = DocumentsViewModel()
     var body: some View {
         
         ZStack{
-            
-//            LinearGradient(
-//                                colors: [
-//                                    Color.grisFond.opacity(0.99),
-//                                    Color.grisFond.opacity(0.8)
-//                                ],
-//                                startPoint: .top,
-//                                endPoint: .bottom
-//                            )
+
             Color.grisFond
             .ignoresSafeArea()
             
@@ -28,15 +20,15 @@ struct EmployeeView: View {
                
                 ScrollView(showsIndicators: false) {
                     LazyVStack() {
-                        ForEach(viewModel.employees.sorted{$0.lastName < $1.lastName}) { employee in
+                        ForEach(viewModel.documents) { document in
                             HStack{
                                 Image(systemName:"person")
                                     .frame(width:40)
                                 VStack(alignment: .leading) {
-                                    Text("\(employee.firstName) \(employee.lastName)")
+                                    Text(document.title)
                                         .font(.system(size: 20, weight: .bold))
-                                    Text(employee.position)
-                                        .font(.system(size:16))
+//                                    Text(document.size)
+//                                        .font(.system(size:16))
                                 }
                                 Spacer()
                                 
@@ -60,11 +52,15 @@ struct EmployeeView: View {
                     }
                     
                     .task {
-                        await viewModel.getEmployees()
+                        do {
+                           try await viewModel.getDocuments()
+                        } catch {
+                            print(error)
+                        }
                     }
                     
                 }
-                .navigationTitle("Employés")
+                .navigationTitle("Documents")
                 
                 .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
 
@@ -76,10 +72,10 @@ struct EmployeeView: View {
         
     }
 }
-//
- 
+        
+    
 
 
 #Preview {
-    EmployeeView()
+    DocumentsView()
 }

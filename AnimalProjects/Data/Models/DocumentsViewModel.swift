@@ -1,8 +1,8 @@
 //
-//  ModelsAPI.swift
+//  DocumentsViewModel.swift
 //  AnimalProjects
 //
-//  Created by Julia Canovas on 09/03/2026.
+//  Created by Julia Canovas on 10/03/2026.
 //
 
 import Foundation
@@ -10,17 +10,17 @@ import Observation
 
 @Observable @MainActor
 
-class AnimalsViewModel {
+class DocumentsViewModel {
     private let apiKey: String =
         "patGfr1JzHwdDpeDx.6ac1bae5fe4bc558e2ba85b986add1dc110887bde5b255bc34b595b3c832da66"
 
     private let baseURL = URL(
-        string: "https://api.airtable.com/v0/appnYAHRHXyCtWA4a/Animals"
+        string: "https://api.airtable.com/v0/appnYAHRHXyCtWA4a/Documents"
     )!
 
-    var animals: [Animal] = []
+    var documents: [Document] = []
 
-    func getAnimals() async {
+    func getDocuments() async throws {
 
         var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
@@ -38,14 +38,14 @@ class AnimalsViewModel {
 
             decoder.dateDecodingStrategy = .formatted(formatter)
 
-            let decoded = try decoder.decode(AnimalsResponse.self, from: data)
-            var animals = decoded.records.map{$0.fields}
-            let sortedAnimal = animals.sorted{ $0.id < $1.id}
-            self.animals = sortedAnimal
+            let decoded = try decoder.decode(DocumentsResponse.self, from: data)
+            let documents = decoded.records.map{$0.fields}
+            
+            self.documents = documents
             //                        return animals
         } catch {
-            print("Échec du décodage: \(error)")
-            //                        throw error
+        
+                                    throw error
         }
     }
 }
