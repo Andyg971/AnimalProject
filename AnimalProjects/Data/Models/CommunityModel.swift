@@ -1,0 +1,54 @@
+//
+//  CategoryModel.swift
+//  AnimalProjects
+//
+//  Created by Julia Canovas on 09/03/2026.
+//
+
+import Foundation
+import Observation
+
+struct CommunityResponse: Codable {
+    let records: [CommunityRecord]
+}
+struct CommunityRecord: Codable {
+//    let id: Int
+    let createdTime: Date
+    let fields: CommunityCategory
+}
+    
+
+class CommunityCategory: Codable, Identifiable {
+    var id: Int
+    let title: String
+    let description: String
+    var threadNumber: Int
+    let activeName: String
+//    let link: (any View)?
+    
+    private enum CodingKeys: String, CodingKey {
+        case id = "communityID"
+        case title
+        case description
+        case threadNumber
+        case activeName
+    }
+        
+
+    init(
+        id: Int,
+        title: String,
+        description: String,
+        threadNumber: Int,
+        activeName: String,
+//        link: (any View)? = nil
+    ) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.threadNumber = threadNumber
+        self.activeName = activeName
+//        self.link = link
+    }
+
+}
