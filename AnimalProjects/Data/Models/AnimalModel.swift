@@ -83,3 +83,4 @@ enum Production: String, Codable, CaseIterable, Identifiable {
     case meat = "Viande"
 }
 
+let animalTest = Animal(id: 0, species: .bovine, race: "RaceExemple", productionType: .milk)
