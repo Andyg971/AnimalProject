@@ -38,8 +38,10 @@ struct EmployeeView: View {
                                     Text(employee.position)
                                         .font(.system(size:16))
                                 }
-                                Spacer()
                                 
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.vertAccent)
                             } .padding(24)
                                 .background(LinearGradient(
                                     colors: [

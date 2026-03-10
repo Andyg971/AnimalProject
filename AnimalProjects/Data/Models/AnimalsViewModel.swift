@@ -39,7 +39,7 @@ class AnimalsViewModel {
             decoder.dateDecodingStrategy = .formatted(formatter)
 
             let decoded = try decoder.decode(AnimalsResponse.self, from: data)
-            var animals = decoded.records.map{$0.fields}
+            let animals = decoded.records.map{$0.fields}
             let sortedAnimal = animals.sorted{ $0.id < $1.id}
             self.animals = sortedAnimal
             //                        return animals
