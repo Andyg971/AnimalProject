@@ -18,34 +18,46 @@ struct AnimalRecord: Codable {
 }
 
 //@Observable
-class Animal: Codable {
-//    var id = Int
+class Animal: Codable, Identifiable {
+    var id: Int
     var photo: String?
-    let species: Species?
-    let race: String?
-    let idNumber: Int
+    let species: Species
+    let race: String
+//    let idNumber: Int
     let name: String?
     let dateOfBirth: Date?
-    let isMale: Bool
+    let isMale: Bool?
     let productionType: Production?
-    var isPregnant: Bool
-//    private enum CodingKeys: String, CodingKey {
-//        c
+    var isPregnant: Bool?
+    private enum CodingKeys: String, CodingKey {
+        case id = "idNumber"
+        case photo
+        case species
+        case race
+//        case idNumber
+        case name
+        case dateOfBirth
+        case isMale
+        case productionType
+        case isPregnant
+    }
     init(
+        id: Int,
         photo: String? = nil,
         species: Species,
-        race: String? = nil,
-        idNumber: Int,
+        race: String,
+//        idNumber: Int,
         name: String? = nil,
         dateOfBirth: Date? = nil,
-        isMale: Bool,
+        isMale: Bool = false,
         productionType: Production?,
         isPregnant: Bool = false
     ) {
+        self.id = id
         self.photo = photo
         self.species = species
         self.race = race
-        self.idNumber = idNumber
+//        self.idNumber = idNumber
         self.name = name
         self.dateOfBirth = dateOfBirth
         self.isMale = isMale
