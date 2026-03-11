@@ -84,3 +84,24 @@ enum Production: String, Codable, CaseIterable, Identifiable {
 }
 
 let animalTest = Animal(id: 0, species: .bovine, race: "RaceExemple", productionType: .milk)
+
+struct InfoRow: Identifiable {
+    var id = UUID()
+    let label: String
+    let value: String
+}
+
+let healthRows: [InfoRow] = [
+    InfoRow(label: "Vaccins", value: "À jour"),
+    InfoRow(label: "Dernier Examen", value: "21/02/2026"),
+    InfoRow(label: "Alertes", value: "Aucune"),
+    ]
+
+let productionRows: [InfoRow] = [
+    InfoRow(label: "Quantité", value: "100 L"),
+    InfoRow(label: "Dernier Echantillon", value: "21/02/2026"),
+]
+
+let reproductionRows: [InfoRow] = [
+    InfoRow(label: "Prochaine Insémination", value: "21/02/2027"),
+]
