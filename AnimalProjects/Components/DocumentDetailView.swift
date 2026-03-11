@@ -50,8 +50,8 @@ struct DocumentDetailView: View {
                     }
 
                     // Bouton ouvrir le fichier
-                    if let file = document.file?.first,
-                       let url = URL(string: file.url) {
+                    if let attachment = document.attachment,
+                       let url = URL(string: attachment) {
                         Link(destination: url) {
                             HStack(spacing: 8) {
                                 Image(systemName: "arrow.down.doc.fill")
@@ -88,7 +88,7 @@ struct DocumentDetailView: View {
                 size: 245_000,
                 date: Date(),
                 description: "Résultats d'analyse sanguine du troupeau",
-                file: [Attachment(url: "https://example.com/test.pdf", filename: "analyse.pdf")]
+                attachment: "https://example.com/test.pdf"
             ),
             styleIcon: "flask.fill",
             styleColor: .purple
