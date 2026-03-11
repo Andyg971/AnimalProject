@@ -11,75 +11,62 @@ struct CommunityView: View {
     @State var viewModel = CommunityViewModel()
     @State private var search = ""
     var body: some View {
-        
-        ZStack{
-            
-//            LinearGradient(
-//                                colors: [
-//                                    Color.grisFond.opacity(0.99),
-//                                    Color.grisFond.opacity(0.8)
-//                                ],
-//                                startPoint: .top,
-//                                endPoint: .bottom
-//                            )
+
+        ZStack {
             Color.grisFond
-            .ignoresSafeArea()
-            
+                .ignoresSafeArea()
+
             NavigationStack {
-               
+
                 ScrollView(showsIndicators: false) {
-                    LazyVStack() {
+                    LazyVStack {
                         ForEach(viewModel.communityCategory) { category in
-                            HStack{
-                                Image(systemName:"person")
-                                    .frame(width:40)
+                            HStack {
+                                Image(systemName: "person")
+                                    .frame(width: 40)
                                 VStack(alignment: .leading) {
                                     Text(category.title)
                                         .font(.system(size: 20, weight: .bold))
                                     Text(category.description)
-                                        .font(.system(size:16))
+                                        .font(.system(size: 16))
                                 }
                                 Spacer()
-                                
-                            } .padding(24)
-                                .background(LinearGradient(
-                                    colors: [
-                                        .gray
-                                            .opacity(0.1),
-                                        .gray
-                                            .opacity(0.3),
-                                    ],
-                                    startPoint: .leading,
-                                    endPoint: .trailing))
+
+                            }.padding(24)
+                                .background(
+                                    LinearGradient(
+                                        colors: [
+                                            .gray
+                                                .opacity(0.1),
+                                            .gray
+                                                .opacity(0.3),
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
                                 .cornerRadius(16)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 4)
-                            
-                                
+
                         }
-                        
+
                     }
-                    
+
                     .task {
                         await viewModel.getcommunityCategory()
                     }
-                    
+
                 }
                 .navigationTitle("Community")
-                
-                .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
-
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
                 .searchable(text: $search, prompt: "Rechercher un groupe")
             }
-            
+
         }
-        
+
     }
 }
-    
-
 
 #Preview {
     CommunityView()
