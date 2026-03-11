@@ -59,9 +59,7 @@ struct DocumentsView: View {
                     }
                 }
                 .navigationTitle("Documents")
-                .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
                 .searchable(text: $search, prompt: "Rechercher un document")
             }
         }
