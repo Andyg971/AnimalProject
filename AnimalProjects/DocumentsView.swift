@@ -25,9 +25,9 @@ struct DocumentsView: View {
                                 HStack(spacing: 14) {
                                     Image(systemName: style.icon)
                                         .font(.system(size: 18))
-                                        .foregroundStyle(.white)
+                                        .foregroundStyle(style.color)
                                         .frame(width: 42, height: 42)
-                                        .background(style.color)
+                                        .background(style.color.opacity(0.2))
                                         .clipShape(Circle())
                                     
                                     Text(document.title)

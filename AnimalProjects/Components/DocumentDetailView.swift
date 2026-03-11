@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DocumentDetailView: View {
+    
     let document: Document
     let styleIcon: String
     let styleColor: Color
