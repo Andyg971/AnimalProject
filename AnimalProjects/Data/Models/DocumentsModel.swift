@@ -17,16 +17,24 @@ struct DocumentsRecord: Codable {
     let fields: Document
 }
 
+// Modèle pour les fichiers joints Airtable
+struct Attachment: Codable {
+    let url: String
+    let filename: String
+}
+
 struct Document: Codable, Identifiable {
     var id: Int
     let title: String
     let type: DocumentType
     let size: Int
     let date: Date?
+    let description: String?
+    let file: [Attachment]?
     
     private enum CodingKeys: String, CodingKey {
         case id = "documentID"
-        case title, date, type, size
+        case title, date, type, size, description, file
     }
 }
 
