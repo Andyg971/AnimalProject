@@ -3,7 +3,6 @@ import SwiftUI
 struct HealthView: View {
     @State var viewModel = HealthViewModel()
     @State private var search = ""
-
     var body: some View {
         ZStack {
             Color.grisFond

@@ -28,8 +28,8 @@ class Animal: Codable, Identifiable {
     let isMale: Bool?
     let productionType: ProductionType?
     var isPregnant: Bool?
-    
     var productionIDs: [String]?
+    var healthIDs: [String]?
    
     init(
         id: Int,
@@ -42,6 +42,7 @@ class Animal: Codable, Identifiable {
         productionType: ProductionType?,
         isPregnant: Bool = false,
         productionIDs: [String]? = nil,
+        healthIDs: [String]? = nil
         
         
     )
@@ -57,6 +58,7 @@ class Animal: Codable, Identifiable {
             self.productionType = productionType
             self.isPregnant = isPregnant
             self.productionIDs = productionIDs
+        self.healthIDs = healthIDs
 
         }
     private enum CodingKeys: String, CodingKey {
@@ -70,6 +72,7 @@ class Animal: Codable, Identifiable {
         case productionType
         case isPregnant
         case productionIDs = "production"
+        case healthIDs = "health"
     }
 
 }
@@ -87,10 +90,10 @@ struct ProductionField: Codable, Identifiable {
     let productionType: ProductionType
     let amount: Double
     let unit: String
-    let tB: Double
-    let tP: Double
-    let cellCount: Int
-    let ketone: Int
+    let tB: Double?
+    let tP: Double?
+    let cellCount: Int?
+    let ketone: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id = "productionID"
@@ -104,7 +107,7 @@ struct ProductionField: Codable, Identifiable {
         case ketone
     }
     
-    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String, tB: Double = 0, tP: Double = 0, cellCount: Int = 0, ketone: Int = 0) {
+    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String, tB: Double? = nil, tP: Double? = nil, cellCount: Int? = nil, ketone: Int? = nil) {
         self.id = id
         self.date = date
         self.productionType = productionType
@@ -179,9 +182,9 @@ func convertProduction(_ record: ProductionRecord) -> ProductionData {
             productionType: .milk,
             amount: Double(record.fields.amount),
             unit: "L",
-            tB: fields.tB,
-            tP: fields.tP,
-            cellCount: fields.cellCount,
+            tB: fields.tB!,
+            tP: fields.tP!,
+            cellCount: fields.cellCount!,
             ketone: fields.ketone
         )
     } else {
@@ -189,28 +192,28 @@ func convertProduction(_ record: ProductionRecord) -> ProductionData {
     }
 }
 
-//let animalTest = Animal(
-//    id: 0,
-//    species: .bovine,
-//    race: "RaceExemple",
-//    productionType: .milk,
-//    productionRows: [InfoRow(
+let animalTest = Animal(
+    id: 0,
+    species: .bovine,
+    race: "RaceExemple",
+    productionType: .milk,
+//    productionIDs: [InfoRow(
 //        label: "00/00/00",
 //        value: "00 L ou kg")]
-//)
-//
-//struct InfoRow: Identifiable {
-//    var id = UUID()
-//    let label: String
-//    let value: String
-//}
-//
-//let healthRows: [InfoRow] = [
-//    InfoRow(label: "Vaccins", value: "À jour"),
-//    InfoRow(label: "Dernier Examen", value: "21/02/2026"),
-//    InfoRow(label: "Alertes", value: "Aucune"),
-//]
-//
-//let reproductionRows: [InfoRow] = [
-//    InfoRow(label: "Prochaine Insémination", value: "21/02/2027")
-//]
+)
+
+struct InfoRow: Identifiable {
+    var id = UUID()
+    let label: String
+    let value: String
+}
+
+let healthRows: [InfoRow] = [
+    InfoRow(label: "Vaccins", value: "À jour"),
+    InfoRow(label: "Dernier Examen", value: "21/02/2026"),
+    InfoRow(label: "Alertes", value: "Aucune"),
+]
+
+let reproductionRows: [InfoRow] = [
+    InfoRow(label: "Prochaine Insémination", value: "21/02/2027")
+]
