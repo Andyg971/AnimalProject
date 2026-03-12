@@ -16,9 +16,14 @@ struct HealthItem: Codable, Identifiable {
     let date: Date?
     let nextDate: Date?
     let notes: String?
+    let animalName: [String]?
+    // Photo de l'animal (à ajouter sur Airtable plus tard)
+    // let animalPhoto: [String]?
 
     private enum CodingKeys: String, CodingKey {
         case id = "healthID"
         case title, type, status, date, nextDate, notes
+        case animalName = "name (from Lookup)"
+        // case animalPhoto = "photo (from Lookup)"
     }
 }
