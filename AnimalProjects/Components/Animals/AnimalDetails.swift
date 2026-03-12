@@ -10,6 +10,7 @@ import SwiftUI
 struct AnimalDetails: View {
     var animal: Animal
     @State var vmProduction: ProductionViewModel = .init()
+    @State var vmHealth: HealthViewModel = .init()
     @State var prodList: [ProductionData] = []
     var prodRows: [InfoRow] { prodList.map { prod in
         InfoRow(label: prod.date.formatted(date: .numeric, time: .omitted), value: "\(prod.amount) \(prod.unit)")}}
@@ -82,6 +83,8 @@ struct AnimalDetails: View {
                 .navigationTitle("Détails de l'animal")
                 .navigationBarTitleDisplayMode(.inline)
             }
+            
+            
         }.task {
             if let animalID = animal.productionIDs {
                 var aniList = [ProductionData]()
@@ -97,7 +100,22 @@ struct AnimalDetails: View {
                 prodList = aniList
             }
         }
-
+        
+//        .task {
+//            if let animalID = animal.healthIDs {
+//                var aniList = [HealthItem]()
+//                for id in animalID {
+//
+//                    do {
+//                       let result = try await vmHealth.getHealthByID(id: id)
+//                        aniList.append(result)
+//                    } catch {
+//                        print(error)
+//                    }
+//                }
+//                prodList = aniList
+//            }
+//        }
     }
 
 }
