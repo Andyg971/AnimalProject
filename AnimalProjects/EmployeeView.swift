@@ -29,8 +29,20 @@ struct EmployeeView: View {
                                 EmployeeDetailView(employee: employee)
                             } label: {
                                 HStack {
-                                    Image(systemName: "person")
-                                        .frame(width: 40)
+                                    if let url = employee.photo?.first?.url {
+                                        AsyncImage(url: url) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .clipShape(Circle())
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .frame(width: 40, height: 40)
+                                    } else {
+                                        Image(systemName: "person")
+                                            .frame(width: 40)
+                                    }
                                     VStack(alignment: .leading) {
                                         Text(
                                             "\(employee.firstName) \(employee.lastName)"

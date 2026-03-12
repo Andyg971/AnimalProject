@@ -21,7 +21,7 @@ class Employee: Codable, Identifiable {
     var id: Int
     let firstName: String
     let lastName: String
-//    var photo: String?
+    var photo: [Attachment]?
     var position: String
     var zone: [String]?
     var userName: String
@@ -35,7 +35,7 @@ class Employee: Codable, Identifiable {
     case id = "employeeID"
         case firstName
         case lastName
-//        case photo
+        case photo
         case position
         case zone
         case userName
@@ -50,7 +50,7 @@ class Employee: Codable, Identifiable {
         
         firstName: String,
         lastName: String,
-//        photo: String? = nil,
+        photo: [Attachment],
         position: String,
         zone: [String]? = nil,
         userName: String,
@@ -65,7 +65,7 @@ class Employee: Codable, Identifiable {
         
         self.firstName = firstName
         self.lastName = lastName
-//        self.photo = photo
+        self.photo = photo
         self.position = position
         self.zone = zone
         self.userName = userName
