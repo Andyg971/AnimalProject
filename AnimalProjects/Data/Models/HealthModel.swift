@@ -13,7 +13,7 @@ struct HealthItem: Codable, Identifiable {
     let title: String
     let type: String
     let status: String
-    let date: Date?
+    let date: Date
     let nextDate: Date?
     let notes: String?
     let animalName: [String]?
