@@ -28,7 +28,7 @@ class Employee: Codable, Identifiable {
     var email: String
     var exploitation: [String]?
     var city: String?
-    var farmPlace: String?
+//    var farmPlace: String?
     var tasks: [String]?
     
     private enum CodingKeys: String, CodingKey {
@@ -42,7 +42,7 @@ class Employee: Codable, Identifiable {
         case email
         case exploitation
         case city
-        case farmPlace
+//        case farmPlace
         case tasks
     }
     init(
@@ -57,7 +57,7 @@ class Employee: Codable, Identifiable {
         email: String,
         exploitation: [String]? = nil,
         city: String? = nil,
-        farmPlace: String? = nil,
+//        farmPlace: String? = nil,
         tasks: [String]? = nil
         
     ) {
@@ -72,7 +72,26 @@ class Employee: Codable, Identifiable {
         self.email = email
         self.exploitation = exploitation
         self.city = city
-        self.farmPlace = farmPlace
+//        self.farmPlace = farmPlace
         self.tasks = tasks
     }
+}
+struct ExploitationResponse: Codable {
+    let records: [EmployeeRecord]
+}
+struct ExploitationRecord: Codable, Identifiable {
+    let id: String
+//    let createdTime: Date
+    let fields: ExploitationField
+}
+struct ExploitationField: Codable {
+    var farmName: String
+    let farmPlace: String
+    let farmType: [String]
+    
+//    private enum CondingKeys: String, CodingKey {
+//        case id = "farmName"
+//        case farmPlace
+//        case farmType
+//    }
 }

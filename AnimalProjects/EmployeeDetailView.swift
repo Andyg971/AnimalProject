@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct EmployeeDetailView: View {
-    let employee: Employee
+    @State var vmExploitation: ExploitationViewModel = .init()
+    @State var exploitation: ExploitationField = ExploitationField(farmName: "Na", farmPlace: "", farmType: [])
+     let employee: Employee
     var body: some View {
         
         ZStack {
@@ -35,8 +37,10 @@ struct EmployeeDetailView: View {
                                 .foregroundStyle(Color.vertAccent)
                         }
                         VStack(spacing:12) {
-                            DetailRowView(title:"Exploitation", value: employee.exploitation?.joined(separator: "") ?? "Non renseigné")
-                            DetailRowView(title:"Localisation", value: employee.farmPlace ?? "Non renseigné")
+                           
+                                DetailRowView(title:"Exploitation", value: exploitation.farmName)
+                            
+//                            DetailRowView(title:"Localisation", value: employee.farmPlace ?? "Non renseigné")
                             DetailRowView(title: "Zone",
                                           value: employee.zone?.joined(separator: ", ") ?? "Non renseigné")
                             DetailRowView(title: "UserName", value: employee.userName)
@@ -50,9 +54,23 @@ struct EmployeeDetailView: View {
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
+        .task{
+            if let exploitationID = employee.exploitation?.first{
+               
+//                var expID: [ExploitationField] = []
+               
+                do {
+                    self.exploitation = try await vmExploitation.getExploitationByID(id: exploitationID)
+                
+                }catch{
+                    print(error)
+                }
+//                exploitation = expID
+            }
+        }
     }
 }
 
-#Preview {
-    EmployeeDetailView(employee: Employee(id: 1, firstName: "Pierre", lastName: "Martin", position: "Éleveur",zone: ["Batiment d'elevage","Exploitation"], userName: "pierrem", email: "pierre.martin@domaine-soleil.fr", exploitation: ["Ferme des Près Vert"],city: "Villeurbanne", farmPlace: "Lyon"))
-}
+//#Preview {
+//    EmployeeDetailView(exploitation: ExploitationField(from: <#any Decoder#>, id: "La ferme de Prés", farmPlace: "Lyon", farmType: "Bovin" ), employee: Employee(id: 1, firstName: "Pierre", lastName: "Martin", position: "Éleveur",zone: ["Batiment d'elevage","Exploitation"], userName: "pierrem", email: "pierre.martin@domaine-soleil.fr", city: "Villeurbanne"))
+//}
