@@ -11,7 +11,7 @@ struct DetailCard: View {
     let icon: String
     let color: Color
     let title: String
-    let infoRows: [InfoRow]
+//    let infoRows: [InfoRow]
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -23,13 +23,13 @@ struct DetailCard: View {
             }
             .padding(.bottom, 4)
 
-            ForEach(infoRows) { infoRow in
-                HStack {
-                    Text(infoRow.label)
-                    Spacer()
-                    Text(infoRow.value).bold()
-                }
-            }
+//            ForEach(infoRows) { infoRow in
+//                HStack {
+//                    Text(infoRow.label)
+//                    Spacer()
+//                    Text(infoRow.value).bold()
+//                }
+//            }
 
         }.frame(height: 100, alignment: .topLeading)
             .padding(16)
@@ -47,11 +47,11 @@ struct DetailCard: View {
             .padding(.bottom, 8)
     }
 }
-#Preview {
-    DetailCard(
-        icon: "heart.fill",
-        color: .red,
-        title: "Exemple",
-        infoRows: reproductionRows
-    )
-}
+//#Preview {
+//    DetailCard(
+//        icon: "heart.fill",
+//        color: .red,
+//        title: "Exemple",
+//        infoRows: reproductionRows
+//    )
+//}
