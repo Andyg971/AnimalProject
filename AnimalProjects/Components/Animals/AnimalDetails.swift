@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AnimalDetails: View {
     var animal: Animal
+    @State var vmProduction: ProductionViewModel = .init()
+    @State var prodList: [ProductionData] = []
     var body: some View {
         ZStack {
             Color.grisFond
@@ -33,35 +35,56 @@ struct AnimalDetails: View {
                         Text("STATUT")
                         Text("AGE")
                     }
+                    if !prodList.isEmpty {
 
-                    DetailCard(
-                        icon: "cross.case.fill",
-                        color: .red,
-                        title: "Santé",
-                        infoRows: healthRows
-                    )
-
-                    DetailCard(
-                        icon: "microbe.fill",
-                        color: .vertAccent,
-                        title: "Reproduction",
-                        infoRows: reproductionRows
-                    )
-
-                    DetailCard(
-                        icon: "chart.bar.xaxis",
-                        color: .blue,
-                        title: "Production",
-                        infoRows: productionRows
-                    )
+                        ForEach(prodList, id: \.id) { prod in
+                            if let prodMilk = prod as? ProductionMilk {
+                                Text(prodMilk.tB.description)
+                                    .foregroundStyle(Color(.red))
+                            } else {
+                                Text(prod.unit)
+                                    .foregroundStyle(Color(.blue))
+                            }
+                        }
+                    }
+                    //
+                    //                    DetailCard(
+                    //                        icon: "cross.case.fill",
+                    //                        color: .red,
+                    //                        title: "Santé",
+                    //                        infoRows: healthRows
+                    //                    )
+                    //
+                    //                    DetailCard(
+                    //                        icon: "microbe.fill",
+                    //                        color: .vertAccent,
+                    //                        title: "Reproduction",
+                    //                        infoRows: reproductionRows
+                    //                    )
+                    //
+                    //                    DetailCard(
+                    //                        icon: "chart.bar.xaxis",
+                    //                        color: .blue,
+                    //                        title: "Production",
+                    //                        infoRows: animal.productionRows
+                    //                    )
                 }
                 .navigationTitle("Détails de l'animal")
-                .toolbarBackground(
-                    .vertClair.opacity(0.8),
-                    for: .navigationBar
-                )
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
+            }
+        }.task {
+            if let animalID = animal.productionIDs {
+                var aniList = [ProductionData]()
+                for id in animalID {
+
+                    do {
+                       let result = try await vmProduction.getProductionByID(id: id)
+                        aniList.append(result)
+                    } catch {
+                        print(error)
+                    }
+                }
+                prodList = aniList
             }
         }
 
@@ -69,8 +92,8 @@ struct AnimalDetails: View {
 
 }
 
-#Preview {
-    NavigationStack {
-        AnimalDetails(animal: animalTest)
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        AnimalDetails(animal: animalTest)
+//    }
+//}
