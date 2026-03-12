@@ -26,6 +26,10 @@ class Employee: Codable, Identifiable {
     var zone: [String]?
     var userName: String
     var email: String
+    var exploitation: [String]?
+    var city: String?
+    var farmPlace: String?
+    var tasks: [String]?
     
     private enum CodingKeys: String, CodingKey {
     case id = "employeeID"
@@ -36,6 +40,10 @@ class Employee: Codable, Identifiable {
         case zone
         case userName
         case email
+        case exploitation
+        case city
+        case farmPlace
+        case tasks
     }
     init(
         id: Int,
@@ -46,7 +54,11 @@ class Employee: Codable, Identifiable {
         position: String,
         zone: [String]? = nil,
         userName: String,
-        email: String
+        email: String,
+        exploitation: [String]? = nil,
+        city: String? = nil,
+        farmPlace: String? = nil,
+        tasks: [String]? = nil
         
     ) {
         self.id = id
@@ -58,5 +70,9 @@ class Employee: Codable, Identifiable {
         self.zone = zone
         self.userName = userName
         self.email = email
+        self.exploitation = exploitation
+        self.city = city
+        self.farmPlace = farmPlace
+        self.tasks = tasks
     }
 }

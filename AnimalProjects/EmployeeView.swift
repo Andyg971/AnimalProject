@@ -58,7 +58,7 @@ struct EmployeeView: View {
                     }
                     
                     .task {
-                        await viewModel.getEmployees()
+                        await viewModel.fetchEmployees()
                     }
                     
                 }
