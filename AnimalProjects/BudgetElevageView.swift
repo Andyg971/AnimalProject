@@ -10,80 +10,158 @@ import Charts
 
 struct BudgetElevageView: View {
     
-    let budget = 2500.0
+    @State var budget: Double = +79000
+    @State var depenses: [Depense] = depensesInitiales
+    
+    @State var triCroissant = true
+    @State var showAdd = false
+    
+    
+    var totalDepenses: Double {
+        depenses.map{$0.total}.reduce(0,+)
+    }
+    
+    var budgetRestant: Double {
+        budget - totalDepenses
+    }
+    
+    
+    var depensesTriees: [Depense] {
+        depenses.sorted {
+            triCroissant ? $0.date < $1.date : $0.date > $1.date
+        }
+    }
+    
     
     var body: some View {
         
-        ScrollView {
+        NavigationStack {
             
-            VStack(spacing: 20) {
+            ScrollView {
                 
-                //budget
-                VStack {
+                VStack(spacing: 20) {
                     
-                    Text("Budget de l'élevage")
-                        .font(.headline)
+                    // depense et rapport
                     
-                    Text("\(budget, specifier: "%.0f") €")
-                        .font(.largeTitle)
-                        .bold()
-                    
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.green.opacity(0.3))
-                .cornerRadius(15)
-                
-                
-              
-                // Diagramme
-                Chart(depenses) { depense in
-                    
-                    BarMark(
-                        x: .value("Catégorie", depense.categorie),
-                        y: .value("Total", depense.total)
-                    )
-                }
-                .frame(height: 250)
-                
-                
-                // Liste scrollante
-                
-                VStack(alignment: .leading) {
-                    
-                    Text("Dépenses détaillées")
-                        .font(.title2)
-                        .bold()
-                    
-                    ForEach(depenses) { depense in
+                    VStack {
                         
-                        VStack(alignment: .leading) {
+                        Text("Budget élevage")
+                            .font(.headline)
+                        
+                        Text("\(budgetRestant, specifier: "%.0f") € restant")
+                            .font(.largeTitle)
+                            .bold()
+                        
+                        Button("Modifier budget") {
+                            budget += 500
+                        }
+                        
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.green.opacity(0.3))
+                    .cornerRadius(15)
+                    
+                    
+                    // tri
+                    
+                    Button {
+                        triCroissant.toggle()
+                    } label: {
+                        Text(triCroissant ? "Tri ancien → récent" : "Tri récent → ancien")
+                    }
+                    
+                    
+                    // graphique et courbe representatif
+                    
+                    Chart(depensesTriees) { depense in
+                        
+                        BarMark(
+                            x: .value("Catégorie", depense.categorie),
+                            y: .value("Total", depense.total)
+                        )
+                        
+                        LineMark(
+                            x: .value("Catégorie", depense.categorie),
+                            y: .value("Total", depense.total)
+                        )
+                        .interpolationMethod(.catmullRom)
+                        
+                    }
+                    .frame(height: 250)
+                    
+                    
+                    // camambers
+                    
+                    Chart(depenses) { depense in
+                        
+                        SectorMark(
+                            angle: .value("Total", depense.total)
+                        )
+                        .foregroundStyle(by: .value("Catégorie", depense.categorie))
+                        
+                    }
+                    .frame(height: 250)
+                    
+                    
+                    // liste facturation
+                    
+                    VStack(alignment: .leading) {
+                        
+                        Text("Factures")
+                            .font(.title2)
+                            .bold()
+                        
+                        ForEach(depensesTriees) { depense in
                             
-                            Text(depense.categorie)
-                                .font(.headline)
-                            
-                            HStack {
-                                Text("Coût : \(depense.cout, specifier: "%.0f") €")
-                                Spacer()
-                                Text("Total : \(depense.total, specifier: "%.0f") €")
-                                    .foregroundColor(.blue)
+                            VStack(alignment: .leading) {
+                                
+                                Text(depense.categorie)
+                                    .font(.headline)
+                                
+                                HStack {
+                                    
+                                    Text("Coût : \(depense.cout, specifier: "%.0f") €")
+                                    
+                                    Spacer()
+                                    
+                                    Text("Total : \(depense.total, specifier: "%.0f") €")
+                                        .foregroundColor(.blue)
+                                }
+                                
+                                Text("Date : \(depense.date.formatted())")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                
                             }
-                            
-                            Text("Date : \(depense.date)")
-                                .font(.caption)
-                                .foregroundColor(.gray)
+                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(10)
                             
                         }
-                        .padding()
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
                         
                     }
                     
                 }
+                .padding()
                 
             }
-            .padding()
+            
+            .navigationTitle("Gestion élevage")
+            
+            .toolbar {
+                
+                Button {
+                    showAdd = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+                
+            }
+            
+            .sheet(isPresented: $showAdd) {
+                AjouterDepenseView(depenses: $depenses)
+            }
         }
     }
 }

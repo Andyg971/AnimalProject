@@ -186,26 +186,18 @@ import Foundation
 //    ),
 //]
 
-var depenses: [DepenseElevage] = [
+import Foundation
+
+var depensesInitiales: [Depense] = [
     
-DepenseElevage(categorie: "Aliments pour bétail", cout: 2000, quantite: 24, total: 33600, date: "06/03/2026"),
-
-DepenseElevage(categorie: "Soins vétérinaires", cout: 500, quantite: 2, total: 1000, date: "04/02/2026"),
-
-DepenseElevage(categorie: "Matériel d'élevage", cout: 800, quantite: 3, total: 2400, date: "17/01/2026"),
-
-DepenseElevage(categorie: "Vaccins et traitements", cout: 300, quantite: 1, total: 300, date: "15/01/2026"),
-
-DepenseElevage(categorie: "Main d'œuvre", cout: 1200, quantite: 6, total: 7200, date: "12/01/2026"),
-
-DepenseElevage(categorie: "Frais de reproduction", cout: 400, quantite: 2, total: 800, date: "08/01/2026"),
-
-DepenseElevage(categorie: "Entretien des bâtiments", cout: 600, quantite: 2, total: 1200, date: "30/12/2025"),
-
-DepenseElevage(categorie: "Eau et énergie", cout: 350, quantite: 2, total: 700, date: "27/12/2025"),
-
-DepenseElevage(categorie: "Transport des animaux", cout: 250, quantite: 1, total: 250, date: "19/11/2025"),
-
-DepenseElevage(categorie: "Assurances", cout: 150, quantite: 1, total: 150, date: "09/11/2025")
-
+    Depense(categorie: "Aliments bétail", cout: 2000, quantite: 24, total: 33600, date: Date()),
+    Depense(categorie: "Soins vétérinaires", cout: 500, quantite: 2, total: 1000, date: Date()),
+    Depense(categorie: "Matériel élevage", cout: 800, quantite: 3, total: 2400, date: Date()),
+    Depense(categorie: "Vaccins", cout: 300, quantite: 1, total: 300, date: Date()),
+    Depense(categorie: "Main d'œuvre", cout: 1200, quantite: 6, total: 7200, date: Date()),
+    Depense(categorie: "Reproduction", cout: 400, quantite: 2, total: 800, date: Date()),
+    Depense(categorie: "Entretien bâtiments", cout: 600, quantite: 2, total: 1200, date: Date()),
+    Depense(categorie: "Eau et énergie", cout: 350, quantite: 2, total: 700, date: Date()),
+    Depense(categorie: "Transport animaux", cout: 250, quantite: 1, total: 250, date: Date()),
+    Depense(categorie: "Assurances", cout: 150, quantite: 1, total: 150, date: Date())
 ]
