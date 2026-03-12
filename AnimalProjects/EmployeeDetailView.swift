@@ -35,11 +35,14 @@ struct EmployeeDetailView: View {
                                 .foregroundStyle(Color.vertAccent)
                         }
                         VStack(spacing:12) {
+                            DetailRowView(title:"Exploitation", value: employee.exploitation?.joined(separator: "") ?? "Non renseigné")
+                            DetailRowView(title:"Localisation", value: employee.farmPlace ?? "Non renseigné")
                             DetailRowView(title: "Zone",
-                                          value: employee.zone?.joined(separator: ",") ?? "Non renseigné"
-                            )
+                                          value: employee.zone?.joined(separator: ", ") ?? "Non renseigné")
                             DetailRowView(title: "UserName", value: employee.userName)
                             DetailRowView(title:"Email", value: employee.email)
+                            DetailRowView(title:"Ville", value: employee.city ?? "Non renseigné")
+                            
                         }
                     }
                 }
@@ -51,5 +54,5 @@ struct EmployeeDetailView: View {
 }
 
 #Preview {
-    EmployeeDetailView(employee: Employee(id: 1, firstName: "Pierre", lastName: "Martin", position: "Éleveur",zone: ["Batiment d'elevage","Exploitation"], userName: "pierrem", email: "pierre.martin@domaine-soleil.fr"))
+    EmployeeDetailView(employee: Employee(id: 1, firstName: "Pierre", lastName: "Martin", position: "Éleveur",zone: ["Batiment d'elevage","Exploitation"], userName: "pierrem", email: "pierre.martin@domaine-soleil.fr", exploitation: ["Ferme des Près Vert"],city: "Villeurbanne", farmPlace: "Lyon"))
 }

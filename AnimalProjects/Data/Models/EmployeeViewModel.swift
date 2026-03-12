@@ -20,7 +20,7 @@ class EmployeeViewModel {
 
     var employees: [Employee] = []
 
-    func getEmployees() async {
+    func fetchEmployees() async {
 
         var request = URLRequest(url: baseURL)
         request.httpMethod = "GET"
