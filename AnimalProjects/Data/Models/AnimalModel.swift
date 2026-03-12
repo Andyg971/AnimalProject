@@ -189,28 +189,28 @@ func convertProduction(_ record: ProductionRecord) -> ProductionData {
     }
 }
 
-//let animalTest = Animal(
-//    id: 0,
-//    species: .bovine,
-//    race: "RaceExemple",
-//    productionType: .milk,
-//    productionRows: [InfoRow(
+let animalTest = Animal(
+    id: 0,
+    species: .bovine,
+    race: "RaceExemple",
+    productionType: .milk,
+//    productionIDs: [InfoRow(
 //        label: "00/00/00",
 //        value: "00 L ou kg")]
-//)
-//
-//struct InfoRow: Identifiable {
-//    var id = UUID()
-//    let label: String
-//    let value: String
-//}
-//
-//let healthRows: [InfoRow] = [
-//    InfoRow(label: "Vaccins", value: "À jour"),
-//    InfoRow(label: "Dernier Examen", value: "21/02/2026"),
-//    InfoRow(label: "Alertes", value: "Aucune"),
-//]
-//
-//let reproductionRows: [InfoRow] = [
-//    InfoRow(label: "Prochaine Insémination", value: "21/02/2027")
-//]
+)
+
+struct InfoRow: Identifiable {
+    var id = UUID()
+    let label: String
+    let value: String
+}
+
+let healthRows: [InfoRow] = [
+    InfoRow(label: "Vaccins", value: "À jour"),
+    InfoRow(label: "Dernier Examen", value: "21/02/2026"),
+    InfoRow(label: "Alertes", value: "Aucune"),
+]
+
+let reproductionRows: [InfoRow] = [
+    InfoRow(label: "Prochaine Insémination", value: "21/02/2027")
+]
