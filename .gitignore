@@ -1,4 +1,5 @@
 *.xcuserdatad
 *.xcuserstate
 *.DS_Store
-
+*/xcuserdata/*
+AnimalProjects.xcodeproj/project.xcworkspace/xcuserdata/*

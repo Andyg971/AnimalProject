@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct DepenseElevage: Identifiable {
+struct Depense: Identifiable {
     
     var id = UUID()
     var categorie: String
     var cout: Double
     var quantite: Double
     var total: Double
-    var date: String
+    var date: Date
     
 }
