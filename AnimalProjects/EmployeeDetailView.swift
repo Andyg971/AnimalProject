@@ -24,8 +24,20 @@ struct EmployeeDetailView: View {
                             Circle()
                                 .fill(Color.vertClair)
                                 .frame(width: 120, height: 120)
-                            Image(systemName:"person.fill")
-                                .font(.system(size:48))
+                            if let url = employee.photo?.first?.url {
+                                AsyncImage(url: url) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .clipShape(Circle())
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(width: 120, height: 120)
+                            } else {
+                                Image(systemName:"person.fill")
+                                    .font(.system(size:48))
+                            }
                         }
                         .padding(20)
                         
