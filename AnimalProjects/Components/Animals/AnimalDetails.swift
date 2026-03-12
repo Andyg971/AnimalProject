@@ -11,9 +11,12 @@ struct AnimalDetails: View {
     var animal: Animal
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
+    @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
     var prodRows: [InfoRow] { prodList.map { prod in
         InfoRow(label: prod.date.formatted(date: .numeric, time: .omitted), value: "\(prod.amount) \(prod.unit)")}}
+    var healthRows: [InfoRow] { healthList.map { health in
+        InfoRow(label: health.date.formatted(date: .numeric, time: .omitted), value: health.title)}}
     var body: some View {
         ZStack {
             Color.grisFond
@@ -38,10 +41,22 @@ struct AnimalDetails: View {
                         Text("STATUT")
                         Text("AGE")
                     }
-                    
+                    if !healthList.isEmpty {
+                        DetailCard(
+                            icon: "cross.case.fill",
+                            color: .red,
+                            title: "Santé",
+                            infoRows: Array(healthRows.prefix(3)))
+                    } else {
+                        DetailCard(
+                            icon: "cross.case.fill",
+                            color: .red,
+                            title: "Santé",
+                            infoRows: [InfoRow(label: "Aucune donnée de santé", value: "")])
+                    }
                     //
                     //                    DetailCard(
-                    //                        icon: "cross.case.fill",
+                    //                        icon: ,
                     //                        color: .red,
                     //                        title: "Santé",
                     //                        infoRows: healthRows
@@ -60,7 +75,7 @@ struct AnimalDetails: View {
                             icon: "chart.bar.xaxis",
                             color: .blue,
                             title: "Production",
-                            infoRows: prodRows)
+                            infoRows: Array(prodRows.prefix(3)))
                     } else {
                         DetailCard(
                             icon: "chart.bar.xaxis",
@@ -101,21 +116,21 @@ struct AnimalDetails: View {
             }
         }
         
-//        .task {
-//            if let animalID = animal.healthIDs {
-//                var aniList = [HealthItem]()
-//                for id in animalID {
-//
-//                    do {
-//                       let result = try await vmHealth.getHealthByID(id: id)
-//                        aniList.append(result)
-//                    } catch {
-//                        print(error)
-//                    }
-//                }
-//                prodList = aniList
-//            }
-//        }
+        .task {
+            if let animalID = animal.healthIDs {
+                var aniList = [HealthItem]()
+                for id in animalID {
+
+                    do {
+                       let result = try await vmHealth.getHealthByID(id: id)
+                        aniList.append(result)
+                    } catch {
+                        print(error)
+                    }
+                }
+                healthList = aniList
+            }
+        }
     }
 
 }

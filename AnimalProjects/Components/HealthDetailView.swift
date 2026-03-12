@@ -47,12 +47,12 @@ struct HealthDetailView: View {
                             title: "Statut",
                             value: item.status
                         )
-                        if let date = item.date {
+//                        if let date = item.date {
                             DetailRowView(
                                 title: "Date",
-                                value: date.formatted(date: .long, time: .omitted)
+                                value: item.date.formatted(date: .long, time: .omitted)
                             )
-                        }
+//                        }
                         if let nextDate = item.nextDate {
                             DetailRowView(
                                 title: "Prochaine date",
