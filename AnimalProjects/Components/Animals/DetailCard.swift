@@ -7,33 +7,51 @@
 
 import SwiftUI
 
-struct DetailCard<Content: View>: View {
-    let content: Content
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
-
+struct DetailCard: View {
+    let icon: String
+    let color: Color
+    let title: String
+//    let infoRows: [InfoRow]
     var body: some View {
         VStack(alignment: .leading) {
-            content
-        }
-        .frame(height: 100, alignment: .top)
-        .padding(16)
-        .background(
-            LinearGradient(
-                colors: [
-                    .gray.opacity(0.1),
-                    .gray.opacity(0.2),
-                ],
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-        )
-        .cornerRadius(16)
-        .padding(.horizontal, 16)
-        .padding(.bottom, 8)
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(color)
+
+                Text(title.uppercased())
+                    .font(.system(size: 16, weight: .bold))
+            }
+            .padding(.bottom, 4)
+
+//            ForEach(infoRows) { infoRow in
+//                HStack {
+//                    Text(infoRow.label)
+//                    Spacer()
+//                    Text(infoRow.value).bold()
+//                }
+//            }
+
+        }.frame(height: 100, alignment: .topLeading)
+            .padding(16)
+            .background(
+                LinearGradient(
+                    colors: [
+                        .gray.opacity(0.1),
+                        .gray.opacity(0.2),
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            ).cornerRadius(16)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
     }
 }
-#Preview {
-    DetailCard(content: { InfoRow(label: "Test", value: "Value") })
-}
+//#Preview {
+//    DetailCard(
+//        icon: "heart.fill",
+//        color: .red,
+//        title: "Exemple",
+//        infoRows: reproductionRows
+//    )
+//}

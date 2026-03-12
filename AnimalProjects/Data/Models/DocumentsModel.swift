@@ -23,10 +23,15 @@ struct Document: Codable, Identifiable {
     let type: DocumentType
     let size: Int
     let date: Date?
+    let description: String?
+//    let file: String?
+    let attachment: String?
     
     private enum CodingKeys: String, CodingKey {
         case id = "documentID"
-        case title, date, type, size
+        case title, date, type, size, description
+//        case file
+        case attachment = "Attachment"
     }
 }
 

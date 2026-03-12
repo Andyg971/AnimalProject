@@ -40,6 +40,6 @@ struct AnimalRow: View {
         .padding(.vertical, 4)
     }
 }
-#Preview {
-    AnimalRow(animal: animalTest)
-}
+//#Preview {
+//    AnimalRow(animal: animalTest)
+//}

@@ -15,29 +15,38 @@ struct DocumentsView: View {
                         ForEach(viewModel.documents) { document in
                             let style = documentStyle(for: document.title)
                             
-                            HStack(spacing: 14) {
-                                Image(systemName: style.icon)
-                                    .font(.system(size: 18))
-                                    .foregroundStyle(.white)
-                                    .frame(width: 42, height: 42)
-                                    .background(style.color)
-                                    .clipShape(Circle())
-                                
-                                Text(document.title)
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundStyle(.primary)
-                                
-                                Spacer()
-                                
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(.gray)
+                            NavigationLink {
+                                DocumentDetailView(
+                                    document: document,
+                                    styleIcon: style.icon,
+                                    styleColor: style.color
+                                )
+                            } label: {
+                                HStack(spacing: 14) {
+                                    Image(systemName: style.icon)
+                                        .font(.system(size: 18))
+                                        .foregroundStyle(style.color)
+                                        .frame(width: 42, height: 42)
+                                        .background(style.color.opacity(0.2))
+                                        .clipShape(Circle())
+                                    
+                                    Text(document.title)
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .foregroundStyle(.primary)
+                                    
+                                    Spacer()
+                                    
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 14, weight: .medium))
+                                        .foregroundStyle(.gray)
+                                }
+                                .padding(16)
+                                .background(.white)
+                                .cornerRadius(14)
+                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
+                                .padding(.horizontal, 16)
                             }
-                            .padding(16)
-                            .background(.white)
-                            .cornerRadius(14)
-                            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
-                            .padding(.horizontal, 16)
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.top, 8)
@@ -50,9 +59,7 @@ struct DocumentsView: View {
                     }
                 }
                 .navigationTitle("Documents")
-                .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
                 .searchable(text: $search, prompt: "Rechercher un document")
             }
         }

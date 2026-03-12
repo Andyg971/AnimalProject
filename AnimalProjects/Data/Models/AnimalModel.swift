@@ -11,60 +11,147 @@ import Observation
 struct AnimalsResponse: Codable {
     let records: [AnimalRecord]
 }
+
 struct AnimalRecord: Codable {
-//    let id: String
-//    let createdTime: Date
     let fields: Animal
 }
 
-//@Observable
+
+
 class Animal: Codable, Identifiable {
     var id: Int
     var photo: String?
     let species: Species
     let race: String
-//    let idNumber: Int
     let name: String?
     let dateOfBirth: Date?
     let isMale: Bool?
-    let productionType: Production?
+    let productionType: ProductionType?
     var isPregnant: Bool?
-    private enum CodingKeys: String, CodingKey {
-        case id = "idNumber"
-        case photo
-        case species
-        case race
-//        case idNumber
-        case name
-        case dateOfBirth
-        case isMale
-        case productionType
-        case isPregnant
-    }
+    
+    var productionIDs: [String]?
+   
     init(
         id: Int,
         photo: String? = nil,
         species: Species,
         race: String,
-//        idNumber: Int,
         name: String? = nil,
         dateOfBirth: Date? = nil,
         isMale: Bool = false,
-        productionType: Production?,
-        isPregnant: Bool = false
-    ) {
+        productionType: ProductionType?,
+        isPregnant: Bool = false,
+        productionIDs: [String]? = nil,
+        
+        
+    )
+    {
+            self.id = id
+            self.photo = photo
+            self.species = species
+            self.race = race
+            //        self.idNumber = idNumber
+            self.name = name
+            self.dateOfBirth = dateOfBirth
+            self.isMale = isMale
+            self.productionType = productionType
+            self.isPregnant = isPregnant
+            self.productionIDs = productionIDs
+
+        }
+    private enum CodingKeys: String, CodingKey {
+        case id = "idNumber"
+        case photo
+        case species
+        case race
+        case name
+        case dateOfBirth
+        case isMale
+        case productionType
+        case isPregnant
+        case productionIDs = "production"
+    }
+
+}
+
+struct ProductionResponse: Codable {
+    let records: [ProductionRecord]
+}
+
+struct ProductionRecord: Codable {
+    let fields: ProductionField
+}
+struct ProductionField: Codable, Identifiable {
+    var id: Int
+    let date: Date
+    let productionType: ProductionType
+    let amount: Double
+    let unit: String
+    let tB: Double
+    let tP: Double
+    let cellCount: Int
+    let ketone: Int
+    
+    private enum CodingKeys: String, CodingKey {
+        case id = "productionID"
+        case date
+        case productionType
+        case amount
+        case unit
+        case tB = "TB"
+        case tP = "TP"
+        case cellCount
+        case ketone
+    }
+    
+    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String, tB: Double = 0, tP: Double = 0, cellCount: Int = 0, ketone: Int = 0) {
         self.id = id
-        self.photo = photo
-        self.species = species
-        self.race = race
-//        self.idNumber = idNumber
-        self.name = name
-        self.dateOfBirth = dateOfBirth
-        self.isMale = isMale
+        self.date = date
         self.productionType = productionType
-        self.isPregnant = isPregnant
+        self.amount = amount
+        self.unit = unit
+        self.tB = tB
+        self.tP = tP
+        self.cellCount = cellCount
+        self.ketone = ketone
+    }
+
+}
+
+class ProductionData: Identifiable {
+    var id: Int
+    let date: Date
+    let productionType: ProductionType
+    let amount: Double
+    let unit: String
+    
+    
+    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String) {
+        self.id = id
+        self.date = date
+        self.productionType = productionType
+        self.amount = amount
+        self.unit = unit
     }
 }
+
+class ProductionMilk: ProductionData {
+    let tB: Double
+    let tP: Double
+    let cellCount: Int
+    let ketone: Int?
+    
+    
+    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String, tB: Double, tP: Double, cellCount: Int, ketone: Int? = nil) {
+        self.tB = tB
+        self.tP = tP
+        self.cellCount = cellCount
+        self.ketone = ketone
+        super.init(id: id, date: date, productionType: productionType, amount: amount, unit: unit)
+    }
+}
+
+
 
 enum Species: String, Codable, CaseIterable, Identifiable {
     var id: RawValue { rawValue }
@@ -73,14 +160,57 @@ enum Species: String, Codable, CaseIterable, Identifiable {
     case caprine = "Caprin"
     case equine = "Équin"
     case ovine = "Ovin"
-   
+
 }
 
-enum Production: String, Codable, CaseIterable, Identifiable {
+enum ProductionType: String, Codable, CaseIterable, Identifiable {
     var id: RawValue { rawValue }
     case milk = "Lait"
     case wool = "Laine"
     case meat = "Viande"
 }
 
-let animalTest = Animal(id: 0, species: .bovine, race: "RaceExemple", productionType: .milk)
+func convertProduction(_ record: ProductionRecord) -> ProductionData {
+    let fields = record.fields
+    if fields.productionType == .milk {
+        return ProductionMilk(
+            id: record.fields.id,
+            date: record.fields.date,
+            productionType: .milk,
+            amount: Double(record.fields.amount),
+            unit: "L",
+            tB: fields.tB,
+            tP: fields.tP,
+            cellCount: fields.cellCount,
+            ketone: fields.ketone
+        )
+    } else {
+        return ProductionData(id: fields.id, date: fields.date, productionType: fields.productionType, amount: fields.amount, unit: fields.unit)
+    }
+}
+
+//let animalTest = Animal(
+//    id: 0,
+//    species: .bovine,
+//    race: "RaceExemple",
+//    productionType: .milk,
+//    productionRows: [InfoRow(
+//        label: "00/00/00",
+//        value: "00 L ou kg")]
+//)
+//
+//struct InfoRow: Identifiable {
+//    var id = UUID()
+//    let label: String
+//    let value: String
+//}
+//
+//let healthRows: [InfoRow] = [
+//    InfoRow(label: "Vaccins", value: "À jour"),
+//    InfoRow(label: "Dernier Examen", value: "21/02/2026"),
+//    InfoRow(label: "Alertes", value: "Aucune"),
+//]
+//
+//let reproductionRows: [InfoRow] = [
+//    InfoRow(label: "Prochaine Insémination", value: "21/02/2027")
+//]
