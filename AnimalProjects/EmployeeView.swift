@@ -10,6 +10,19 @@ import SwiftUI
 struct EmployeeView: View {
     @State var viewModel = EmployeeViewModel()
     @State private var search = ""
+    var filteredEmployees: [Employee] {
+        if search.isEmpty {
+            return viewModel.employees.sorted { $0.lastName < $1.lastName }
+        } else {
+            return viewModel.employees
+                .filter {
+                    $0.firstName.localizedCaseInsensitiveContains(search)
+                    || $0.lastName.localizedCaseInsensitiveContains(search)
+                    || $0.position.localizedCaseInsensitiveContains(search)
+                }
+                .sorted { $0.lastName < $1.lastName }
+        }
+    }
     var body: some View {
 
         ZStack {
@@ -20,11 +33,11 @@ struct EmployeeView: View {
 
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
-                        ForEach(
-                            viewModel.employees.sorted {
-                                $0.lastName < $1.lastName
-                            }
-                        ) { employee in
+                        ForEach(filteredEmployees)  { employee in
+//                            viewModel.employees.sorted {
+//                                $0.lastName < $1.lastName
+//                            }
+                      
                             NavigationLink {
                                 EmployeeDetailView(employee: employee)
                             } label: {
@@ -93,8 +106,6 @@ struct EmployeeView: View {
 
     }
 }
-//
-
 #Preview {
     EmployeeView()
 }

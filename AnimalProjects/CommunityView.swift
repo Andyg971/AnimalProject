@@ -10,6 +10,16 @@ import SwiftUI
 struct CommunityView: View {
     @State var viewModel = CommunityViewModel()
     @State private var search = ""
+    var filteredCategory: [CommunityCategory] {
+        if search.isEmpty {
+            return viewModel.communityCategory
+        } else {
+            return viewModel.communityCategory.filter {
+                $0.title.localizedCaseInsensitiveContains(search)
+                || $0.description.localizedCaseInsensitiveContains(search)
+            }
+        }
+    }
     var body: some View {
 
         ZStack {
@@ -20,7 +30,7 @@ struct CommunityView: View {
 
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
-                        ForEach(viewModel.communityCategory) { category in
+                        ForEach(filteredCategory) { category in
                             HStack {
                                 Image(systemName: "person")
                                     .frame(width: 40)
