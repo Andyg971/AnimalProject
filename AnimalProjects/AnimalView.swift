@@ -11,6 +11,20 @@ struct AnimalView: View {
     @State var viewModel = AnimalsViewModel()
     @State private var search = ""
     @State private var speciesFilter: Set<Species> = []
+    var filteredAnimals: [Animal] {
+        viewModel.animals
+            .filter { animal in
+                speciesFilter.isEmpty || speciesFilter.contains(animal.species)
+            }
+            .filter { animal in
+                search.isEmpty
+                    || (animal.name?.localizedCaseInsensitiveContains(search)
+                        ?? false)
+                    || animal.race.localizedCaseInsensitiveContains(search)
+                    || String(animal.id).contains(search)
+            }
+            .sorted { $0.id < $1.id }
+    }
     var body: some View {
 
         ZStack {
@@ -23,7 +37,7 @@ struct AnimalView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(Species.allCases) { species in
-                            
+
                             Button {
                                 withAnimation {
                                     if speciesFilter.contains(species) {
@@ -62,9 +76,7 @@ struct AnimalView: View {
 
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
-                        ForEach(viewModel.animals.filter { animal in
-                            speciesFilter.isEmpty || speciesFilter.contains(animal.species)
-                        }) { animal in
+                        ForEach(filteredAnimals) { animal in
                             NavigationLink {
                                 AnimalDetails(animal: animal)
                             } label: {
@@ -73,15 +85,14 @@ struct AnimalView: View {
                             .foregroundColor(.black)
                         }
                     }
-
-                    .task {
-                        await viewModel.getAnimals()
-                    }
-
+                }
+                .task {
+                    await viewModel.getAnimals()
                 }
                 .navigationTitle("Animaux")
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $search, prompt: "Rechercher un animal")
+
             }
 
         }
