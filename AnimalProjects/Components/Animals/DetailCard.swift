@@ -10,6 +10,8 @@ import SwiftUI
 struct DetailCard: View {
     let icon: String
     let color: Color
+    let symbol: String
+    let symbolColor: Color
     let title: String
     let infoRows: [InfoRow]
     var body: some View {
@@ -20,6 +22,9 @@ struct DetailCard: View {
 
                 Text(title.uppercased())
                     .font(.system(size: 16, weight: .bold))
+                Spacer()
+                Image(systemName: symbol)
+                    .foregroundColor(symbolColor)
             }
             .padding(.bottom, 4)
 
@@ -47,11 +52,13 @@ struct DetailCard: View {
             .padding(.bottom, 8)
     }
 }
-//#Preview {
-//    DetailCard(
-//        icon: "heart.fill",
-//        color: .red,
-//        title: "Exemple",
-//        infoRows: reproductionRows
-//    )
-//}
+#Preview {
+    DetailCard(
+        icon: "heart.fill",
+        color: .red,
+        symbol: "chevron.right",
+        symbolColor: .vertAccent,
+        title: "Exemple",
+        infoRows: reproductionRows
+    )
+}

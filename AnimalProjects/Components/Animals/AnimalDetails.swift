@@ -13,10 +13,23 @@ struct AnimalDetails: View {
     @State var vmHealth: HealthViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
-    var prodRows: [InfoRow] { prodList.map { prod in
-        InfoRow(label: prod.date.formatted(date: .numeric, time: .omitted), value: "\(prod.amount) \(prod.unit)")}}
-    var healthRows: [InfoRow] { healthList.map { health in
-        InfoRow(label: health.date.formatted(date: .numeric, time: .omitted), value: health.title)}}
+    var prodRows: [InfoRow] {
+        prodList.map { prod in
+            InfoRow(
+                label: prod.date.formatted(date: .numeric, time: .omitted),
+                value: "\(prod.amount) \(prod.unit)"
+            )
+        }
+    }
+    var healthRows: [InfoRow] {
+        healthList.map { health in
+            InfoRow(
+                label: health.date.formatted(date: .numeric, time: .omitted),
+                value: health.title
+            )
+        }
+    }
+    var reproRows: [InfoRow] = []
     var body: some View {
         ZStack {
             Color.grisFond
@@ -37,76 +50,70 @@ struct AnimalDetails: View {
                         .font(.system(size: 16))
 
                     HStack {
-                        Text("POIDS")
                         Text("STATUT")
                         Text("AGE")
                     }
-                    if !healthList.isEmpty {
-                        DetailCard(
-                            icon: "cross.case.fill",
-                            color: .red,
-                            title: "Santé",
-                            infoRows: Array(healthRows.prefix(3)))
-                    } else {
-                        DetailCard(
-                            icon: "cross.case.fill",
-                            color: .red,
-                            title: "Santé",
-                            infoRows: [InfoRow(label: "Aucune donnée de santé", value: "")])
-                    }
-                    //
-                    //                    DetailCard(
-                    //                        icon: ,
-                    //                        color: .red,
-                    //                        title: "Santé",
-                    //                        infoRows: healthRows
-                    //                    )
-                    //
-                    //                    DetailCard(
-                    //                        icon: "microbe.fill",
-                    //                        color: .vertAccent,
-                    //                        title: "Reproduction",
-                    //                        infoRows: reproductionRows
-                    //                    )
-                    
 
-                    if !prodList.isEmpty {
-                        DetailCard(
-                            icon: "chart.bar.xaxis",
-                            color: .blue,
-                            title: "Production",
-                            infoRows: Array(prodRows.prefix(3)))
-                    } else {
-                        DetailCard(
-                            icon: "chart.bar.xaxis",
-                            color: .blue,
-                            title: "Production",
-                            infoRows: [InfoRow(label: "Aucune production enregistrée", value: "")])
-                            
-                                   
-//                                   ForEach(prodList, id: \.id) { prod in
-//                            if let prodMilk = prod as? ProductionMilk {
-//                                
-//                                InfoRow(label: prodMilk.date.description, value: "\(prodMilk.amount) L"]
-//                            } else {
-//                                Text(prod.unit)
-//                                    .foregroundStyle(Color(.blue))
-//                            }
-//                        }
-                    }
+                    DetailCard(
+                        icon: "cross.case.fill",
+                        color: .red,
+                        symbol: "",
+                        symbolColor: .vertAccent,
+                        title: "Santé",
+                        infoRows: healthRows.isEmpty
+                            ? [
+                                InfoRow(
+                                    label: "Aucune donnée de santé",
+                                    value: ""
+                                )
+                            ] : Array(healthRows.prefix(3))
+                    )
+
+                    DetailCard(
+                        icon: "microbe.fill",
+                        color: .vertAccent,
+                        symbol: "",
+                        symbolColor: .clear,
+                        title: "Reproduction",
+                        infoRows: reproRows.isEmpty
+                        ? [
+                            InfoRow(
+                                label: "Aucune information de reproduction",
+                                value: ""
+                            )
+                        ]
+                        : Array(prodRows.prefix(3))
+                    )
+
+                    DetailCard(
+                        icon: "chart.bar.xaxis",
+                        color: .blue,
+                        symbol: animal.productionType?.symbol ?? "",
+                        symbolColor: animal.productionType?.color ?? .clear,
+                        title: "Production",
+                        infoRows: prodRows.isEmpty
+                            ? [
+                                InfoRow(
+                                    label: "Aucune production enregistrée",
+                                    value: ""
+                                )
+                            ]
+                            : Array(prodRows.prefix(3))
+                    )
                 }
                 .navigationTitle("Détails de l'animal")
                 .navigationBarTitleDisplayMode(.inline)
             }
-            
-            
+
         }.task {
             if let animalID = animal.productionIDs {
                 var aniList = [ProductionData]()
                 for id in animalID {
 
                     do {
-                       let result = try await vmProduction.getProductionByID(id: id)
+                        let result = try await vmProduction.getProductionByID(
+                            id: id
+                        )
                         aniList.append(result)
                     } catch {
                         print(error)
@@ -114,15 +121,13 @@ struct AnimalDetails: View {
                 }
                 prodList = aniList
             }
-        }
-        
-        .task {
+
             if let animalID = animal.healthIDs {
                 var aniList = [HealthItem]()
                 for id in animalID {
 
                     do {
-                       let result = try await vmHealth.getHealthByID(id: id)
+                        let result = try await vmHealth.getHealthByID(id: id)
                         aniList.append(result)
                     } catch {
                         print(error)
