@@ -9,6 +9,16 @@ import SwiftUI
 
 struct AnimalDetails: View {
     let animal: Animal
+    var age: Int? {
+        guard let birthday = animal.dateOfBirth else { return nil }
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents(
+            [.year],
+            from: birthday,
+            to: Date()
+        )
+        return ageComponents.year
+    }
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
     @State var healthList: [HealthItem] = []
@@ -34,31 +44,42 @@ struct AnimalDetails: View {
         ZStack {
             Color.grisFond
                 .ignoresSafeArea()
-            
             VStack {
                 Text(animal.name ?? "")
                     .padding(.top, 32)
                     .font(.system(size: 20, weight: .bold))
-                Image(systemName: "questionmark")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .padding(16)
-                
-                Text("ID : \(animal.id)")
-                    .font(.system(size: 20, weight: .bold))
                 Text("\(animal.species.rawValue) (\(animal.race))")
                     .font(.system(size: 16))
-                
                 HStack {
-                    Text("STATUT")
-                    Text("AGE")
+                    Image(systemName: "questionmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                        .padding(16)
+                    VStack(alignment: .leading) {
+
+                        Text("ID : \(animal.id)")
+                            .font(.system(size: 20, weight: .bold))
+
+                        HStack {
+                            Text("STATUT :")
+                                .font(.system(size: 16, weight: .bold))
+                            Text("Inconnu")
+                        }
+                        HStack {
+                            Text("AGE :")
+                                .font(.system(size: 16, weight: .bold))
+                            Text(age != nil ? "\(age!) ans" : "Inconnu")
+                        }
+                    }
                 }
-                
                 ScrollView(showsIndicators: false) {
                     VStack {
                         NavigationLink {
-                            HealthView(filteredItems: healthList, animalName: animal.name)
+                            HealthView(
+                                filteredItems: healthList,
+                                animalName: animal.name
+                            )
                         } label: {
                             DetailCard(
                                 icon: "cross.case.fill",
@@ -67,15 +88,15 @@ struct AnimalDetails: View {
                                 symbolColor: .vertAccent,
                                 title: "Santé",
                                 infoRows: healthRows.isEmpty
-                                ? [
-                                    InfoRow(
-                                        label: "Aucune donnée de santé",
-                                        value: ""
-                                    )
-                                ] : Array(healthRows.prefix(3))
+                                    ? [
+                                        InfoRow(
+                                            label: "Aucune donnée de santé",
+                                            value: ""
+                                        )
+                                    ] : Array(healthRows.prefix(3))
                             ).foregroundColor(.black)
                         }
-                        
+
                         DetailCard(
                             icon: "microbe.fill",
                             color: .vertAccent,
@@ -83,15 +104,16 @@ struct AnimalDetails: View {
                             symbolColor: .clear,
                             title: "Reproduction",
                             infoRows: reproRows.isEmpty
-                            ? [
-                                InfoRow(
-                                    label: "Aucune information de reproduction",
-                                    value: ""
-                                )
-                            ]
-                            : Array(prodRows.prefix(3))
+                                ? [
+                                    InfoRow(
+                                        label:
+                                            "Aucune information de reproduction",
+                                        value: ""
+                                    )
+                                ]
+                                : Array(prodRows.prefix(3))
                         )
-                        
+
                         DetailCard(
                             icon: "chart.bar.xaxis",
                             color: .blue,
@@ -99,28 +121,29 @@ struct AnimalDetails: View {
                             symbolColor: animal.productionType?.color ?? .clear,
                             title: "Production",
                             infoRows: prodRows.isEmpty
-                            ? [
-                                InfoRow(
-                                    label: "Aucune production enregistrée",
-                                    value: ""
-                                )
-                            ]
-                            : Array(prodRows.prefix(3))
+                                ? [
+                                    InfoRow(
+                                        label: "Aucune production enregistrée",
+                                        value: ""
+                                    )
+                                ]
+                                : Array(prodRows.prefix(3))
                         )
                     }
                     .navigationTitle("Détails de l'animal")
                     .navigationBarTitleDisplayMode(.inline)
                 }
-                
+
             }.task {
                 if let animalID = animal.productionIDs {
                     var aniList = [ProductionData]()
                     for id in animalID {
-                        
+
                         do {
-                            let result = try await vmProduction.getProductionByID(
-                                id: id
-                            )
+                            let result =
+                                try await vmProduction.getProductionByID(
+                                    id: id
+                                )
                             aniList.append(result)
                         } catch {
                             print(error)
@@ -128,13 +151,15 @@ struct AnimalDetails: View {
                     }
                     prodList = aniList
                 }
-                
+
                 if let animalID = animal.healthIDs {
                     var aniList = [HealthItem]()
                     for id in animalID {
-                        
+
                         do {
-                            let result = try await vmHealth.getHealthByID(id: id)
+                            let result = try await vmHealth.getHealthByID(
+                                id: id
+                            )
                             aniList.append(result)
                         } catch {
                             print(error)
@@ -147,8 +172,8 @@ struct AnimalDetails: View {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        AnimalDetails(animal: animalTest)
-//    }
-//}
+#Preview {
+    NavigationStack {
+        AnimalDetails(animal: animalTest)
+    }
+}
