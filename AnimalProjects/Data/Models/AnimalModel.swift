@@ -5,7 +5,7 @@
 //  Created by Julia Canovas on 09/03/2026.
 //
 
-import Foundation
+import SwiftUI
 import Observation
 
 struct AnimalsResponse: Codable {
@@ -171,6 +171,28 @@ enum ProductionType: String, Codable, CaseIterable, Identifiable {
     case milk = "Lait"
     case wool = "Laine"
     case meat = "Viande"
+    
+    var symbol: String {
+            switch self {
+            case .milk:
+                "drop.fill"
+            case .meat:
+                "fork.knife"
+            case .wool:
+                "line.3.crossed.swirl.circle.fill"
+            }
+        }
+
+        var color: Color {
+            switch self {
+            case .milk:
+                .white
+            case .meat:
+                .red
+            case .wool:
+                .gray
+            }
+        }
 }
 
 func convertProduction(_ record: ProductionRecord) -> ProductionData {

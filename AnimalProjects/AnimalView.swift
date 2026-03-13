@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AnimalView: View {
     @State var viewModel = AnimalsViewModel()
+    @State private var search = ""
     var body: some View {
         
         ZStack {
@@ -37,6 +38,7 @@ struct AnimalView: View {
                 }
                 .navigationTitle("Animaux")
                 .navigationBarTitleDisplayMode(.inline)
+                .searchable(text: $search, prompt: "Rechercher un animal")
             }
             
         }
