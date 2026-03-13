@@ -14,9 +14,14 @@ struct AnimalRow: View {
                 .frame(width:40)
 
             VStack(alignment: .leading) {
-                Text("\(animal.id)")
-                    .font(.system(size: 20, weight: .bold))
-                Text("\(animal.species.rawValue) \(animal.race)")
+                HStack {
+                    Text("\(animal.id)")
+                        .font(.system(size: 20, weight: .bold))
+                    Spacer()
+                    Text(animal.name ?? "")
+                    Spacer()
+                }
+                Text("\(animal.species.rawValue) (\(animal.race))")
                     .font(.system(size:16))
             }
 
@@ -40,6 +45,6 @@ struct AnimalRow: View {
         .padding(.vertical, 4)
     }
 }
-//#Preview {
-//    AnimalRow(animal: animalTest)
-//}
+#Preview {
+    AnimalRow(animal: animalTest)
+}
