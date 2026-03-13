@@ -34,6 +34,12 @@ struct HealthView: View {
                                             .font(.system(size: 16, weight: .semibold))
                                             .foregroundStyle(.primary)
 
+                                        if let name = item.animalName?.first {
+                                            Text(name)
+                                                .font(.system(size: 13))
+                                                .foregroundStyle(.vertAccent)
+                                        }
+
                                         Text(item.status)
                                             .font(.system(size: 13))
                                             .foregroundStyle(.secondary)
