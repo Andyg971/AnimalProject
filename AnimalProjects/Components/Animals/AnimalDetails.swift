@@ -58,7 +58,7 @@ struct AnimalDetails: View {
                 ScrollView(showsIndicators: false) {
                     VStack {
                         NavigationLink {
-                            HealthView()
+                            HealthView(filteredItems: healthList, animalName: animal.name)
                         } label: {
                             DetailCard(
                                 icon: "cross.case.fill",

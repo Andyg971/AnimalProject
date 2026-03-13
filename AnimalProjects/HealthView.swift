@@ -3,6 +3,13 @@ import SwiftUI
 struct HealthView: View {
     @State var viewModel = HealthViewModel()
     @State private var search = ""
+    var filteredItems: [HealthItem]?
+    var animalName: String?
+
+    var items: [HealthItem] {
+        filteredItems ?? viewModel.healthItems
+    }
+
     var body: some View {
         ZStack {
             Color.grisFond
@@ -11,7 +18,7 @@ struct HealthView: View {
             NavigationStack {
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: 12) {
-                        ForEach(viewModel.healthItems) { item in
+                        ForEach(items) { item in
                             let style = healthStyle(for: item.type)
 
                             NavigationLink {
@@ -62,14 +69,16 @@ struct HealthView: View {
                     }
                     .padding(.top, 8)
                     .task {
-                        do {
-                            try await viewModel.getHealthItems()
-                        } catch {
-                            print(error)
+                        if filteredItems == nil {
+                            do {
+                                try await viewModel.getHealthItems()
+                            } catch {
+                                print(error)
+                            }
                         }
                     }
                 }
-                .navigationTitle("Santé")
+                .navigationTitle(animalName != nil ? "Santé - \(animalName!)" : "Santé")
                 .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
