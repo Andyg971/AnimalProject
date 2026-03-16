@@ -9,20 +9,20 @@ import SwiftUI
 import Charts
 
 struct BudgetElevageView: View {
+    @State var vmDepenses = DepenseViewModel()
     
     @State var budget: Double = 79000
-    @State var depenses: [Depense] = depensesInitiales
     
     @State var triCroissant = true
     @State var showAdd = false
     
     // mode sélection
     @State var modeSelection = false
-    @State var selection: Set<UUID> = []
+    @State var selection = [String]()
     
     
     var totalDepenses: Double {
-        depenses.map{$0.total}.reduce(0,+)
+        vmDepenses.depenses.map{$0.total}.reduce(0,+)
     }
     
     var budgetRestant: Double {
@@ -30,7 +30,7 @@ struct BudgetElevageView: View {
     }
     
     var depensesTriees: [Depense] {
-        depenses.sorted {
+        vmDepenses.depenses.sorted {
             triCroissant ? $0.date < $1.date : $0.date > $1.date
         }
     }
@@ -77,7 +77,7 @@ struct BudgetElevageView: View {
                     
                     // graphique
                     
-                    Chart(depensesTriees) { depense in
+                    Chart(depensesTriees, id: \.categorie) { depense in
                         
                         BarMark(
                             x: .value("Catégorie", depense.categorie),
@@ -95,7 +95,7 @@ struct BudgetElevageView: View {
                     
                     // camembert
                     
-                    Chart(depenses) { depense in
+                    Chart(vmDepenses.depenses, id: \.categorie) { depense in
                         
                         SectorMark(
                             angle: .value("Total", depense.total)
@@ -159,16 +159,16 @@ struct BudgetElevageView: View {
                                     
                                     Button {
                                         
-                                        if selection.contains(depense.id) {
-                                            selection.remove(depense.id)
+                                        if selection.contains(depense.categorie) {
+                                            selection.remove(depense.categorie)
                                         } else {
-                                            selection.insert(depense.id)
+                                            selection.append(depense.categorie)
                                         }
                                         
                                     } label: {
                                         
                                         Image(systemName:
-                                                selection.contains(depense.id)
+                                                selection.contains(depense.categorie)
                                               ? "checkmark.circle.fill"
                                               : "circle")
                                             .font(.title2)
@@ -220,17 +220,24 @@ struct BudgetElevageView: View {
                 }
             }
             
-            .sheet(isPresented: $showAdd) {
-                AjouterDepenseView(depenses: $depenses)
+//            .sheet(isPresented: $showAdd) {
+//                AjouterDepenseView(depenses: $depenses)
+//            }
+        }.task {
+            do {
+                try await vmDepenses.getDepensess()
+            } catch {
+                print(error)
             }
         }
     }
+        
     
     
     func supprimerSelection() {
         
-        depenses.removeAll { depense in
-            selection.contains(depense.id)
+        vmDepenses.depenses.removeAll { depense in
+            selection.contains(depense.categorie)
         }
         
         selection.removeAll()

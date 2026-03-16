@@ -5,6 +5,7 @@
 //  Created by Grava Andy on 04/03/2026.
 //
 import Foundation
+
 var depensesInitiales: [Depense] = [
     
     Depense(categorie: "Aliments bétail", cout: 2000, quantite: 24, total: 33600, date: Date()),
