@@ -10,48 +10,61 @@ import SwiftUI
 struct DetailCard: View {
     let icon: String
     let color: Color
+    let symbol: String
+    let symbolColor: Color
     let title: String
     let infoRows: [InfoRow]
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Image(systemName: icon)
-                    .foregroundColor(color)
-
-                Text(title.uppercased())
-                    .font(.system(size: 16, weight: .bold))
-            }
-            .padding(.bottom, 4)
-
-            ForEach(infoRows) { infoRow in
+        HStack {
+            VStack(alignment: .leading) {
                 HStack {
-                    Text(infoRow.label)
-                    Spacer()
-                    Text(infoRow.value).bold()
-                }
-            }
+                    Image(systemName: icon)
+                        .foregroundColor(color)
 
-        }.frame(height: 100, alignment: .topLeading)
-            .padding(16)
-            .background(
-                LinearGradient(
-                    colors: [
-                        .gray.opacity(0.1),
-                        .gray.opacity(0.2),
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            ).cornerRadius(16)
-            .padding(.horizontal, 16)
-            .padding(.bottom, 8)
+                    Text(title.uppercased())
+                        .font(.system(size: 16, weight: .bold))
+                    Spacer()
+                    Image(systemName: symbol)
+                        .foregroundColor(symbolColor)
+                }
+                .padding(.bottom, 4)
+
+                ForEach(infoRows) { infoRow in
+                    HStack {
+                        Text(infoRow.label)
+                        Spacer()
+                        Text(infoRow.value).bold()
+                    }
+                }
+
+            }.frame(height: 100, alignment: .topLeading)
+            Image(systemName: "chevron.right")
+                .foregroundColor(.vertAccent)
+                .padding(.leading, 8)
+
+        }
+        .padding(16)
+        .background(
+            LinearGradient(
+                colors: [
+                    .gray.opacity(0.1),
+                    .gray.opacity(0.2),
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        ).cornerRadius(16)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 8)
     }
 }
-//#Preview {
-//    DetailCard(
-//        icon: "heart.fill",
-//        color: .red,
-//        title: "Exemple",
-//        infoRows: reproductionRows
-//    )
-//}
+#Preview {
+    DetailCard(
+        icon: "heart.fill",
+        color: .red,
+        symbol: "chevron.right",
+        symbolColor: .clear,
+        title: "Exemple",
+        infoRows: reproductionRows
+    )
+}

@@ -9,25 +9,28 @@ import SwiftUI
 import Charts
 
 struct BudgetElevageView: View {
+    @State var vmDepenses = DepenseViewModel()
     
-    @State var budget: Double = +79000
-    @State var depenses: [Depense] = depensesInitiales
+    @State var budget: Double = 79000
     
     @State var triCroissant = true
     @State var showAdd = false
     
+    // mode sélection
+    @State var modeSelection = false
+    @State var selection = [String]()
+    
     
     var totalDepenses: Double {
-        depenses.map{$0.total}.reduce(0,+)
+        vmDepenses.depenses.map{$0.total}.reduce(0,+)
     }
     
     var budgetRestant: Double {
         budget - totalDepenses
     }
     
-    
     var depensesTriees: [Depense] {
-        depenses.sorted {
+        vmDepenses.depenses.sorted {
             triCroissant ? $0.date < $1.date : $0.date > $1.date
         }
     }
@@ -41,7 +44,7 @@ struct BudgetElevageView: View {
                 
                 VStack(spacing: 20) {
                     
-                    // depense et rapport
+                    // budget
                     
                     VStack {
                         
@@ -72,9 +75,9 @@ struct BudgetElevageView: View {
                     }
                     
                     
-                    // graphique et courbe representatif
+                    // graphique
                     
-                    Chart(depensesTriees) { depense in
+                    Chart(depensesTriees, id: \.categorie) { depense in
                         
                         BarMark(
                             x: .value("Catégorie", depense.categorie),
@@ -86,14 +89,13 @@ struct BudgetElevageView: View {
                             y: .value("Total", depense.total)
                         )
                         .interpolationMethod(.catmullRom)
-                        
                     }
                     .frame(height: 250)
                     
                     
-                    // camambers
+                    // camembert
                     
-                    Chart(depenses) { depense in
+                    Chart(vmDepenses.depenses, id: \.categorie) { depense in
                         
                         SectorMark(
                             angle: .value("Total", depense.total)
@@ -104,40 +106,100 @@ struct BudgetElevageView: View {
                     .frame(height: 250)
                     
                     
-                    // liste facturation
+                    // liste factures
                     
                     VStack(alignment: .leading) {
                         
-                        Text("Factures")
-                            .font(.title2)
-                            .bold()
+                        HStack {
+                            
+                            Text("Factures")
+                                .font(.title2)
+                                .bold()
+                            
+                            Spacer()
+                            
+                            // bouton sélectionner
+                            
+                            Button(modeSelection ? "Annuler" : "Sélectionner") {
+                                modeSelection.toggle()
+                                selection.removeAll()
+                            }
+                            
+                        }
                         
                         ForEach(depensesTriees) { depense in
                             
-                            VStack(alignment: .leading) {
+                            HStack {
                                 
-                                Text(depense.categorie)
-                                    .font(.headline)
-                                
-                                HStack {
+                                VStack(alignment: .leading) {
                                     
-                                    Text("Coût : \(depense.cout, specifier: "%.0f") €")
+                                    Text(depense.categorie)
+                                        .font(.headline)
                                     
-                                    Spacer()
+                                    HStack {
+                                        
+                                        Text("Coût : \(depense.cout, specifier: "%.0f") €")
+                                        
+                                        Spacer()
+                                        
+                                        Text("Total : \(depense.total, specifier: "%.0f") €")
+                                            .foregroundColor(.blue)
+                                    }
                                     
-                                    Text("Total : \(depense.total, specifier: "%.0f") €")
-                                        .foregroundColor(.blue)
+                                    Text("Date : \(depense.date.formatted())")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
                                 }
                                 
-                                Text("Date : \(depense.date.formatted())")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
+                                Spacer()
+                                
+                                // ronds visibles seulement en mode sélection
+                                
+                                if modeSelection {
+                                    
+                                    Button {
+                                        
+                                        if selection.contains(depense.categorie) {
+                                            selection.remove(depense.categorie)
+                                        } else {
+                                            selection.append(depense.categorie)
+                                        }
+                                        
+                                    } label: {
+                                        
+                                        Image(systemName:
+                                                selection.contains(depense.categorie)
+                                              ? "checkmark.circle.fill"
+                                              : "circle")
+                                            .font(.title2)
+                                            .foregroundColor(.blue)
+                                    }
+                                }
                                 
                             }
                             .padding()
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(10)
                             
+                        }
+                        
+                        
+                        // bouton supprimer sélection
+                        
+                        if modeSelection && !selection.isEmpty {
+                            
+                            Button {
+                                supprimerSelection()
+                            } label: {
+                                
+                                Text("Supprimer \(selection.count) facture(s)")
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.red)
+                                    .cornerRadius(10)
+                                
+                            }
                         }
                         
                     }
@@ -156,13 +218,30 @@ struct BudgetElevageView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
-                
             }
             
-            .sheet(isPresented: $showAdd) {
-                AjouterDepenseView(depenses: $depenses)
+//            .sheet(isPresented: $showAdd) {
+//                AjouterDepenseView(depenses: $depenses)
+//            }
+        }.task {
+            do {
+                try await vmDepenses.getDepensess()
+            } catch {
+                print(error)
             }
         }
+    }
+        
+    
+    
+    func supprimerSelection() {
+        
+        vmDepenses.depenses.removeAll { depense in
+            selection.contains(depense.categorie)
+        }
+        
+        selection.removeAll()
+        modeSelection = false
     }
 }
 
