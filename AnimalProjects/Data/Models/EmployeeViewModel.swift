@@ -35,8 +35,11 @@ class EmployeeViewModel {
             decoder.dateDecodingStrategy = .iso8601
 
             let decoded = try decoder.decode(EmployeesResponse.self, from: data)
-            let employees = decoded.records.map{$0.fields}
-            
+            let employees = decoded.records.map{ record -> Employee in
+                let employee = record.fields
+                employee.recordID = record.id
+                return employee
+            }
             self.employees = employees
             //                        return animals
         } catch {
