@@ -22,8 +22,10 @@ struct AnimalDetails: View {
     }
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
+    @State var vmCalendar: CalendarViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
+    
     var prodRows: [InfoRow] {
         prodList.map { prod in
             InfoRow(
@@ -41,6 +43,15 @@ struct AnimalDetails: View {
         }
     }
     var reproRows: [InfoRow] = []
+    var calendarEvents: [CalendarEvent] {
+        healthList.map {
+            CalendarEvent(date: $0.date, color: .red)
+        }
+        +
+        prodList.map {
+            CalendarEvent(date: $0.date, color: .blue)
+        }
+    }
     var body: some View {
         ZStack {
             Color.grisFond
@@ -53,25 +64,25 @@ struct AnimalDetails: View {
                     .font(.system(size: 16))
                 HStack {
                     ZStack {
-                                            Circle()
-                                                .fill(Color.vertClair)
-                                                .frame(width: 120, height: 120)
-                                            if let url = animal.photo?.first?.url {
-                                                AsyncImage(url: url) { image in
-                                                    image
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .clipShape(Circle())
-                                                } placeholder: {
-                                                    ProgressView()
-                                                }
-                                                .frame(width: 120, height: 120)
-                                            } else {
-                                                Image(systemName: "pawprint.fill")
-                                                    .font(.system(size: 48))
-                                            }
-                                        }
-                                        .padding(20)
+                        Circle()
+                            .fill(Color.vertClair)
+                            .frame(width: 120, height: 120)
+                        if let url = animal.photo?.first?.url {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .clipShape(Circle())
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 120, height: 120)
+                        } else {
+                            Image(systemName: "pawprint.fill")
+                                .font(.system(size: 48))
+                        }
+                    }
+                    .padding(20)
 
                     VStack(alignment: .leading) {
 
@@ -94,7 +105,7 @@ struct AnimalDetails: View {
                 ScrollView(showsIndicators: false) {
                     VStack {
 
-                        CalendarMonthView()
+                        CalendarMonthView(viewModel: vmCalendar)
 
                         NavigationLink {
                             HealthView(
@@ -188,6 +199,7 @@ struct AnimalDetails: View {
                     }
                     healthList = aniList
                 }
+                vmCalendar.events = calendarEvents
             }
         }
     }

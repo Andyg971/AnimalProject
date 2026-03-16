@@ -5,8 +5,8 @@
 //  Created by Julia Canovas on 09/03/2026.
 //
 
-import SwiftUI
 import Observation
+import SwiftUI
 
 struct AnimalsResponse: Codable {
     let records: [AnimalRecord]
@@ -15,8 +15,6 @@ struct AnimalsResponse: Codable {
 struct AnimalRecord: Codable {
     let fields: Animal
 }
-
-
 
 class Animal: Codable, Identifiable {
     var id: Int
@@ -30,7 +28,7 @@ class Animal: Codable, Identifiable {
     var isPregnant: Bool?
     var productionIDs: [String]?
     var healthIDs: [String]?
-   
+
     init(
         id: Int,
         photo: [Attachment]? = nil,
@@ -43,24 +41,22 @@ class Animal: Codable, Identifiable {
         isPregnant: Bool = false,
         productionIDs: [String]? = nil,
         healthIDs: [String]? = nil
-        
-        
-    )
-    {
-            self.id = id
-            self.photo = photo
-            self.species = species
-            self.race = race
-            //        self.idNumber = idNumber
-            self.name = name
-            self.dateOfBirth = dateOfBirth
-            self.isMale = isMale
-            self.productionType = productionType
-            self.isPregnant = isPregnant
-            self.productionIDs = productionIDs
+
+    ) {
+        self.id = id
+        self.photo = photo
+        self.species = species
+        self.race = race
+        //        self.idNumber = idNumber
+        self.name = name
+        self.dateOfBirth = dateOfBirth
+        self.isMale = isMale
+        self.productionType = productionType
+        self.isPregnant = isPregnant
+        self.productionIDs = productionIDs
         self.healthIDs = healthIDs
 
-        }
+    }
     private enum CodingKeys: String, CodingKey {
         case id = "idNumber"
         case photo
@@ -94,7 +90,7 @@ struct ProductionField: Codable, Identifiable {
     let tP: Double?
     let cellCount: Int?
     let ketone: Int?
-    
+
     private enum CodingKeys: String, CodingKey {
         case id = "productionID"
         case date
@@ -106,8 +102,18 @@ struct ProductionField: Codable, Identifiable {
         case cellCount
         case ketone
     }
-    
-    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String, tB: Double? = nil, tP: Double? = nil, cellCount: Int? = nil, ketone: Int? = nil) {
+
+    init(
+        id: Int,
+        date: Date,
+        productionType: ProductionType,
+        amount: Double,
+        unit: String,
+        tB: Double? = nil,
+        tP: Double? = nil,
+        cellCount: Int? = nil,
+        ketone: Int? = nil
+    ) {
         self.id = id
         self.date = date
         self.productionType = productionType
@@ -127,9 +133,14 @@ class ProductionData: Identifiable {
     let productionType: ProductionType
     let amount: Double
     let unit: String
-    
-    
-    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String) {
+
+    init(
+        id: Int,
+        date: Date,
+        productionType: ProductionType,
+        amount: Double,
+        unit: String
+    ) {
         self.id = id
         self.date = date
         self.productionType = productionType
@@ -143,18 +154,31 @@ class ProductionMilk: ProductionData {
     let tP: Double
     let cellCount: Int
     let ketone: Int?
-    
-    
-    init(id: Int, date: Date, productionType: ProductionType, amount: Double, unit: String, tB: Double, tP: Double, cellCount: Int, ketone: Int? = nil) {
+
+    init(
+        id: Int,
+        date: Date,
+        productionType: ProductionType,
+        amount: Double,
+        unit: String,
+        tB: Double,
+        tP: Double,
+        cellCount: Int,
+        ketone: Int? = nil
+    ) {
         self.tB = tB
         self.tP = tP
         self.cellCount = cellCount
         self.ketone = ketone
-        super.init(id: id, date: date, productionType: productionType, amount: amount, unit: unit)
+        super.init(
+            id: id,
+            date: date,
+            productionType: productionType,
+            amount: amount,
+            unit: unit
+        )
     }
 }
-
-
 
 enum Species: String, Codable, CaseIterable, Identifiable {
     var id: RawValue { rawValue }
@@ -171,28 +195,28 @@ enum ProductionType: String, Codable, CaseIterable, Identifiable {
     case milk = "Lait"
     case wool = "Laine"
     case meat = "Viande"
-    
-    var symbol: String {
-            switch self {
-            case .milk:
-                "drop.fill"
-            case .meat:
-                "fork.knife"
-            case .wool:
-                "line.3.crossed.swirl.circle.fill"
-            }
-        }
 
-        var color: Color {
-            switch self {
-            case .milk:
-                .white
-            case .meat:
-                .red
-            case .wool:
-                .gray
-            }
+    var symbol: String {
+        switch self {
+        case .milk:
+            "drop.fill"
+        case .meat:
+            "fork.knife"
+        case .wool:
+            "line.3.crossed.swirl.circle.fill"
         }
+    }
+
+    var color: Color {
+        switch self {
+        case .milk:
+            .white
+        case .meat:
+            .red
+        case .wool:
+            .gray
+        }
+    }
 }
 
 func convertProduction(_ record: ProductionRecord) -> ProductionData {
@@ -210,7 +234,13 @@ func convertProduction(_ record: ProductionRecord) -> ProductionData {
             ketone: fields.ketone
         )
     } else {
-        return ProductionData(id: fields.id, date: fields.date, productionType: fields.productionType, amount: fields.amount, unit: fields.unit)
+        return ProductionData(
+            id: fields.id,
+            date: fields.date,
+            productionType: fields.productionType,
+            amount: fields.amount,
+            unit: fields.unit
+        )
     }
 }
 
@@ -219,9 +249,9 @@ let animalTest = Animal(
     species: .bovine,
     race: "RaceExemple",
     productionType: .milk,
-//    productionIDs: [InfoRow(
-//        label: "00/00/00",
-//        value: "00 L ou kg")]
+    //    productionIDs: [InfoRow(
+    //        label: "00/00/00",
+    //        value: "00 L ou kg")]
 )
 
 struct InfoRow: Identifiable {

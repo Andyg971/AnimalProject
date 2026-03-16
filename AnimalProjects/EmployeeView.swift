@@ -17,8 +17,8 @@ struct EmployeeView: View {
             return viewModel.employees
                 .filter {
                     $0.firstName.localizedCaseInsensitiveContains(search)
-                    || $0.lastName.localizedCaseInsensitiveContains(search)
-                    || $0.position.localizedCaseInsensitiveContains(search)
+                        || $0.lastName.localizedCaseInsensitiveContains(search)
+                        || $0.position.localizedCaseInsensitiveContains(search)
                 }
                 .sorted { $0.lastName < $1.lastName }
         }
@@ -33,11 +33,11 @@ struct EmployeeView: View {
 
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
-                        ForEach(filteredEmployees)  { employee in
-//                            viewModel.employees.sorted {
-//                                $0.lastName < $1.lastName
-//                            }
-                      
+                        ForEach(filteredEmployees) { employee in
+                            //                            viewModel.employees.sorted {
+                            //                                $0.lastName < $1.lastName
+                            //                            }
+
                             NavigationLink {
                                 EmployeeDetailView(employee: employee)
                             } label: {
