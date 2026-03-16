@@ -32,18 +32,18 @@ struct DocumentDetailView: View {
 
                     // Détails
                     VStack(spacing: 12) {
-                        DetailRowView(
+                        EmpDetailRowView(
                             title: "Type",
                             value: document.type.rawValue
                         )
                         if let date = document.date {
-                            DetailRowView(
+                            EmpDetailRowView(
                                 title: "Date",
                                 value: date.formatted(date: .long, time: .omitted)
                             )
                         }
                         if let description = document.description {
-                            DetailRowView(
+                            EmpDetailRowView(
                                 title: "Résumé",
                                 value: description
                             )

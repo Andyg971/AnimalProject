@@ -39,28 +39,28 @@ struct HealthDetailView: View {
 
                     
                     VStack(spacing: 12) {
-                        DetailRowView(
+                        EmpDetailRowView(
                             title: "Type",
                             value: item.type
                         )
-                        DetailRowView(
+                        EmpDetailRowView(
                             title: "Statut",
                             value: item.status
                         )
 //                        if let date = item.date {
-                            DetailRowView(
+                            EmpDetailRowView(
                                 title: "Date",
                                 value: item.date.formatted(date: .long, time: .omitted)
                             )
 //                        }
                         if let nextDate = item.nextDate {
-                            DetailRowView(
+                            EmpDetailRowView(
                                 title: "Prochaine date",
                                 value: nextDate.formatted(date: .long, time: .omitted)
                             )
                         }
                         if let notes = item.notes {
-                            DetailRowView(
+                            EmpDetailRowView(
                                 title: "Notes",
                                 value: notes
                             )

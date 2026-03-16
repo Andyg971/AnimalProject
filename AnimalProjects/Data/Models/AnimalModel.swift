@@ -20,7 +20,7 @@ struct AnimalRecord: Codable {
 
 class Animal: Codable, Identifiable {
     var id: Int
-    var photo: String?
+    var photo: [Attachment]?
     let species: Species
     let race: String
     let name: String?
@@ -33,7 +33,7 @@ class Animal: Codable, Identifiable {
    
     init(
         id: Int,
-        photo: String? = nil,
+        photo: [Attachment]? = nil,
         species: Species,
         race: String,
         name: String? = nil,

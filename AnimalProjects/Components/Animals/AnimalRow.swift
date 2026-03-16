@@ -10,9 +10,21 @@ struct AnimalRow: View {
     let animal: Animal
     var body: some View {
         HStack {
-            Image(systemName:"pawprint")
-                .frame(width:40)
-
+            if let url = animal.photo?.first?.url {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 40, height: 40)
+            } else {
+                
+                Image(systemName:"pawprint")
+                    .frame(width:40)
+            }
             VStack(alignment: .leading) {
                 HStack {
                     Text("\(animal.id)")
