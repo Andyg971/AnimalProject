@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailRowView: View {
+struct EmpDetailRowView: View {
     let title: String
     let value: String
     var body: some View {
@@ -25,5 +25,5 @@ struct DetailRowView: View {
 }
 
 #Preview {
-    DetailRowView(title: "Email", value: "pierre.martin@domaine.fr")
+    EmpDetailRowView(title: "Email", value: "pierre.martin@domaine.fr")
 }
