@@ -24,6 +24,7 @@ struct AnimalDetails: View {
     @State var vmHealth: HealthViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
+
     var prodRows: [InfoRow] {
         prodList.map { prod in
             InfoRow(
@@ -41,6 +42,14 @@ struct AnimalDetails: View {
         }
     }
     var reproRows: [InfoRow] = []
+    var calendarEvents: [CalendarEvent] {
+        healthList.map {
+            CalendarEvent(date: $0.date, color: .red)
+        }
+            + prodList.map {
+                CalendarEvent(date: $0.date, color: .blue)
+            }
+    }
     var body: some View {
         ZStack {
             Color.grisFond
@@ -134,24 +143,29 @@ struct AnimalDetails: View {
                                 ]
                                 : Array(reproRows.prefix(3))
                         )
-
-                        DetailCard(
-                            icon: "chart.bar.xaxis",
-                            color: .blue,
-                            symbol: animal.productionType?.symbol ?? "",
-                            symbolColor: animal.productionType?.color ?? .clear,
-                            title: "Production",
-                            infoRows: prodRows.isEmpty
-                                ? [
-                                    InfoRow(
-                                        label: "Aucune production enregistrée",
-                                        value: ""
-                                    )
-                                ]
-                                : Array(prodRows.prefix(3))
-                        )
+                        NavigationLink {
+                            ProductionView(animal: animal)
+                        } label: {
+                            DetailCard(
+                                icon: "chart.bar.xaxis",
+                                color: .blue,
+                                symbol: animal.productionType?.symbol ?? "",
+                                symbolColor: animal.productionType?.color
+                                    ?? .clear,
+                                title: "Production",
+                                infoRows: prodRows.isEmpty
+                                    ? [
+                                        InfoRow(
+                                            label:
+                                                "Aucune production enregistrée",
+                                            value: ""
+                                        )
+                                    ]
+                                    : Array(prodRows.prefix(3))
+                            )
+                        }.foregroundColor(.black)
                     }
-                    .navigationTitle("Détails de l'animal")
+                    .navigationTitle("Détails de \(animal.name ?? "l'animal")")
                     .navigationBarTitleDisplayMode(.inline)
                 }
 
