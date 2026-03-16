@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarMonthView: View {
     @State var selectedDate = Date()
-    @State var viewModel = CalendarViewModel()
+    @Bindable var viewModel: CalendarViewModel
     var body: some View {
 
         VStack(spacing: 8) {
