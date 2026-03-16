@@ -5,6 +5,7 @@
 //  Created by apprenant79 on 10/03/2026.
 //
 
+import ElegantCalendar
 import SwiftUI
 
 struct AnimalDetails: View {
@@ -85,8 +86,12 @@ struct AnimalDetails: View {
                         }
                     }
                 }
+
                 ScrollView(showsIndicators: false) {
                     VStack {
+
+                        CalendarMonthView()
+
                         NavigationLink {
                             HealthView(
                                 filteredItems: healthList,
@@ -123,7 +128,7 @@ struct AnimalDetails: View {
                                         value: ""
                                     )
                                 ]
-                                : Array(prodRows.prefix(3))
+                                : Array(reproRows.prefix(3))
                         )
 
                         DetailCard(
