@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		8FDBFDAE2F68047200C762A2 /* ElegantCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 8FDBFDAD2F68047200C762A2 /* ElegantCalendar */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		ED54C4812F58602D0075BF81 /* AnimalProjects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalProjects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -27,7 +23,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FDBFDAE2F68047200C762A2 /* ElegantCalendar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +65,6 @@
 			);
 			name = AnimalProjects;
 			packageProductDependencies = (
-				8FDBFDAD2F68047200C762A2 /* ElegantCalendar */,
 			);
 			productName = AnimalProjects;
 			productReference = ED54C4812F58602D0075BF81 /* AnimalProjects.app */;
@@ -101,7 +95,6 @@
 			mainGroup = ED54C4782F58602D0075BF81;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				8FDBFDAC2F68047200C762A2 /* XCRemoteSwiftPackageReference "ElegantCalendar" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ED54C4822F58602D0075BF81 /* Products */;
@@ -341,25 +334,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		8FDBFDAC2F68047200C762A2 /* XCRemoteSwiftPackageReference "ElegantCalendar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ThasianX/ElegantCalendar";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		8FDBFDAD2F68047200C762A2 /* ElegantCalendar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8FDBFDAC2F68047200C762A2 /* XCRemoteSwiftPackageReference "ElegantCalendar" */;
-			productName = ElegantCalendar;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ED54C4792F58602D0075BF81 /* Project object */;
 }

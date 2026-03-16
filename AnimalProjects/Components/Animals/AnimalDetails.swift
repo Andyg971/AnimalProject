@@ -52,11 +52,27 @@ struct AnimalDetails: View {
                 Text("\(animal.species.rawValue) (\(animal.race))")
                     .font(.system(size: 16))
                 HStack {
-                    Image(systemName: "questionmark")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                        .padding(16)
+                    ZStack {
+                                            Circle()
+                                                .fill(Color.vertClair)
+                                                .frame(width: 120, height: 120)
+                                            if let url = animal.photo?.first?.url {
+                                                AsyncImage(url: url) { image in
+                                                    image
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                        .clipShape(Circle())
+                                                } placeholder: {
+                                                    ProgressView()
+                                                }
+                                                .frame(width: 120, height: 120)
+                                            } else {
+                                                Image(systemName: "pawprint.fill")
+                                                    .font(.system(size: 48))
+                                            }
+                                        }
+                                        .padding(20)
+
                     VStack(alignment: .leading) {
 
                         Text("ID : \(animal.id)")
