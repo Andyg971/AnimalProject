@@ -10,7 +10,7 @@ import SwiftUI
 struct EmployeeDetailView: View {
     @State var vmExploitation: ExploitationViewModel = .init()
     @State var exploitation: ExploitationField = ExploitationField(farmName: "Na", farmPlace: "", farmType: [])
-    @State var vmTask: TaskViewModel = .init()
+        @State var vmTask: TaskViewModel = .init()
      let employee: Employee
     var body: some View {
         

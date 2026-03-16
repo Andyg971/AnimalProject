@@ -46,30 +46,34 @@ struct AnimalDetails: View {
             Color.grisFond
                 .ignoresSafeArea()
             VStack {
+                Text(animal.name ?? "")
+                    .padding(.top, 32)
+                    .font(.system(size: 20, weight: .bold))
+                Text("\(animal.species.rawValue) (\(animal.race))")
+                    .font(.system(size: 16))
+                HStack {
+                    ZStack {
+                                            Circle()
+                                                .fill(Color.vertClair)
+                                                .frame(width: 120, height: 120)
+                                            if let url = animal.photo?.first?.url {
+                                                AsyncImage(url: url) { image in
+                                                    image
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                        .clipShape(Circle())
+                                                } placeholder: {
+                                                    ProgressView()
+                                                }
+                                                .frame(width: 120, height: 120)
+                                            } else {
+                                                Image(systemName: "pawprint.fill")
+                                                    .font(.system(size: 48))
+                                            }
+                                        }
+                                        .padding(20)
 
-                ScrollView(showsIndicators: false) {
-                    VStack {
-
-                        ZStack {
-                            Circle()
-                                .fill(Color.vertClair)
-                                .frame(width: 120, height: 120)
-                            if let url = animal.photo?.first?.url {
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipShape(Circle())
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(width: 120, height: 120)
-                            } else {
-                                Image(systemName: "pawprint.fill")
-                                    .font(.system(size: 48))
-                            }
-                        }
-                        .padding(20)
+                    VStack(alignment: .leading) {
 
                         Text("ID : \(animal.id)")
                             .font(.system(size: 20, weight: .bold))
