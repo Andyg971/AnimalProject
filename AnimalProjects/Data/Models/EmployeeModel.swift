@@ -28,14 +28,14 @@ class Employee: Codable, Identifiable {
     var email: String
     var exploitation: [String]?
     var city: String?
-//    var farmPlace: String?
+    //    var farmPlace: String?
     var tasks: [String]?
     var recordID: String?
     var bioUser: String?
     var photosUser: [Attachment]?
     
     private enum CodingKeys: String, CodingKey {
-    case id = "employeeID"
+        case id = "employeeID"
         case firstName
         case lastName
         case photo
@@ -45,7 +45,7 @@ class Employee: Codable, Identifiable {
         case email
         case exploitation
         case city
-//        case farmPlace
+        //        case farmPlace
         case tasks
         case recordID
         case bioUser
@@ -53,7 +53,7 @@ class Employee: Codable, Identifiable {
     }
     init(
         id: Int,
-        
+
         firstName: String,
         lastName: String,
         photo: [Attachment],
@@ -63,7 +63,7 @@ class Employee: Codable, Identifiable {
         email: String,
         exploitation: [String]? = nil,
         city: String? = nil,
-//        farmPlace: String? = nil,
+        //        farmPlace: String? = nil,
         tasks: [String]? = nil,
         recordID: String? = nil,
         bioUser: String? = nil,
@@ -71,7 +71,7 @@ class Employee: Codable, Identifiable {
         
     ) {
         self.id = id
-        
+
         self.firstName = firstName
         self.lastName = lastName
         self.photo = photo
@@ -81,7 +81,7 @@ class Employee: Codable, Identifiable {
         self.email = email
         self.exploitation = exploitation
         self.city = city
-//        self.farmPlace = farmPlace
+        //        self.farmPlace = farmPlace
         self.tasks = tasks
         self.recordID = recordID
         self.bioUser = bioUser
@@ -93,17 +93,17 @@ struct ExploitationResponse: Codable {
 }
 struct ExploitationRecord: Codable, Identifiable {
     let id: String
-//    let createdTime: Date
+    //    let createdTime: Date
     let fields: ExploitationField
 }
 struct ExploitationField: Codable {
     var farmName: String
     let farmPlace: String
     let farmType: [String]
-    
-//    private enum CondingKeys: String, CodingKey {
-//        case id = "farmName"
-//        case farmPlace
-//        case farmType
-//    }
+
+    //    private enum CondingKeys: String, CodingKey {
+    //        case id = "farmName"
+    //        case farmPlace
+    //        case farmType
+    //    }
 }

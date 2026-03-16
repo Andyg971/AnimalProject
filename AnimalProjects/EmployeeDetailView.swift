@@ -9,16 +9,20 @@ import SwiftUI
 
 struct EmployeeDetailView: View {
     @State var vmExploitation: ExploitationViewModel = .init()
-    @State var exploitation: ExploitationField = ExploitationField(farmName: "Na", farmPlace: "", farmType: [])
-        @State var vmTask: TaskViewModel = .init()
-     let employee: Employee
+    @State var exploitation: ExploitationField = ExploitationField(
+        farmName: "Na",
+        farmPlace: "",
+        farmType: []
+    )
+    @State var vmTask: TaskViewModel = .init()
+    let employee: Employee
 
     var body: some View {
-        
+
         ZStack {
             Color.grisFond
                 .ignoresSafeArea()
-            
+
             NavigationStack {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 10) {
@@ -37,56 +41,75 @@ struct EmployeeDetailView: View {
                                 }
                                 .frame(width: 120, height: 120)
                             } else {
-                                Image(systemName:"person.fill")
-                                    .font(.system(size:48))
+                                Image(systemName: "person.fill")
+                                    .font(.system(size: 48))
                             }
                         }
                         .padding(20)
-                        
-                        VStack(spacing:8) {
+
+                        VStack(spacing: 8) {
                             Text("\(employee.firstName) \(employee.lastName)")
-                                .font(.system(size:24, weight: .bold))
-                            Text (employee.position)
-                                .font(.system(size:20, weight: .bold))
+                                .font(.system(size: 24, weight: .bold))
+                            Text(employee.position)
+                                .font(.system(size: 20, weight: .bold))
                                 .foregroundStyle(Color.vertAccent)
                         }
-                        VStack(spacing:12) {
-                           
-                                EmpDetailRowView(title:"Exploitation", value: exploitation.farmName)
-                            EmpDetailRowView(title:"Localisation", value: exploitation.farmPlace)
-                            EmpDetailRowView(title: "Zone",
-                                          value: employee.zone?.joined(separator: ", ") ?? "Non renseigné")
+                        VStack(spacing: 12) {
+
+                            EmpDetailRowView(
+                                title: "Exploitation",
+                                value: exploitation.farmName
+                            )
+                            EmpDetailRowView(
+                                title: "Localisation",
+                                value: exploitation.farmPlace
+                            )
+                            EmpDetailRowView(
+                                title: "Zone",
+                                value: employee.zone?.joined(separator: ", ")
+                                    ?? "Non renseigné"
+                            )
                         }
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Tâches")
                                 .font(.system(size: 20, weight: .bold))
                                 .foregroundStyle(Color.vertAccent)
-                            
-                            if vmTask.tasks.filter({ $0.assignedTo?.contains(employee.recordID ?? "") ?? false}).isEmpty {
+
+                            if vmTask.tasks.filter({
+                                $0.assignedTo?.contains(employee.recordID ?? "")
+                                    ?? false
+                            }).isEmpty {
                                 Text("Aucune tâche assignée")
                                     .foregroundStyle(.secondary)
                             } else {
-                                ForEach(vmTask.tasks.filter { task in
-                                    task.assignedTo?.contains(employee.recordID ?? "") ?? false
-                                }) { task in
+                                ForEach(
+                                    vmTask.tasks.filter { task in
+                                        task.assignedTo?.contains(
+                                            employee.recordID ?? ""
+                                        ) ?? false
+                                    }
+                                ) { task in
                                     TaskRowView(task: task, vmTask: vmTask)
                                         .padding(.vertical, 4)
                                 }
-                                }
                             }
+                        }
                     }
                 }
                 .navigationTitle("Profil")
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
-        .task{
-            if let exploitationID = employee.exploitation?.first{
-               
+        .task {
+            if let exploitationID = employee.exploitation?.first {
+
                 do {
-                    self.exploitation = try await vmExploitation.getExploitationByID(id: exploitationID)
-                
-                }catch{
+                    self.exploitation =
+                        try await vmExploitation.getExploitationByID(
+                            id: exploitationID
+                        )
+
+                } catch {
                     print(error)
                 }
             }

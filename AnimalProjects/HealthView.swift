@@ -38,7 +38,12 @@ struct HealthView: View {
 
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(item.title)
-                                            .font(.system(size: 16, weight: .semibold))
+                                            .font(
+                                                .system(
+                                                    size: 16,
+                                                    weight: .semibold
+                                                )
+                                            )
                                             .foregroundStyle(.primary)
 
                                         if let name = item.animalName?.first {
@@ -55,13 +60,20 @@ struct HealthView: View {
                                     Spacer()
 
                                     Image(systemName: "chevron.right")
-                                        .font(.system(size: 14, weight: .medium))
+                                        .font(
+                                            .system(size: 14, weight: .medium)
+                                        )
                                         .foregroundStyle(.gray)
                                 }
                                 .padding(16)
                                 .background(.white)
                                 .cornerRadius(14)
-                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
+                                .shadow(
+                                    color: .black.opacity(0.06),
+                                    radius: 8,
+                                    x: 0,
+                                    y: 2
+                                )
                                 .padding(.horizontal, 16)
                             }
                             .buttonStyle(.plain)
@@ -78,7 +90,9 @@ struct HealthView: View {
                         }
                     }
                 }
-                .navigationTitle(animalName != nil ? "Santé - \(animalName!)" : "Santé")
+                .navigationTitle(
+                    animalName != nil ? "Santé - \(animalName!)" : "Santé"
+                )
                 .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
