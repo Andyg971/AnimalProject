@@ -119,19 +119,5 @@ struct EmployeeDetailView: View {
 }
 
 #Preview {
-    EmployeeDetailView(
-        employee: Employee(
-            id: 9,
-            firstName: "Thomas",
-            lastName: "Faure",
-            photo: [],
-            position: "Conducteur d'élevage",
-            zone: ["Infirmarie", "Bâtiment d'élevage"],
-            userName: "",
-            email: "",
-            exploitation: ["recqRtgdpGSlWGC5B"],
-            city: "",
-            recordID: "recqRtgdpGSlWGC5B"
-        )
-    )
+    EmployeeDetailView(employee: Employee(id: 9, firstName: "Thomas", lastName: "Faure", photo:[], position: "Conducteur d'élevage", zone: ["Infirmerie", "Bâtiment d'élevage"], userName: "", email: "", exploitation: ["recqRtgdpGSlWGC5B"], city: "", recordID: "recqRtgdpGSlWGC5B"))
 }
