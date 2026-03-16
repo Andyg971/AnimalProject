@@ -31,34 +31,37 @@ struct CommunityView: View {
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
                         ForEach(filteredCategory) { category in
-                            HStack {
-                                Image(systemName: "person")
-                                    .frame(width: 40)
-                                VStack(alignment: .leading) {
-                                    Text(category.title)
-                                        .font(.system(size: 20, weight: .bold))
-                                    Text(category.description)
-                                        .font(.system(size: 16))
-                                }
-                                Spacer()
-
-                            }.padding(24)
-                                .background(
-                                    LinearGradient(
-                                        colors: [
-                                            .gray
-                                                .opacity(0.1),
-                                            .gray
-                                                .opacity(0.3),
-                                        ],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
+                            NavigationLink{
+                                DiscussionListView(category: category)
+                            } label:{
+                                HStack {
+                                    Image(systemName: "person")
+                                        .frame(width: 40)
+                                    VStack(alignment: .leading) {
+                                        Text(category.title)
+                                            .font(.system(size: 20, weight: .bold))
+                                        Text(category.description)
+                                            .font(.system(size: 16))
+                                    }
+                                    Spacer()
+                                    
+                                }.padding(24)
+                                    .background(
+                                        LinearGradient(
+                                            colors: [
+                                                .gray
+                                                    .opacity(0.1),
+                                                .gray
+                                                    .opacity(0.3),
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
                                     )
-                                )
-                                .cornerRadius(16)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 4)
-
+                                    .cornerRadius(16)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 4)
+                            }
                         }
 
                     }
