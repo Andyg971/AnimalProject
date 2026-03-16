@@ -31,6 +31,8 @@ class Employee: Codable, Identifiable {
 //    var farmPlace: String?
     var tasks: [String]?
     var recordID: String?
+    var bioUser: String?
+    var photosUser: [Attachment]?
     
     private enum CodingKeys: String, CodingKey {
     case id = "employeeID"
@@ -46,6 +48,8 @@ class Employee: Codable, Identifiable {
 //        case farmPlace
         case tasks
         case recordID
+        case bioUser
+        case photosUser
     }
     init(
         id: Int,
@@ -61,7 +65,9 @@ class Employee: Codable, Identifiable {
         city: String? = nil,
 //        farmPlace: String? = nil,
         tasks: [String]? = nil,
-        recordID: String? = nil
+        recordID: String? = nil,
+        bioUser: String? = nil,
+        photosUser: [Attachment]? = nil
         
     ) {
         self.id = id
@@ -78,6 +84,8 @@ class Employee: Codable, Identifiable {
 //        self.farmPlace = farmPlace
         self.tasks = tasks
         self.recordID = recordID
+        self.bioUser = bioUser
+        self.photosUser = photosUser
     }
 }
 struct ExploitationResponse: Codable {

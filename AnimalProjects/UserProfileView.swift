@@ -1,17 +1,18 @@
 //
-//  EmployeeDetailView.swift
+//  UserProfile.swift
 //  AnimalProjects
 //
-//  Created by Julia Canovas on 10/03/2026.
+//  Created by Julia Canovas on 16/03/2026.
 //
 
 import SwiftUI
 
-struct EmployeeDetailView: View {
+struct UserProfileView: View {
     @State var vmExploitation: ExploitationViewModel = .init()
     @State var exploitation: ExploitationField = ExploitationField(farmName: "Na", farmPlace: "", farmType: [])
-        @State var vmTask: TaskViewModel = .init()
+    
      let employee: Employee
+
     var body: some View {
         
         ZStack {
@@ -51,28 +52,30 @@ struct EmployeeDetailView: View {
                         }
                         VStack(spacing:12) {
                            
-                                EmpDetailRowView(title:"Exploitation", value: exploitation.farmName)
-                            EmpDetailRowView(title:"Localisation", value: exploitation.farmPlace)
-                            EmpDetailRowView(title: "Zone",
-                                          value: employee.zone?.joined(separator: ", ") ?? "Non renseigné")
-                        }
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Tâches")
-                                .font(.system(size: 20, weight: .bold))
-                                .foregroundStyle(Color.vertAccent)
+                            EmpDetailRowView(title:"Nom d'utilisateur", value: employee.userName)
+                            EmpDetailRowView(title:"email", value: employee.email)
+                            EmpDetailRowView(title: "ville",
+                                          value: employee.city ?? "Non renseigné")
+                            EmpDetailRowView(title: "Exploitation", value: exploitation.farmName)
                             
-                            if vmTask.tasks.filter({ $0.assignedTo?.contains(employee.recordID ?? "") ?? false}).isEmpty {
-                                Text("Aucune tâche assignée")
-                                    .foregroundStyle(.secondary)
-                            } else {
-                                ForEach(vmTask.tasks.filter { task in
-                                    task.assignedTo?.contains(employee.recordID ?? "") ?? false
-                                }) { task in
-                                    TaskRowView(task: task, vmTask: vmTask)
-                                        .padding(.vertical, 4)
-                                }
-                                }
-                            }
+                        }
+//                        VStack(alignment: .leading, spacing: 12) {
+//                            Text("Tâches")
+//                                .font(.system(size: 20, weight: .bold))
+//                                .foregroundStyle(Color.vertAccent)
+//                            
+//                            if vmTask.tasks.filter({ $0.assignedTo?.contains(employee.recordID ?? "") ?? false}).isEmpty {
+//                                Text("Aucune tâche assignée")
+//                                    .foregroundStyle(.secondary)
+//                            } else {
+//                                ForEach(vmTask.tasks.filter { task in
+//                                    task.assignedTo?.contains(employee.recordID ?? "") ?? false
+//                                }) { task in
+//                                    TaskRowView(task: task, vmTask: vmTask)
+//                                        .padding(.vertical, 4)
+//                                }
+//                                }
+//                            }
                     }
                 }
                 .navigationTitle("Profil")
@@ -89,11 +92,12 @@ struct EmployeeDetailView: View {
                     print(error)
                 }
             }
-            await vmTask.fetchTasks()
+//            await vmTask.fetchTasks()
         }
     }
 }
 
 #Preview {
-    EmployeeDetailView(employee: Employee(id: 9, firstName: "Thomas", lastName: "Faure", photo:[], position: "Conducteur d'élevage", zone: ["Infirmerie", "Bâtiment d'élevage"], userName: "", email: "", exploitation: ["recqRtgdpGSlWGC5B"], city: "", recordID: "recqRtgdpGSlWGC5B"))
+    UserProfileView(employee: Employee(id: 9, firstName: "Thomas", lastName: "Faure", photo:[], position: "Conducteur d'élevage", zone: ["Infirmarie", "Bâtiment d'élevage"], userName: "thomasf", email: "thomas.faure@domaine-soleil.fr", exploitation: ["recqRtgdpGSlWGC5B"], city: "Sainte-Foy-lès-Lyon", recordID: "recqRtgdpGSlWGC5B"))
 }
+
