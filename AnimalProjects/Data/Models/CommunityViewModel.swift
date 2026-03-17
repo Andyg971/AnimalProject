@@ -37,10 +37,8 @@ class CommunityViewModel {
             let communityCategory = decoded.records.map{$0.fields}
            
             self.communityCategory = communityCategory
-            //                        return animals
         } catch {
             print("Échec du décodage: \(error)")
-            //                        throw error
         }
     }
 }
