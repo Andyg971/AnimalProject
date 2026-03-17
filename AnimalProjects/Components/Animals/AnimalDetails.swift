@@ -24,6 +24,7 @@ struct AnimalDetails: View {
     @State var vmHealth: HealthViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
+    @State private var isCalendarExpanded = false
 
     var prodRows: [InfoRow] {
         prodList.map { prod in
@@ -101,108 +102,136 @@ struct AnimalDetails: View {
                 }
 
                 ScrollView(showsIndicators: false) {
-                    VStack {
-
-                        CalendarMonthView()
-
-                        NavigationLink {
-                            HealthView(
-                                filteredItems: healthList,
-                                animalName: animal.name
-                            )
+                    VStack(alignment: .leading) {
+                        Button {
+                            withAnimation {
+                                isCalendarExpanded.toggle()
+                            }
                         } label: {
-                            DetailCard(
-                                icon: "cross.case.fill",
-                                color: .red,
-                                symbol: "",
-                                symbolColor: .vertAccent,
-                                title: "Santé",
-                                infoRows: healthRows.isEmpty
-                                    ? [
-                                        InfoRow(
-                                            label: "Aucune donnée de santé",
-                                            value: ""
-                                        )
-                                    ] : Array(healthRows.prefix(3))
-                            ).foregroundColor(.black)
+                            HStack {
+                                Image(systemName: "calendar")
+                                Text(isCalendarExpanded
+                                     ? "Cacher le calendrier" : "Afficher le calendrier")
+                                    .font(.system(size: 18, weight: .bold))
+                                
+                                Spacer()
+                                Image(
+                                    systemName: isCalendarExpanded
+                                        ? "chevron.up" : "chevron.down"
+                                )
+                            }
+                            .padding()
+                            .foregroundColor(.vertAccent)
+                            .cornerRadius(12)
                         }
 
+                        if isCalendarExpanded {
+                            CalendarMonthView(viewModel: vmCalendar)
+                                .transition(
+                                    .opacity.combined(with: .move(edge: .top))
+                                )
+                        }
+                    }
+                    .padding(.horizontal)
+
+                    NavigationLink {
+                        HealthView(
+                            filteredItems: healthList,
+                            animalName: animal.name
+                        )
+                    } label: {
                         DetailCard(
-                            icon: "microbe.fill",
-                            color: .vertAccent,
+                            icon: "cross.case.fill",
+                            color: .red,
                             symbol: "",
-                            symbolColor: .clear,
-                            title: "Reproduction",
-                            infoRows: reproRows.isEmpty
+                            symbolColor: .vertAccent,
+                            title: "Santé",
+                            infoRows: healthRows.isEmpty
+                                ? [
+                                    InfoRow(
+                                        label: "Aucune donnée de santé",
+                                        value: ""
+                                    )
+                                ] : Array(healthRows.prefix(3))
+                        ).foregroundColor(.black)
+                    }
+
+                    DetailCard(
+                        icon: "microbe.fill",
+                        color: .vertAccent,
+                        symbol: "",
+                        symbolColor: .clear,
+                        title: "Reproduction",
+                        infoRows: reproRows.isEmpty
+                            ? [
+                                InfoRow(
+                                    label:
+                                        "Aucune information de reproduction",
+                                    value: ""
+                                )
+                            ]
+                            : Array(reproRows.prefix(3))
+                    )
+                    NavigationLink {
+                        ProductionView(animal: animal)
+                    } label: {
+                        DetailCard(
+                            icon: "chart.bar.xaxis",
+                            color: .blue,
+                            symbol: animal.productionType?.symbol ?? "",
+                            symbolColor: animal.productionType?.color
+                                ?? .clear,
+                            title: "Production",
+                            infoRows: prodRows.isEmpty
                                 ? [
                                     InfoRow(
                                         label:
-                                            "Aucune information de reproduction",
+                                            "Aucune production enregistrée",
                                         value: ""
                                     )
                                 ]
-                                : Array(reproRows.prefix(3))
+                                : Array(prodRows.prefix(3))
                         )
-                        NavigationLink {
-                            ProductionView(animal: animal)
-                        } label: {
-                            DetailCard(
-                                icon: "chart.bar.xaxis",
-                                color: .blue,
-                                symbol: animal.productionType?.symbol ?? "",
-                                symbolColor: animal.productionType?.color
-                                    ?? .clear,
-                                title: "Production",
-                                infoRows: prodRows.isEmpty
-                                    ? [
-                                        InfoRow(
-                                            label:
-                                                "Aucune production enregistrée",
-                                            value: ""
-                                        )
-                                    ]
-                                    : Array(prodRows.prefix(3))
-                            )
-                        }.foregroundColor(.black)
-                    }
-                    .navigationTitle("Détails de \(animal.name ?? "l'animal")")
-                    .navigationBarTitleDisplayMode(.inline)
+                    }.foregroundColor(.black)
                 }
+                .navigationTitle("Détails de \(animal.name ?? "l'animal")")
+                .navigationBarTitleDisplayMode(.inline)
+            }
 
-            }.task {
-                if let animalID = animal.productionIDs {
-                    var aniList = [ProductionData]()
-                    for id in animalID {
+        }.task {
+            if let animalID = animal.productionIDs {
+                var aniList = [ProductionData]()
+                for id in animalID {
 
-                        do {
-                            let result =
-                                try await vmProduction.getProductionByID(
-                                    id: id
-                                )
-                            aniList.append(result)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                    prodList = aniList
-                }
-
-                if let animalID = animal.healthIDs {
-                    var aniList = [HealthItem]()
-                    for id in animalID {
-
-                        do {
-                            let result = try await vmHealth.getHealthByID(
+                    do {
+                        let result =
+                            try await vmProduction.getProductionByID(
                                 id: id
                             )
-                            aniList.append(result)
-                        } catch {
-                            print(error)
-                        }
+                        aniList.append(result)
+                    } catch {
+                        print(error)
                     }
-                    healthList = aniList
                 }
+                prodList = aniList
             }
+
+            if let animalID = animal.healthIDs {
+                var aniList = [HealthItem]()
+                for id in animalID {
+
+                    do {
+                        let result = try await vmHealth.getHealthByID(
+                            id: id
+                        )
+                        aniList.append(result)
+                    } catch {
+                        print(error)
+                    }
+                }
+                healthList = aniList
+            }
+            vmCalendar.events = calendarEvents
         }
     }
 }
