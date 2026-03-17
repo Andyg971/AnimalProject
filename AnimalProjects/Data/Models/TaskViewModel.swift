@@ -50,39 +50,3 @@ class TaskViewModel {
         }
     }
 }
-    
-//    func updateTaskCompletion(task: TaskField) async {
-//guard let recordID = task.recordID else { return }
-//
-//        let url = URL(string:"https://api.airtable.com/v0/appnYAHRHXyCtWA4a/Tasks/\(recordID)")!
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "PATCH"
-//
-//        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let newValue = !(task.completed ?? false)
-//
-//        let body: [String: Any] = [
-//            "fields": [
-//                "completed": newValue
-//            ]
-//        ]
-//
-//        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-//
-//        do {
-//
-//            let (_, _) = try await URLSession.shared.data(for: request)
-//
-//            await fetchTasks()
-//
-//        } catch {
-//
-//            print(error)
-//
-//        }
-
-//    }
-

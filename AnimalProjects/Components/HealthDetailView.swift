@@ -17,10 +17,22 @@ struct HealthDetailView: View {
                         Circle()
                             .fill(styleColor.opacity(0.2))
                             .frame(width: 120, height: 120)
-                        // Placeholder en attendant la photo
-                        Image(systemName: "pawprint.fill")
-                            .font(.system(size: 48))
-                            .foregroundStyle(styleColor)
+                        if let url = item.animalPhoto?.first?.url {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .clipShape(Circle())
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 120, height: 120)
+                        } else {
+                            // Placeholder en attendant la photo
+                            Image(systemName: "pawprint.fill")
+                                .font(.system(size: 48))
+                                .foregroundStyle(styleColor)
+                        }
                     }
                     .padding(20)
 
@@ -87,7 +99,8 @@ struct HealthDetailView: View {
                 date: Date(),
                 nextDate: Date(),
                 notes: "Contrôle annuel, état général satisfaisant.",
-                animalName: ["Daisy"]
+                animalName: ["Daisy"],
+                animalPhoto: []
             ),
             styleIcon: "heart.text.clipboard",
             styleColor: .orange
