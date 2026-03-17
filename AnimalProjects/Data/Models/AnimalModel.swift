@@ -5,8 +5,8 @@
 //  Created by Julia Canovas on 09/03/2026.
 //
 
-import SwiftUI
 import Observation
+import SwiftUI
 
 struct AnimalsResponse: Codable {
     let records: [AnimalRecord]
@@ -15,8 +15,6 @@ struct AnimalsResponse: Codable {
 struct AnimalRecord: Codable {
     let fields: Animal
 }
-
-
 
 class Animal: Codable, Identifiable {
     var id: Int
@@ -30,7 +28,7 @@ class Animal: Codable, Identifiable {
     var isPregnant: Bool?
     var productionIDs: [String]?
     var healthIDs: [String]?
-   
+
     init(
         id: Int,
         photo: [Attachment]? = nil,
@@ -43,24 +41,22 @@ class Animal: Codable, Identifiable {
         isPregnant: Bool = false,
         productionIDs: [String]? = nil,
         healthIDs: [String]? = nil
-        
-        
-    )
-    {
-            self.id = id
-            self.photo = photo
-            self.species = species
-            self.race = race
-            //        self.idNumber = idNumber
-            self.name = name
-            self.dateOfBirth = dateOfBirth
-            self.isMale = isMale
-            self.productionType = productionType
-            self.isPregnant = isPregnant
-            self.productionIDs = productionIDs
+
+    ) {
+        self.id = id
+        self.photo = photo
+        self.species = species
+        self.race = race
+        //        self.idNumber = idNumber
+        self.name = name
+        self.dateOfBirth = dateOfBirth
+        self.isMale = isMale
+        self.productionType = productionType
+        self.isPregnant = isPregnant
+        self.productionIDs = productionIDs
         self.healthIDs = healthIDs
 
-        }
+    }
     private enum CodingKeys: String, CodingKey {
         case id = "idNumber"
         case photo
@@ -77,7 +73,6 @@ class Animal: Codable, Identifiable {
 
 }
 
-
 enum Species: String, Codable, CaseIterable, Identifiable {
     var id: RawValue { rawValue }
     case porcine = "Porcin"
@@ -93,9 +88,9 @@ let animalTest = Animal(
     species: .bovine,
     race: "RaceExemple",
     productionType: .milk,
-//    productionIDs: [InfoRow(
-//        label: "00/00/00",
-//        value: "00 L ou kg")]
+    //    productionIDs: [InfoRow(
+    //        label: "00/00/00",
+    //        value: "00 L ou kg")]
 )
 
 struct InfoRow: Identifiable {

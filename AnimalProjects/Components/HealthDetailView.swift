@@ -12,7 +12,7 @@ struct HealthDetailView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 10) {
-                    // Photo animal ou icône par défaut a rajouter car la j'ai rien du tous 
+
                     ZStack {
                         Circle()
                             .fill(styleColor.opacity(0.2))
@@ -28,7 +28,6 @@ struct HealthDetailView: View {
                             }
                             .frame(width: 120, height: 120)
                         } else {
-                            // Placeholder en attendant la photo
                             Image(systemName: "pawprint.fill")
                                 .font(.system(size: 48))
                                 .foregroundStyle(styleColor)

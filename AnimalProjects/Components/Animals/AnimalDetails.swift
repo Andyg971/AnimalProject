@@ -6,22 +6,23 @@
 //
 
 import SwiftUI
+
 struct AnimalDetails: View {
-    
+
     let animal: Animal
     var reproRows: [InfoRow] = []
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
+    @State var vmCalendar: CalendarViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
     @State private var isCalendarExpanded = false
-    @State var vmCalendar: CalendarViewModel = .init()
     var isDead: Bool {
         animal.productionType == .meat && !prodList.isEmpty
     }
-    
-//Config properties dans ExtensionAnimal
-    
+
+    //Config properties dans ExtensionAnimal
+
     var body: some View {
         ZStack {
             Color.grisFond
@@ -34,25 +35,25 @@ struct AnimalDetails: View {
                     .font(.system(size: 16))
                 HStack {
                     ZStack {
-                                            Circle()
-                                                .fill(Color.vertClair)
-                                                .frame(width: 120, height: 120)
-                                            if let url = animal.photo?.first?.url {
-                                                AsyncImage(url: url) { image in
-                                                    image
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .clipShape(Circle())
-                                                } placeholder: {
-                                                    ProgressView()
-                                                }
-                                                .frame(width: 120, height: 120)
-                                            } else {
-                                                Image(systemName: "pawprint.fill")
-                                                    .font(.system(size: 48))
-                                            }
-                                        }
-                                        .padding(20)
+                        Circle()
+                            .fill(Color.vertClair)
+                            .frame(width: 120, height: 120)
+                        if let url = animal.photo?.first?.url {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .clipShape(Circle())
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 120, height: 120)
+                        } else {
+                            Image(systemName: "pawprint.fill")
+                                .font(.system(size: 48))
+                        }
+                    }
+                    .padding(20)
 
                     VStack(alignment: .leading) {
 
@@ -66,7 +67,9 @@ struct AnimalDetails: View {
                         }
                         if isDead, let last = prodList.last {
                             HStack {
-                                Text("Abattage le \(last.date.formatted(date: .numeric, time: .omitted))")
+                                Text(
+                                    "Abattage le \(last.date.formatted(date: .numeric, time: .omitted))"
+                                )
                             }
                         } else {
                             HStack {
@@ -87,10 +90,13 @@ struct AnimalDetails: View {
                         } label: {
                             HStack {
                                 Image(systemName: "calendar")
-                                Text(isCalendarExpanded
-                                     ? "Cacher le calendrier" : "Afficher le calendrier")
-                                    .font(.system(size: 18, weight: .bold))
-                                
+                                Text(
+                                    isCalendarExpanded
+                                        ? "Cacher le calendrier"
+                                        : "Afficher le calendrier"
+                                )
+                                .font(.system(size: 18, weight: .bold))
+
                                 Spacer()
                                 Image(
                                     systemName: isCalendarExpanded
@@ -124,15 +130,15 @@ struct AnimalDetails: View {
                                 symbolColor: .vertAccent,
                                 title: "Santé",
                                 infoRows: healthRows.isEmpty
-                                ? [
-                                    InfoRow(
-                                        label: "Aucune donnée de santé",
-                                        value: ""
-                                    )
-                                ] : Array(healthRows.prefix(3))
+                                    ? [
+                                        InfoRow(
+                                            label: "Aucune donnée de santé",
+                                            value: ""
+                                        )
+                                    ] : Array(healthRows.prefix(3))
                             ).foregroundColor(.black)
                         }
-                        
+
                         DetailCard(
                             icon: "microbe.fill",
                             color: .vertAccent,
@@ -140,15 +146,16 @@ struct AnimalDetails: View {
                             symbolColor: .clear,
                             title: "Reproduction",
                             infoRows: reproRows.isEmpty
-                            ? [
-                                InfoRow(
-                                    label:
-                                        "Aucune information de reproduction",
-                                    value: ""
-                                )
-                            ]
-                            : Array(reproRows.prefix(3))
-                        )}
+                                ? [
+                                    InfoRow(
+                                        label:
+                                            "Aucune information de reproduction",
+                                        value: ""
+                                    )
+                                ]
+                                : Array(reproRows.prefix(3))
+                        )
+                    }
                     NavigationLink {
                         ProductionView(animal: animal)
                     } label: {

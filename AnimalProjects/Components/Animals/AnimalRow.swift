@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 struct AnimalRow: View {
     let animal: Animal
     var body: some View {
@@ -21,9 +22,9 @@ struct AnimalRow: View {
                 }
                 .frame(width: 40, height: 40)
             } else {
-                
-                Image(systemName:"pawprint")
-                    .frame(width:40)
+
+                Image(systemName: "pawprint")
+                    .frame(width: 40)
             }
             VStack(alignment: .leading) {
                 HStack {
@@ -34,7 +35,7 @@ struct AnimalRow: View {
                     Spacer()
                 }
                 Text("\(animal.species.rawValue) (\(animal.race))")
-                    .font(.system(size:16))
+                    .font(.system(size: 16))
             }
 
             Spacer()
@@ -46,7 +47,7 @@ struct AnimalRow: View {
             LinearGradient(
                 colors: [
                     .gray.opacity(0.1),
-                    .gray.opacity(0.3)
+                    .gray.opacity(0.3),
                 ],
                 startPoint: .leading,
                 endPoint: .trailing

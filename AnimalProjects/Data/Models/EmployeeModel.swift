@@ -34,7 +34,7 @@ class Employee: Codable, Identifiable {
     var photosUser: [Attachment]?
     
     private enum CodingKeys: String, CodingKey {
-    case id = "employeeID"
+        case id = "employeeID"
         case firstName
         case lastName
         case photo
@@ -51,7 +51,7 @@ class Employee: Codable, Identifiable {
     }
     init(
         id: Int,
-        
+
         firstName: String,
         lastName: String,
         photo: [Attachment],
@@ -68,7 +68,7 @@ class Employee: Codable, Identifiable {
         
     ) {
         self.id = id
-        
+
         self.firstName = firstName
         self.lastName = lastName
         self.photo = photo
@@ -89,7 +89,7 @@ struct ExploitationResponse: Codable {
 }
 struct ExploitationRecord: Codable, Identifiable {
     let id: String
-//    let createdTime: Date
+    //    let createdTime: Date
     let fields: ExploitationField
 }
 struct ExploitationField: Codable {
