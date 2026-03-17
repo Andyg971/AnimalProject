@@ -28,6 +28,7 @@ enum EventType: String, CaseIterable, Identifiable {
     case disease = "Maladie"
 }
 
+
 @Observable
 class CalendarViewModel {
     var displayedMonth: Date = Date()

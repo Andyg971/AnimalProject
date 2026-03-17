@@ -24,6 +24,7 @@ class CommunityCategory: Codable, Identifiable {
     let description: String
     var threadNumber: Int
     let activeName: String
+    let discutions: [String]
 //    let link: (any View)?
     
     private enum CodingKeys: String, CodingKey {
@@ -32,6 +33,7 @@ class CommunityCategory: Codable, Identifiable {
         case description
         case threadNumber
         case activeName
+        case discutions
     }
         
 
@@ -41,14 +43,14 @@ class CommunityCategory: Codable, Identifiable {
         description: String,
         threadNumber: Int,
         activeName: String,
-//        link: (any View)? = nil
+        discutions: [String]
     ) {
         self.id = id
         self.title = title
         self.description = description
         self.threadNumber = threadNumber
         self.activeName = activeName
-//        self.link = link
+        self.discutions = discutions
     }
 
 }

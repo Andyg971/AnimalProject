@@ -17,24 +17,24 @@ struct EmployeeView: View {
             return viewModel.employees
                 .filter {
                     $0.firstName.localizedCaseInsensitiveContains(search)
-                    || $0.lastName.localizedCaseInsensitiveContains(search)
-                    || $0.position.localizedCaseInsensitiveContains(search)
+                        || $0.lastName.localizedCaseInsensitiveContains(search)
+                        || $0.position.localizedCaseInsensitiveContains(search)
                 }
                 .sorted { $0.lastName < $1.lastName }
         }
     }
     var body: some View {
-        
+
         ZStack {
             Color.grisFond
                 .ignoresSafeArea()
-            
+
             NavigationStack {
-                
+
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
                         ForEach(filteredEmployees) { employee in
-                            
+
                             NavigationLink {
                                 EmployeeDetailView(employee: employee)
                             } label: {
@@ -61,7 +61,7 @@ struct EmployeeView: View {
                                         Text(employee.position)
                                             .font(.system(size: 16))
                                     }
-                                    
+
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .foregroundStyle(.vertAccent)
@@ -82,25 +82,25 @@ struct EmployeeView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 4)
                                     .foregroundColor(.black)
-                                
+
                             }
                         }
-                        
+
                     }
-                    
+
                     .task {
                         await viewModel.fetchEmployees()
                     }
-                    
+
                 }
                 .navigationTitle("Employés")
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $search, prompt: "Rechercher un employé")
-                
+
             }
-            
+
         }
-        
+
     }
 }
 #Preview {
