@@ -14,7 +14,9 @@ struct DiscussionListView: View {
     @State var searchText: String = ""
     var body: some View {
         
-        NavigationStack {
+        ZStack {
+            Color.grisFond
+                .ignoresSafeArea()
             
             VStack {
                 
@@ -44,7 +46,7 @@ struct DiscussionListView: View {
                 
             }
             .navigationTitle("Communauté")
-            .background(Color.green.opacity(0.2))
+            
         }.task {
             do {
                 if !category.discutions.isEmpty {

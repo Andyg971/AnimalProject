@@ -16,7 +16,7 @@ struct CommunityView: View {
         } else {
             return viewModel.communityCategory.filter {
                 $0.title.localizedCaseInsensitiveContains(search)
-                || $0.description.localizedCaseInsensitiveContains(search)
+                    || $0.description.localizedCaseInsensitiveContains(search)
             }
         }
     }
@@ -31,21 +31,24 @@ struct CommunityView: View {
                 ScrollView(showsIndicators: false) {
                     LazyVStack {
                         ForEach(filteredCategory) { category in
-                            NavigationLink{
+                            NavigationLink {
                                 DiscussionListView(category: category)
-                            } label:{
+                            } label: {
                                 HStack {
-                                    Image(systemName: "person")
-                                        .frame(width: 40)
-                                    VStack(alignment: .leading) {
+                                    VStack(alignment: .leading){
                                         Text(category.title)
-                                            .font(.system(size: 20, weight: .bold))
+                                            .font(
+                                                .system(size: 20, weight: .bold)
+                                            ).padding(.bottom, 4)
                                         Text(category.description)
-                                            .font(.system(size: 16))
+                                            .font(.system(size: 18))
                                     }
-                                    Spacer()
-                                    
-                                }.padding(24)
+                                    .multilineTextAlignment(.leading)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                  
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.vertAccent)
+                                }.padding(16)
                                     .background(
                                         LinearGradient(
                                             colors: [
@@ -60,7 +63,8 @@ struct CommunityView: View {
                                     )
                                     .cornerRadius(16)
                                     .padding(.horizontal, 16)
-                                    .padding(.vertical, 4)
+                                    .padding(.vertical, 8)
+                                    .foregroundColor(.black)
                             }
                         }
 
@@ -71,7 +75,7 @@ struct CommunityView: View {
                     }
 
                 }
-                .navigationTitle("Community")
+                .navigationTitle("Communauté")
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $search, prompt: "Rechercher un groupe")
             }
