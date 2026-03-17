@@ -15,6 +15,7 @@ struct AnimalDetails: View {
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
     @State private var isCalendarExpanded = false
+    @State var vmCalendar: CalendarViewModel = .init()
     var isDead: Bool {
         animal.productionType == .meat && !prodList.isEmpty
     }
