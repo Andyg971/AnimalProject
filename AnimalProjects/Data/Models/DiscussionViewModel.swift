@@ -26,7 +26,7 @@ class DiscussionViewModel {
 
             let decoder = JSONDecoder()
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             formatter.locale = Locale(identifier: "en_US_POSIX")
 
             decoder.dateDecodingStrategy = .formatted(formatter)
