@@ -43,4 +43,6 @@ extension AnimalDetails {
                 CalendarEvent(date: $0.date, color: .blue)
             }
     }
+    
+    
 }

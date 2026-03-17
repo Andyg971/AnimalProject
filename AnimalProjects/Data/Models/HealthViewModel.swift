@@ -2,7 +2,6 @@ import Foundation
 import Observation
 
 @Observable @MainActor
-
 class HealthViewModel {
     private let apiKey: String =
         "patGfr1JzHwdDpeDx.6ac1bae5fe4bc558e2ba85b986add1dc110887bde5b255bc34b595b3c832da66"
