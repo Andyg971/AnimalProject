@@ -10,9 +10,9 @@ import SwiftUI
 struct UserProfileView: View {
     @State var vmExploitation: ExploitationViewModel = .init()
     @State var exploitation: ExploitationField = ExploitationField(farmName: "Na", farmPlace: "", farmType: [])
+    @State private var showSettings = false
+    let employee: Employee
     
-     let employee: Employee
-
     var body: some View {
         
         ZStack {
@@ -51,53 +51,124 @@ struct UserProfileView: View {
                                 .foregroundStyle(Color.vertAccent)
                         }
                         VStack(spacing:12) {
-                           
+                            
                             EmpDetailRowView(title:"Nom d'utilisateur", value: employee.userName)
                             EmpDetailRowView(title:"email", value: employee.email)
                             EmpDetailRowView(title: "ville",
-                                          value: employee.city ?? "Non renseigné")
+                                             value: employee.city ?? "Non renseigné")
                             EmpDetailRowView(title: "Exploitation", value: exploitation.farmName)
                             
                         }
-//                        VStack(alignment: .leading, spacing: 12) {
-//                            Text("Tâches")
-//                                .font(.system(size: 20, weight: .bold))
-//                                .foregroundStyle(Color.vertAccent)
-//                            
-//                            if vmTask.tasks.filter({ $0.assignedTo?.contains(employee.recordID ?? "") ?? false}).isEmpty {
-//                                Text("Aucune tâche assignée")
-//                                    .foregroundStyle(.secondary)
-//                            } else {
-//                                ForEach(vmTask.tasks.filter { task in
-//                                    task.assignedTo?.contains(employee.recordID ?? "") ?? false
-//                                }) { task in
-//                                    TaskRowView(task: task, vmTask: vmTask)
-//                                        .padding(.vertical, 4)
-//                                }
-//                                }
-//                            }
+                        if let bio = employee.bioUser, !bio.isEmpty {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Bio")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundStyle(Color.vertAccent)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                Text(bio)
+                                    .font(.system(size: 15))
+                                    .foregroundStyle(.primary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                                    .background(Color.vertClair.opacity(0.4))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 12)
+                        }
+                        if let photos = employee.photosUser, !photos.isEmpty {
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Photos")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundStyle(Color.vertAccent)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.horizontal, 16)
+                                
+                                let columns = Array(repeating: GridItem(.flexible(), spacing: 6), count: 3)
+                                LazyVGrid(columns: columns, spacing: 6) {
+                                    ForEach(photos, id: \.id) { attachment in
+                                        
+                                        AsyncImage(url: attachment.url) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            Color.vertClair
+                                        }
+                                        .frame(height: 100)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                    }
+                                }
+                                .padding(.horizontal, 16)
+                            }
+                            .padding(.top, 12)
+                        }
+                        VStack(spacing: 12) {
+                            
+                            // Paramètres
+                            Button {
+                                showSettings = true
+                            } label: {
+                                HStack {
+                                    Image(systemName: "gearshape")
+                                    Text("Paramètres")
+                                }
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(Color.vertAccent)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 13)
+                                .background(Color.vertClair.opacity(0.5))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                            
+                            // Déconnexion
+                            Button {
+                                // action déconnexion
+                            } label: {
+                                Text("Déconnexion")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundStyle(.red)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 13)
+                                    .background(Color(.systemBackground))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.red.opacity(0.4), lineWidth: 1)
+                                    )
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 20)
+                        .padding(.bottom, 32)
                     }
                 }
+                
+                
                 .navigationTitle("Profil")
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationDestination(isPresented: $showSettings) {
+                    SettingsView()
+                }
             }
         }
         .task{
             if let exploitationID = employee.exploitation?.first{
-               
+                
                 do {
                     self.exploitation = try await vmExploitation.getExploitationByID(id: exploitationID)
-                
+                    
                 }catch{
                     print(error)
                 }
             }
-//            await vmTask.fetchTasks()
         }
     }
 }
 
+
 #Preview {
-    UserProfileView(employee: Employee(id: 9, firstName: "Thomas", lastName: "Faure", photo:[], position: "Conducteur d'élevage", zone: ["Infirmarie", "Bâtiment d'élevage"], userName: "thomasf", email: "thomas.faure@domaine-soleil.fr", exploitation: ["recqRtgdpGSlWGC5B"], city: "Sainte-Foy-lès-Lyon", recordID: "recqRtgdpGSlWGC5B"))
+    UserProfileView(employee: Employee(id: 9, firstName: "Thomas", lastName: "Faure", photo:[], position: "Conducteur d'élevage", zone: ["Infirmarie", "Bâtiment d'élevage"], userName: "thomasf", email: "thomas.faure@domaine-soleil.fr", exploitation: ["recqRtgdpGSlWGC5B"], city: "Sainte-Foy-lès-Lyon", recordID: "recqRtgdpGSlWGC5B", bioUser: "Thomas, conducteur d'élevage, est apprécié pour sa force de travail et sa capacité à gérer les situations d'urgence sur la ferme.", photosUser: []))
 }
 
