@@ -15,6 +15,9 @@ struct AnimalDetails: View {
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
     @State private var isCalendarExpanded = false
+    var isDead: Bool {
+        animal.productionType == .meat && !prodList.isEmpty
+    }
     
 //Config preperties dans AnimalExtension
     
@@ -58,12 +61,18 @@ struct AnimalDetails: View {
                         HStack {
                             Text("STATUT :")
                                 .font(.system(size: 16, weight: .bold))
-                            Text("Inconnu")
+                            Text(isDead ? "Décédé" : "Inconnu")
                         }
-                        HStack {
-                            Text("AGE :")
-                                .font(.system(size: 16, weight: .bold))
-                            Text(age != nil ? "\(age!) ans" : "Inconnu")
+                        if isDead, let last = prodList.last {
+                            HStack {
+                                Text("Abattage le \(last.date.formatted(date: .numeric, time: .omitted))")
+                            }
+                        } else {
+                            HStack {
+                                Text("AGE :")
+                                    .font(.system(size: 16, weight: .bold))
+                                Text(age != nil ? "\(age!) ans" : "Inconnu")
+                            }
                         }
                     }
                 }
@@ -100,36 +109,36 @@ struct AnimalDetails: View {
                         }
                     }
                     .padding(.horizontal)
-
-                    NavigationLink {
-                        HealthView(
-                            filteredItems: healthList,
-                            animalName: animal.name
-                        )
-                    } label: {
-                        DetailCard(
-                            icon: "cross.case.fill",
-                            color: .red,
-                            symbol: "",
-                            symbolColor: .vertAccent,
-                            title: "Santé",
-                            infoRows: healthRows.isEmpty
+                    if !isDead {
+                        NavigationLink {
+                            HealthView(
+                                filteredItems: healthList,
+                                animalName: animal.name
+                            )
+                        } label: {
+                            DetailCard(
+                                icon: "cross.case.fill",
+                                color: .red,
+                                symbol: "",
+                                symbolColor: .vertAccent,
+                                title: "Santé",
+                                infoRows: healthRows.isEmpty
                                 ? [
                                     InfoRow(
                                         label: "Aucune donnée de santé",
                                         value: ""
                                     )
                                 ] : Array(healthRows.prefix(3))
-                        ).foregroundColor(.black)
-                    }
-
-                    DetailCard(
-                        icon: "microbe.fill",
-                        color: .vertAccent,
-                        symbol: "",
-                        symbolColor: .clear,
-                        title: "Reproduction",
-                        infoRows: reproRows.isEmpty
+                            ).foregroundColor(.black)
+                        }
+                        
+                        DetailCard(
+                            icon: "microbe.fill",
+                            color: .vertAccent,
+                            symbol: "",
+                            symbolColor: .clear,
+                            title: "Reproduction",
+                            infoRows: reproRows.isEmpty
                             ? [
                                 InfoRow(
                                     label:
@@ -138,7 +147,7 @@ struct AnimalDetails: View {
                                 )
                             ]
                             : Array(reproRows.prefix(3))
-                    )
+                        )}
                     NavigationLink {
                         ProductionView(animal: animal)
                     } label: {
