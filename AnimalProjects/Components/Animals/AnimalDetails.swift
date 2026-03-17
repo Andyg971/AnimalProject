@@ -5,52 +5,19 @@
 //  Created by apprenant79 on 10/03/2026.
 //
 
-import ElegantCalendar
 import SwiftUI
-
 struct AnimalDetails: View {
+    
     let animal: Animal
-    var age: Int? {
-        guard let birthday = animal.dateOfBirth else { return nil }
-        let calendar = Calendar.current
-        let ageComponents = calendar.dateComponents(
-            [.year],
-            from: birthday,
-            to: Date()
-        )
-        return ageComponents.year
-    }
+    var reproRows: [InfoRow] = []
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
     @State private var isCalendarExpanded = false
-
-    var prodRows: [InfoRow] {
-        prodList.map { prod in
-            InfoRow(
-                label: prod.date.formatted(date: .numeric, time: .omitted),
-                value: "\(prod.amount) \(prod.unit)"
-            )
-        }
-    }
-    var healthRows: [InfoRow] {
-        healthList.map { health in
-            InfoRow(
-                label: health.date.formatted(date: .numeric, time: .omitted),
-                value: health.title
-            )
-        }
-    }
-    var reproRows: [InfoRow] = []
-    var calendarEvents: [CalendarEvent] {
-        healthList.map {
-            CalendarEvent(date: $0.date, color: .red)
-        }
-            + prodList.map {
-                CalendarEvent(date: $0.date, color: .blue)
-            }
-    }
+    
+//Config preperties dans AnimalExtension
+    
     var body: some View {
         ZStack {
             Color.grisFond
