@@ -105,8 +105,6 @@ struct UserProfileView: View {
                             .padding(.top, 12)
                         }
                         VStack(spacing: 12) {
-                            
-                            // Paramètres
                             Button {
                                 showSettings = true
                             } label: {
@@ -122,9 +120,7 @@ struct UserProfileView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             
-                            // Déconnexion
                             Button {
-                                // action déconnexion
                             } label: {
                                 Text("Déconnexion")
                                     .font(.system(size: 16, weight: .medium))
