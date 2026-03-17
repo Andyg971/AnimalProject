@@ -10,9 +10,24 @@ import Observation
 
 struct CalendarEvent: Identifiable {
     let id = UUID()
+//    let eventType: EventType
     let date: Date
     let color: Color
 }
+
+enum EventType: String, CaseIterable, Identifiable {
+    var id: RawValue { rawValue }
+    case heat = "Chaleur"
+    case insemination = "Insémination"
+    case pregnancy = "Gestation"
+    case birth = "Mise bas"
+    case vaccination = "Vaccination"
+    case treatment = "Traitement"
+    case shearing = "Tonte"
+    case slaughter = "Abbattage"
+    case disease = "Maladie"
+}
+
 @Observable
 class CalendarViewModel {
     var displayedMonth: Date = Date()

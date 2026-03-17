@@ -22,8 +22,10 @@ struct AnimalDetails: View {
     }
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
+    @State var vmCalendar: CalendarViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
+
     var prodRows: [InfoRow] {
         prodList.map { prod in
             InfoRow(
@@ -41,6 +43,14 @@ struct AnimalDetails: View {
         }
     }
     var reproRows: [InfoRow] = []
+    var calendarEvents: [CalendarEvent] {
+        healthList.map {
+            CalendarEvent(date: $0.date, color: .red)
+        }
+            + prodList.map {
+                CalendarEvent(date: $0.date, color: .blue)
+            }
+    }
     var body: some View {
         ZStack {
             Color.grisFond
@@ -53,25 +63,25 @@ struct AnimalDetails: View {
                     .font(.system(size: 16))
                 HStack {
                     ZStack {
-                                            Circle()
-                                                .fill(Color.vertClair)
-                                                .frame(width: 120, height: 120)
-                                            if let url = animal.photo?.first?.url {
-                                                AsyncImage(url: url) { image in
-                                                    image
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .clipShape(Circle())
-                                                } placeholder: {
-                                                    ProgressView()
-                                                }
-                                                .frame(width: 120, height: 120)
-                                            } else {
-                                                Image(systemName: "pawprint.fill")
-                                                    .font(.system(size: 48))
-                                            }
-                                        }
-                                        .padding(20)
+                        Circle()
+                            .fill(Color.vertClair)
+                            .frame(width: 120, height: 120)
+                        if let url = animal.photo?.first?.url {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .clipShape(Circle())
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 120, height: 120)
+                        } else {
+                            Image(systemName: "pawprint.fill")
+                                .font(.system(size: 48))
+                        }
+                    }
+                    .padding(20)
 
                     VStack(alignment: .leading) {
 
@@ -94,7 +104,7 @@ struct AnimalDetails: View {
                 ScrollView(showsIndicators: false) {
                     VStack {
 
-                        CalendarMonthView()
+                        CalendarMonthView(viewModel: vmCalendar)
 
                         NavigationLink {
                             HealthView(
@@ -134,24 +144,29 @@ struct AnimalDetails: View {
                                 ]
                                 : Array(reproRows.prefix(3))
                         )
-
-                        DetailCard(
-                            icon: "chart.bar.xaxis",
-                            color: .blue,
-                            symbol: animal.productionType?.symbol ?? "",
-                            symbolColor: animal.productionType?.color ?? .clear,
-                            title: "Production",
-                            infoRows: prodRows.isEmpty
-                                ? [
-                                    InfoRow(
-                                        label: "Aucune production enregistrée",
-                                        value: ""
-                                    )
-                                ]
-                                : Array(prodRows.prefix(3))
-                        )
+                        NavigationLink {
+                            ProductionView(animal: animal)
+                        } label: {
+                            DetailCard(
+                                icon: "chart.bar.xaxis",
+                                color: .blue,
+                                symbol: animal.productionType?.symbol ?? "",
+                                symbolColor: animal.productionType?.color
+                                    ?? .clear,
+                                title: "Production",
+                                infoRows: prodRows.isEmpty
+                                    ? [
+                                        InfoRow(
+                                            label:
+                                                "Aucune production enregistrée",
+                                            value: ""
+                                        )
+                                    ]
+                                    : Array(prodRows.prefix(3))
+                            )
+                        }.foregroundColor(.black)
                     }
-                    .navigationTitle("Détails de l'animal")
+                    .navigationTitle("Détails de \(animal.name ?? "l'animal")")
                     .navigationBarTitleDisplayMode(.inline)
                 }
 
@@ -188,6 +203,7 @@ struct AnimalDetails: View {
                     }
                     healthList = aniList
                 }
+                vmCalendar.events = calendarEvents
             }
         }
     }
