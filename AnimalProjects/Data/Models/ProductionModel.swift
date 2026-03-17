@@ -170,17 +170,57 @@ func convertProduction(_ record: ProductionRecord) -> ProductionData {
     }
 }
 
-func weeklyProduction(from data: [ProductionData]) -> [(
-    week: Date, amount: Double
-)] {
-    let calendar = Calendar.current
+struct AggregatedProduction: Identifiable {
+    var id: Date { period }
+    let period: Date
+    let amount: Double
+    let unit: String
+}
 
+func weeklyProduction(from data: [ProductionData]) -> [AggregatedProduction] {
+    let calendar = Calendar.current
     let grouped = Dictionary(grouping: data) { prod in
         calendar.dateInterval(of: .weekOfYear, for: prod.date)!.start
     }
 
-    return grouped.map { (week, values) in
-        (week: week, amount: values.reduce(0) { $0 + $1.amount })
+    return grouped.map { weekStart, values in
+        AggregatedProduction(
+            period: weekStart,
+            amount: values.reduce(0) { $0 + $1.amount },
+            unit: values.first?.unit ?? ""
+        )
     }
-    .sorted { $0.week < $1.week }
+    .sorted { $0.period < $1.period }
+}
+
+func monthlyProduction(from data: [ProductionData]) -> [AggregatedProduction] {
+    let calendar = Calendar.current
+    let grouped = Dictionary(grouping: data) { item in
+        calendar.dateComponents([.year, .month], from: item.date)
+    }
+
+    return grouped.map { key, values in
+        let total = values.reduce(0) { $0 + $1.amount }
+        let monthStart = calendar.date(from: key) ?? Date()
+        return AggregatedProduction(
+            period: monthStart,
+            amount: total,
+            unit: values.first?.unit ?? ""
+        )
+    }
+    .sorted { $0.period < $1.period }
+}
+
+enum ViewMode: String, CaseIterable, Identifiable {
+    case weekly = "Semaine"
+    case monthly = "Mois"
+
+    var id: String { self.rawValue }
+    var title: String { self.rawValue }
+    var chartUnit: Calendar.Component {
+        switch self {
+        case .weekly: return .weekOfYear
+        case .monthly: return .month
+        }
+    }
 }
