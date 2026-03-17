@@ -5,22 +5,22 @@ struct HealthView: View {
     @State private var search = ""
     var filteredItems: [HealthItem]?
     var animalName: String?
-
+    
     var items: [HealthItem] {
         filteredItems ?? viewModel.healthItems
     }
-
+    
     var body: some View {
         ZStack {
             Color.grisFond
                 .ignoresSafeArea()
-
+            
             NavigationStack {
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: 12) {
                         ForEach(items) { item in
                             let style = healthStyle(for: item.type)
-
+                            
                             NavigationLink {
                                 HealthDetailView(
                                     item: item,
@@ -35,45 +35,33 @@ struct HealthView: View {
                                         .frame(width: 42, height: 42)
                                         .background(style.color.opacity(0.2))
                                         .clipShape(Circle())
-
+                                    
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(item.title)
-                                            .font(
-                                                .system(
-                                                    size: 16,
-                                                    weight: .semibold
-                                                )
-                                            )
+                                            .font(.system(size: 16, weight: .semibold))
                                             .foregroundStyle(.primary)
-
+                                        
                                         if let name = item.animalName?.first {
                                             Text(name)
                                                 .font(.system(size: 13))
                                                 .foregroundStyle(.vertAccent)
                                         }
-
+                                        
                                         Text(item.status)
                                             .font(.system(size: 13))
                                             .foregroundStyle(.secondary)
                                     }
-
+                                    
                                     Spacer()
-
+                                    
                                     Image(systemName: "chevron.right")
-                                        .font(
-                                            .system(size: 14, weight: .medium)
-                                        )
+                                        .font(.system(size: 14, weight: .medium))
                                         .foregroundStyle(.gray)
                                 }
                                 .padding(16)
                                 .background(.white)
                                 .cornerRadius(14)
-                                .shadow(
-                                    color: .black.opacity(0.06),
-                                    radius: 8,
-                                    x: 0,
-                                    y: 2
-                                )
+                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
                                 .padding(.horizontal, 16)
                             }
                             .buttonStyle(.plain)
@@ -90,9 +78,7 @@ struct HealthView: View {
                         }
                     }
                 }
-                .navigationTitle(
-                    animalName != nil ? "Santé - \(animalName!)" : "Santé"
-                )
+                .navigationTitle(animalName != nil ? "Santé - \(animalName!)" : "Santé")
                 .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
@@ -100,25 +86,32 @@ struct HealthView: View {
             }
         }
     }
-
-    func healthStyle(for type: String) -> (icon: String, color: Color) {
-        switch type {
-        case "Vaccination":
-            return ("syringe.fill", .blue)
-        case "Vet Visit":
-            return ("stethoscope", .green)
-        case "Health Check":
-            return ("heart.text.clipboard", .orange)
-        case "Treatment":
-            return ("pills.fill", .pink)
-        case "Surgery":
-            return ("scissors", .red)
-        default:
-            return ("cross.case.fill", .gray)
+        
+        func healthStyle(for type: String) -> (icon: String, color: Color) {
+            switch type {
+            case "Vaccination":
+                return ("syringe.fill", .blue)
+            case "Vet Visit":
+                return ("stethoscope", .green)
+            case "Health Check":
+                return ("heart.text.clipboard", .orange)
+            case "Treatment":
+                return ("pills.fill", .pink)
+            case "Surgery":
+                return ("scissors", .red)
+            default:
+                return ("cross.case.fill", .gray)
+            }
         }
     }
-}
 
 #Preview {
     HealthView()
 }
+//struct HealthRowView: View {
+//    let item: HealthItem
+//    let style: (icon: String, color: Color)
+//    
+//    }
+//        
+        

@@ -6,50 +6,22 @@
 //
 
 import SwiftUI
-
 struct AnimalDetails: View {
+    
     let animal: Animal
-    var age: Int? {
-        guard let birthday = animal.dateOfBirth else { return nil }
-        let calendar = Calendar.current
-        let ageComponents = calendar.dateComponents(
-            [.year],
-            from: birthday,
-            to: Date()
-        )
-        return ageComponents.year
-    }
+    var reproRows: [InfoRow] = []
     @State var vmProduction: ProductionViewModel = .init()
     @State var vmHealth: HealthViewModel = .init()
     @State var vmCalendar: CalendarViewModel = .init()
     @State var healthList: [HealthItem] = []
     @State var prodList: [ProductionData] = []
-
-    var prodRows: [InfoRow] {
-        prodList.map { prod in
-            InfoRow(
-                label: prod.date.formatted(date: .numeric, time: .omitted),
-                value: "\(prod.amount) \(prod.unit)"
-            )
-        }
+    @State private var isCalendarExpanded = false
+    var isDead: Bool {
+        animal.productionType == .meat && !prodList.isEmpty
     }
-    var healthRows: [InfoRow] {
-        healthList.map { health in
-            InfoRow(
-                label: health.date.formatted(date: .numeric, time: .omitted),
-                value: health.title
-            )
-        }
-    }
-    var reproRows: [InfoRow] = []
-    var calendarEvents: [CalendarEvent] {
-        healthList.map {
-            CalendarEvent(date: $0.date, color: .red)
-        }
-            + prodList.map {
-                CalendarEvent(date: $0.date, color: .blue)
-            }
-    }
+    
+//Config properties dans ExtensionAnimal
+    
     var body: some View {
         ZStack {
             Color.grisFond
@@ -90,21 +62,55 @@ struct AnimalDetails: View {
                         HStack {
                             Text("STATUT :")
                                 .font(.system(size: 16, weight: .bold))
-                            Text("Inconnu")
+                            Text(isDead ? "Décédé" : "Inconnu")
                         }
-                        HStack {
-                            Text("AGE :")
-                                .font(.system(size: 16, weight: .bold))
-                            Text(age != nil ? "\(age!) ans" : "Inconnu")
+                        if isDead, let last = prodList.last {
+                            HStack {
+                                Text("Abattage le \(last.date.formatted(date: .numeric, time: .omitted))")
+                            }
+                        } else {
+                            HStack {
+                                Text("AGE :")
+                                    .font(.system(size: 16, weight: .bold))
+                                Text(age != nil ? "\(age!) ans" : "Inconnu")
+                            }
                         }
                     }
                 }
 
                 ScrollView(showsIndicators: false) {
-                    VStack {
+                    VStack(alignment: .leading) {
+                        Button {
+                            withAnimation {
+                                isCalendarExpanded.toggle()
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "calendar")
+                                Text(isCalendarExpanded
+                                     ? "Cacher le calendrier" : "Afficher le calendrier")
+                                    .font(.system(size: 18, weight: .bold))
+                                
+                                Spacer()
+                                Image(
+                                    systemName: isCalendarExpanded
+                                        ? "chevron.up" : "chevron.down"
+                                )
+                            }
+                            .padding()
+                            .foregroundColor(.vertAccent)
+                            .cornerRadius(12)
+                        }
 
-                        CalendarMonthView(viewModel: vmCalendar)
-
+                        if isCalendarExpanded {
+                            CalendarMonthView(viewModel: vmCalendar)
+                                .transition(
+                                    .opacity.combined(with: .move(edge: .top))
+                                )
+                        }
+                    }
+                    .padding(.horizontal)
+                    if !isDead {
                         NavigationLink {
                             HealthView(
                                 filteredItems: healthList,
@@ -118,15 +124,15 @@ struct AnimalDetails: View {
                                 symbolColor: .vertAccent,
                                 title: "Santé",
                                 infoRows: healthRows.isEmpty
-                                    ? [
-                                        InfoRow(
-                                            label: "Aucune donnée de santé",
-                                            value: ""
-                                        )
-                                    ] : Array(healthRows.prefix(3))
+                                ? [
+                                    InfoRow(
+                                        label: "Aucune donnée de santé",
+                                        value: ""
+                                    )
+                                ] : Array(healthRows.prefix(3))
                             ).foregroundColor(.black)
                         }
-
+                        
                         DetailCard(
                             icon: "microbe.fill",
                             color: .vertAccent,
@@ -134,76 +140,75 @@ struct AnimalDetails: View {
                             symbolColor: .clear,
                             title: "Reproduction",
                             infoRows: reproRows.isEmpty
+                            ? [
+                                InfoRow(
+                                    label:
+                                        "Aucune information de reproduction",
+                                    value: ""
+                                )
+                            ]
+                            : Array(reproRows.prefix(3))
+                        )}
+                    NavigationLink {
+                        ProductionView(animal: animal)
+                    } label: {
+                        DetailCard(
+                            icon: "chart.bar.xaxis",
+                            color: .blue,
+                            symbol: animal.productionType?.symbol ?? "",
+                            symbolColor: animal.productionType?.color
+                                ?? .clear,
+                            title: "Production",
+                            infoRows: prodRows.isEmpty
                                 ? [
                                     InfoRow(
                                         label:
-                                            "Aucune information de reproduction",
+                                            "Aucune production enregistrée",
                                         value: ""
                                     )
                                 ]
-                                : Array(reproRows.prefix(3))
+                                : Array(prodRows.prefix(3))
                         )
-                        NavigationLink {
-                            ProductionView(animal: animal)
-                        } label: {
-                            DetailCard(
-                                icon: "chart.bar.xaxis",
-                                color: .blue,
-                                symbol: animal.productionType?.symbol ?? "",
-                                symbolColor: animal.productionType?.color
-                                    ?? .clear,
-                                title: "Production",
-                                infoRows: prodRows.isEmpty
-                                    ? [
-                                        InfoRow(
-                                            label:
-                                                "Aucune production enregistrée",
-                                            value: ""
-                                        )
-                                    ]
-                                    : Array(prodRows.prefix(3))
-                            )
-                        }.foregroundColor(.black)
-                    }
-                    .navigationTitle("Détails de \(animal.name ?? "l'animal")")
-                    .navigationBarTitleDisplayMode(.inline)
+                    }.foregroundColor(.black)
                 }
+                .navigationTitle("Détails de \(animal.name ?? "l'animal")")
+                .navigationBarTitleDisplayMode(.inline)
+            }
 
-            }.task {
-                if let animalID = animal.productionIDs {
-                    var aniList = [ProductionData]()
-                    for id in animalID {
+        }.task {
+            if let animalID = animal.productionIDs {
+                var aniList = [ProductionData]()
+                for id in animalID {
 
-                        do {
-                            let result =
-                                try await vmProduction.getProductionByID(
-                                    id: id
-                                )
-                            aniList.append(result)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                    prodList = aniList
-                }
-
-                if let animalID = animal.healthIDs {
-                    var aniList = [HealthItem]()
-                    for id in animalID {
-
-                        do {
-                            let result = try await vmHealth.getHealthByID(
+                    do {
+                        let result =
+                            try await vmProduction.getProductionByID(
                                 id: id
                             )
-                            aniList.append(result)
-                        } catch {
-                            print(error)
-                        }
+                        aniList.append(result)
+                    } catch {
+                        print(error)
                     }
-                    healthList = aniList
                 }
-                vmCalendar.events = calendarEvents
+                prodList = aniList
             }
+
+            if let animalID = animal.healthIDs {
+                var aniList = [HealthItem]()
+                for id in animalID {
+
+                    do {
+                        let result = try await vmHealth.getHealthByID(
+                            id: id
+                        )
+                        aniList.append(result)
+                    } catch {
+                        print(error)
+                    }
+                }
+                healthList = aniList
+            }
+            vmCalendar.events = calendarEvents
         }
     }
 }

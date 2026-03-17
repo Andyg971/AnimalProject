@@ -28,7 +28,6 @@ class Employee: Codable, Identifiable {
     var email: String
     var exploitation: [String]?
     var city: String?
-    //    var farmPlace: String?
     var tasks: [String]?
     var recordID: String?
     var bioUser: String?
@@ -45,7 +44,6 @@ class Employee: Codable, Identifiable {
         case email
         case exploitation
         case city
-        //        case farmPlace
         case tasks
         case recordID
         case bioUser
@@ -63,7 +61,6 @@ class Employee: Codable, Identifiable {
         email: String,
         exploitation: [String]? = nil,
         city: String? = nil,
-        //        farmPlace: String? = nil,
         tasks: [String]? = nil,
         recordID: String? = nil,
         bioUser: String? = nil,
@@ -81,7 +78,6 @@ class Employee: Codable, Identifiable {
         self.email = email
         self.exploitation = exploitation
         self.city = city
-        //        self.farmPlace = farmPlace
         self.tasks = tasks
         self.recordID = recordID
         self.bioUser = bioUser
@@ -100,10 +96,4 @@ struct ExploitationField: Codable {
     var farmName: String
     let farmPlace: String
     let farmType: [String]
-
-    //    private enum CondingKeys: String, CodingKey {
-    //        case id = "farmName"
-    //        case farmPlace
-    //        case farmType
-    //    }
 }
