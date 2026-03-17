@@ -20,7 +20,7 @@ struct AnimalDetails: View {
         animal.productionType == .meat && !prodList.isEmpty
     }
     
-//Config preperties dans AnimalExtension
+//Config properties dans ExtensionAnimal
     
     var body: some View {
         ZStack {
