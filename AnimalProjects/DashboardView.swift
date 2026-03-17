@@ -17,17 +17,38 @@ struct DashboardView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 20) {
 
-                        //  Chiffres clés ( les chiffres importants du Dashboard )
+                        // Nombre d'animaux
+                        HStack(spacing: 8) {
+                            Image(systemName: "pawprint.fill")
+                                .foregroundStyle(.orange)
+                            Text("\(animalsVM.animals.count) animaux sur l'exploitation")
+                                .font(.system(size: 15, weight: .medium))
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(14)
+                        .background(.white)
+                        .cornerRadius(12)
+                        .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
+                        .padding(.horizontal, 16)
+
+                        // Cartes cliquables
                         LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 10),
                             GridItem(.flexible(), spacing: 10),
                             GridItem(.flexible(), spacing: 10),
                             GridItem(.flexible(), spacing: 10)
                         ], spacing: 10) {
-                            miniCard(value: "\(animalsVM.animals.count)", title: "Animaux", icon: "pawprint.fill", color: .orange)
-                            miniCard(value: "\(employeeVM.employees.count)", title: "Employés", icon: "person.2.fill", color: .purple)
-                            miniCard(value: "\(healthVM.healthItems.count)", title: "Soins", icon: "cross.case.fill", color: .red)
-                            miniCard(value: "\(documentsVM.documents.count)", title: "Documents", icon: "doc.text.fill", color: .blue)
+                            NavigationLink(destination: EmployeeView()) {
+                                miniCard(value: "\(employeeVM.employees.count)", title: "Employés", icon: "person.2.fill", color: .purple)
+                            }
+                            .buttonStyle(.plain)
+                            NavigationLink(destination: HealthView()) {
+                                miniCard(value: "\(healthVM.healthItems.count)", title: "Soins", icon: "cross.case.fill", color: .red)
+                            }
+                            .buttonStyle(.plain)
+                            NavigationLink(destination: DocumentsView()) {
+                                miniCard(value: "\(documentsVM.documents.count)", title: "Documents", icon: "doc.text.fill", color: .blue)
+                            }
+                            .buttonStyle(.plain)
                         }
                         .padding(.horizontal, 16)
 
@@ -108,7 +129,7 @@ struct DashboardView: View {
                                         x: .value("Nombre", item.count),
                                         y: .value("Espèce", item.species)
                                     )
-                                    .foregroundStyle(.orange.gradient)
+                                    .foregroundStyle(animalColor(for: item.species))
                                     .cornerRadius(6)
                                     .annotation(position: .trailing) {
                                         Text("\(item.count)")
@@ -212,7 +233,7 @@ struct DashboardView: View {
     private func healthColor(for type: String) -> Color {
         switch type {
         case "Vaccination": return .blue
-        case "Vet Visit": return .green
+        case "Vet Visit": return .vertAccent
         case "Health Check": return .orange
         case "Treatment": return .pink
         case "Surgery": return .red
@@ -220,11 +241,22 @@ struct DashboardView: View {
         }
     }
 
+    private func animalColor(for species: String) -> Color {
+        switch species {
+        case "Porcin": return .pink
+        case "Bovin": return .brown
+        case "Équin": return .black
+        case "Caprin": return .gray
+        case "Ovin": return .orange
+        default: return .blue
+        }
+    }
+
     private func documentColor(for type: String) -> Color {
         switch type {
         case "Administratif": return .indigo
         case "Santé": return .red
-        case "Production": return .green
+        case "Production": return .vertAccent
         default: return .gray
         }
     }
