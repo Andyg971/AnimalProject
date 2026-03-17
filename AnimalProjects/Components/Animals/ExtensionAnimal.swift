@@ -39,9 +39,6 @@ extension AnimalDetails {
         healthList.map {
             CalendarEvent(date: $0.date, color: .red)
         }
-            + prodList.map {
-                CalendarEvent(date: $0.date, color: .blue)
-            }
     }
     
     

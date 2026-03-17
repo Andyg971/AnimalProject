@@ -13,43 +13,72 @@ struct ProductionView: View {
     @State var prodList: [ProductionData] = []
     let animal: Animal
     @State var vmProduction: ProductionViewModel = .init()
-
+    @State var viewMode: ViewMode = .weekly
     var body: some View {
-        let weeklyData = weeklyProduction(from: prodList)
+
         ZStack {
             Color.grisFond
 
             VStack {
-                Chart(weeklyData, id: \.week) { item in
+
+                let chartData: [AggregatedProduction] = {
+                    switch viewMode {
+                    case .weekly:
+                        return weeklyProduction(from: prodList)
+                    case .monthly:
+                        return monthlyProduction(from: prodList)
+                    }
+                }()
+
+                Picker("Vue", selection: $viewMode) {
+                    ForEach(ViewMode.allCases) { mode in
+                        Text(mode.title).tag(mode)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .tint(.green) //je sais pas pourquoi, mais ça ne marche pas
+                .padding(8)
+                
+                
+                Chart(chartData) { item in
                     BarMark(
-                        x: .value("Semaine", item.week, unit: .weekOfYear),
+                        x: .value(
+                            viewMode.title,
+                            item.period,
+                            unit: viewMode.chartUnit
+                        ),
                         y: .value("Production", item.amount)
                     )
-                }
-                .frame(height: 250)
-                .padding(4)
-                
-                
+                    .foregroundStyle(.vertAccent)
+                    
+                    
+                }.frame(height: 250)
+                .padding(16)
+
                 ForEach(prodList) { prod in
                     HStack {
-                        Text(prod.date.formatted(date: .numeric, time: .omitted),)
+                        Text(
+                            prod.date.formatted(date: .numeric, time: .omitted),
+                        )
                         Spacer()
-                        Text("\(prod.amount, format: .number.precision(.fractionLength(2))) \(prod.unit)")
-                        
+                        Text(
+                            "\(prod.amount, format: .number.precision(.fractionLength(2))) \(prod.unit)"
+                        )
+
                     }
                     .padding(.horizontal, 8)
                     Divider()
-                    
+
                 }
             }
         }
         .navigationTitle("Production de \(animal.name ?? "l'animal")")
         .navigationBarTitleDisplayMode(.inline)
-        
+
         .task {
             if let animalID = animal.productionIDs {
                 var aniList = [ProductionData]()
-                
+
                 for id in animalID {
                     do {
                         let result = try await vmProduction.getProductionByID(
