@@ -18,7 +18,15 @@ struct DiscussionRecord: Codable {
 
 struct DiscussionTopic: Codable{
     var nomDiscussions: String
-    var nombreMessage: Int
-    var dernierscommentaire: String
-    var date: String
+    var nbMessages: Int
+    var dernierCommentaire: String
+    var date: Date
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy 'à' HH:mm"
+        return formatter.string(from: self.date)
+    }
 }
+
+

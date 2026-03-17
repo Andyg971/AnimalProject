@@ -13,39 +13,25 @@ struct DiscussionListView: View {
     @State var listDisc: [DiscussionTopic] = []
     @State var searchText: String = ""
     var body: some View {
-        
+
         ZStack {
             Color.grisFond
                 .ignoresSafeArea()
-            
+
             VStack {
-                
+
                 ScrollView {
-                    
+
                     VStack(spacing: 16) {
-                        
+
                         ForEach(listDisc, id: \.nomDiscussions) { topic in
-                                DiscussionRow(topic: topic)
+                            DiscussionRow(topic: topic)
                         }
-                        
                     }
                     .padding()
                 }
-                        
-                HStack {
-                    
-                    Image(systemName: "magnifyingglass")
-                    
-                    TextField("Rechercher un groupe", text: $searchText)
-                    
-                }
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(15)
-                .padding()
-                
             }
-            .navigationTitle("Communauté")
+            .navigationTitle(category.title)
             
         }.task {
             do {
@@ -61,4 +47,3 @@ struct DiscussionListView: View {
         }
     }
 }
-
