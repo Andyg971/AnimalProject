@@ -5,7 +5,6 @@
 //  Created by apprenant79 on 10/03/2026.
 //
 
-import ElegantCalendar
 import SwiftUI
 
 struct AnimalDetails: View {
