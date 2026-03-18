@@ -86,7 +86,7 @@ struct EmployeeDetailView: View {
                                         .padding(.vertical, 4)
                                 }
                                 }
-                            }
+                        }.padding()
                     }
                 }
                 .navigationTitle("Profil")

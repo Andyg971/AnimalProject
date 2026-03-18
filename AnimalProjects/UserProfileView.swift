@@ -120,7 +120,7 @@ struct UserProfileView: View {
                                 .foregroundStyle(Color.vertDark)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 13)
-//                                .background(Color.vertClair.opacity(0.5))
+                                .background(Color.vertClair.opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 10)
