@@ -25,7 +25,7 @@ struct DiscussionListView: View {
                     VStack(spacing: 16) {
 
                         ForEach(listDisc, id: \.nomDiscussions) { topic in
-                            DiscussionRow(topic: topic)
+                            DiscussionRow(topic: topic, cat: category)
                         }
                     }
                     .padding()

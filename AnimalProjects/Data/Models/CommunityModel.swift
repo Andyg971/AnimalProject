@@ -5,18 +5,17 @@
 //  Created by Julia Canovas on 09/03/2026.
 //
 
-import Foundation
 import Observation
+import SwiftUI
 
 struct CommunityResponse: Codable {
     let records: [CommunityRecord]
 }
 struct CommunityRecord: Codable {
-//    let id: Int
+    //    let id: Int
     let createdTime: Date
     let fields: CommunityCategory
 }
-    
 
 class CommunityCategory: Codable, Identifiable {
     var id: Int
@@ -25,8 +24,7 @@ class CommunityCategory: Codable, Identifiable {
     var threadNumber: Int
     let activeName: String
     let discutions: [String]
-//    let link: (any View)?
-    
+
     private enum CodingKeys: String, CodingKey {
         case id = "communityID"
         case title
@@ -35,7 +33,6 @@ class CommunityCategory: Codable, Identifiable {
         case activeName
         case discutions
     }
-        
 
     init(
         id: Int,
@@ -53,4 +50,25 @@ class CommunityCategory: Codable, Identifiable {
         self.discutions = discutions
     }
 
+}
+
+func communityStyle(for title: String) -> (icon: String, color: Color) {
+    let t = title.lowercased()
+
+    if t.contains("santé") {
+        return ("cross.case.fill", .red)
+
+    }
+    if t.contains("reproduction") {
+        return ("heart.fill", .pink)
+    }
+
+    if t.contains("discussion") {
+        return ("bubble.left.fill", .blue)
+    }
+    if t.contains("aide") {
+        return ("questionmark.circle.fill", .yellow)
+    }
+
+    return ("bubble.left.fill", .blue)
 }

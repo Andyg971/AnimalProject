@@ -10,36 +10,39 @@ import SwiftUI
 struct DiscussionRow: View {
 
     var topic: DiscussionTopic
-
+    let cat: CommunityCategory
     var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: "bubble.left.fill")
-                .font(.system(size: 18))
-                .foregroundStyle(.blue)
-                .frame(width: 24, height: 24)
+        HStack{
+            
+            let style = communityStyle(for: cat.title)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(topic.nomDiscussions)
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(.primary)
+                HStack {
+                    Image(systemName: style.icon)
+                        .font(.system(size: 18))
+                        .foregroundStyle(style.color)
+                        .frame(width: 24, height: 24)
+                    
+                    Text(topic.nomDiscussions)
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(.black)
+                }
                 
                 Text("\(topic.nbMessages) messages")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(.vertAccent)
-                
-                HStack {
-                    Text("Dernier message de")
-                    Text(topic.dernierCommentaire).bold()
-                    Text(topic.formattedDate)
-                }
-                .font(.system(size: 13))
+                    .foregroundColor(.vertAccent)
+
+                Text("Dernier message de \(Text(topic.dernierCommentaire).bold()) \(topic.formattedDate)")
+                    .font(.system(size: 12))
+                    .foregroundColor(.gray)
+
             }
-            
+
             Spacer()
-            
+
             Image(systemName: "chevron.right")
-                .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(.vertAccent)
+                .foregroundColor(.vertAccent)
+                .padding(.leading, 8)
         }
         .padding(16)
         .background(.white)
