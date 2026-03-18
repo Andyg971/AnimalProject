@@ -25,10 +25,6 @@ struct DashboardView: View {
                                 .font(.system(size: 15, weight: .medium))
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(14)
-                        .background(.white)
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 2)
                         .padding(.horizontal, 16)
 
                         // Cartes cliquables
@@ -54,6 +50,7 @@ struct DashboardView: View {
 
                         // Dépenses (camembert) ( le seul diagramme pour les dépenses en camembert)
                         if !depenseVM.depenses.isEmpty {
+                            NavigationLink(destination: BudgetElevageView()) {
                             chartCard(title: "Dépenses par catégorie") {
                                 Chart(depensesByCategory, id: \.category) { item in
                                     SectorMark(
@@ -64,9 +61,11 @@ struct DashboardView: View {
                                     .foregroundStyle(by: .value("Catégorie", item.category))
                                     .cornerRadius(4)
                                 }
-                                .chartLegend(position: .bottom, spacing: 10)
-                                .frame(height: 300)
+                                .chartLegend(.hidden)
+                                .frame(height: 200)
                             }
+                            }
+                            .buttonStyle(.plain)
                         }
 
                         //  Soins (barres)
