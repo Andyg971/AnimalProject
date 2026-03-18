@@ -40,19 +40,7 @@ struct ContentView: View {
                 .tabItem{
                     Label("Communauté", systemImage: "message.fill")
                 }
-            UserProfileView(employee: Employee(
-                id: 9,
-                firstName: "Thomas",
-                lastName: "Faure",
-                photo: [],
-                position: "Conducteur d'élevage",
-                zone: [],
-                userName: "thomasf",
-                email: "thomas.faure@domaine-s.fr",
-                exploitation: ["recqRtgdpGSlWGC5B"],
-                city: "Sainte-Foy-lès-Lyon",
-                recordID: "recqRtgdpGSlWGC5B"
-            ))
+            UserProfileView()
                 .tabItem{
                     Label("Profil", systemImage: "person.circle")
                 }
