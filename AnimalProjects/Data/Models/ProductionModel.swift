@@ -125,7 +125,7 @@ enum ProductionType: String, Codable, CaseIterable, Identifiable {
     var symbol: String {
         switch self {
         case .milk:
-            "drop.fill"
+            "waterbottle.fill"
         case .meat:
             "fork.knife"
         case .wool:
@@ -136,7 +136,7 @@ enum ProductionType: String, Codable, CaseIterable, Identifiable {
     var color: Color {
         switch self {
         case .milk:
-            .white
+            .blue
         case .meat:
             .red
         case .wool:
