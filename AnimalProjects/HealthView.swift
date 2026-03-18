@@ -90,7 +90,7 @@ struct HealthView: View {
             case "Vaccins":
                 return ("syringe.fill", .blue)
             case "Visite Vétérinaire":
-                return ("stethoscope", .green)
+                return ("stethoscope", .vertAccent)
             case "Diagnostic":
                 return ("heart.text.clipboard", .orange)
             case "Traitement":

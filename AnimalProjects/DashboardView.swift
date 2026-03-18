@@ -231,11 +231,11 @@ struct DashboardView: View {
 
     private func healthColor(for type: String) -> Color {
         switch type {
-        case "Vaccination": return .blue
-        case "Vet Visit": return .vertAccent
-        case "Health Check": return .orange
-        case "Treatment": return .pink
-        case "Surgery": return .red
+        case "Vaccins": return .blue
+        case "Visite Vétérinaire": return .vertAccent
+        case "Diagnostic": return .orange
+        case "Traitement": return .pink
+        case "Opération": return .red
         default: return .gray
         }
     }
