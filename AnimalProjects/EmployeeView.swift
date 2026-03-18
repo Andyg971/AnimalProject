@@ -65,23 +65,13 @@ struct EmployeeView: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .foregroundStyle(.vertAccent)
-                                }.padding(24)
-                                    .background(
-                                        LinearGradient(
-                                            colors: [
-                                                .gray
-                                                    .opacity(0.1),
-                                                .gray
-                                                    .opacity(0.3),
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-                                    .cornerRadius(16)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 4)
-                                    .foregroundColor(.black)
+                                }
+                                .padding(16)
+                                .background(.white)
+                                .cornerRadius(14)
+                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
+                                .padding(.horizontal, 16)
+                                .foregroundColor(.black)
 
                             }
                         }

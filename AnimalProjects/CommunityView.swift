@@ -48,23 +48,13 @@ struct CommunityView: View {
                                   
                                     Image(systemName: "chevron.right")
                                         .foregroundColor(.vertAccent)
-                                }.padding(16)
-                                    .background(
-                                        LinearGradient(
-                                            colors: [
-                                                .gray
-                                                    .opacity(0.1),
-                                                .gray
-                                                    .opacity(0.3),
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-                                    .cornerRadius(16)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .foregroundColor(.black)
+                                }
+                                .padding(16)
+                                .background(.white)
+                                .cornerRadius(14)
+                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
+                                .padding(.horizontal, 16)
+                                .foregroundColor(.black)
                             }
                         }
 
