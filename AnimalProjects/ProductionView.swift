@@ -18,6 +18,7 @@ struct ProductionView: View {
 
         ZStack {
             Color.grisFond
+                .ignoresSafeArea()
 
             VStack {
 
@@ -36,10 +37,8 @@ struct ProductionView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .tint(.green) //je sais pas pourquoi, mais ça ne marche pas
                 .padding(8)
-                
-                
+
                 Chart(chartData) { item in
                     BarMark(
                         x: .value(
@@ -49,27 +48,112 @@ struct ProductionView: View {
                         ),
                         y: .value("Production", item.amount)
                     )
-                    .foregroundStyle(.vertAccent)
-                    
-                    
-                }.frame(height: 250)
-                .padding(16)
-
-                ForEach(prodList) { prod in
-                    HStack {
-                        Text(
-                            prod.date.formatted(date: .numeric, time: .omitted),
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.vertClair, .vertAccent],
+                            startPoint: .top,
+                            endPoint: .bottom
                         )
-                        Spacer()
+                    )
+                    .annotation(position: .top) {
                         Text(
-                            "\(prod.amount, format: .number.precision(.fractionLength(2))) \(prod.unit)"
+                            "\(item.amount, format: .number.precision(.fractionLength(1))) \(item.unit)"
                         )
-
+                        .font(.caption2)
                     }
-                    .padding(.horizontal, 8)
-                    Divider()
 
                 }
+                .chartXAxis {
+                    AxisMarks(values: chartData.map(\.period)) { value in
+                        AxisGridLine()
+                        AxisTick()
+                        AxisValueLabel(
+                            format: viewMode.dateFormat
+                                .locale(Locale(identifier: "fr_FR"))
+                        )
+                    }
+                }
+                .frame(height: 250)
+                .padding(16)
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 12) {
+
+                        Grid(verticalSpacing: 12) {
+                            GridRow {
+                                Text("Date")
+                                    .frame(minWidth: 100, alignment: .leading)
+                                Spacer()
+                                Text("Qté ")
+                                    .frame(minWidth: 48, alignment: .trailing)
+
+                                if prodList.contains(where: {
+                                    $0.productionType == .milk
+                                }) {
+                                    Text("TB")
+                                        .frame(
+                                            minWidth: 30,
+                                            alignment: .trailing
+                                        )
+                                    Text("TP")
+                                        .frame(
+                                            minWidth: 30,
+                                            alignment: .trailing
+                                        )
+                                    Text("Acéto")
+                                        .frame(
+                                            minWidth: 48,
+                                            alignment: .trailing
+                                        )
+                                }
+
+                            }
+                            .foregroundColor(.gray)
+                            .padding(.horizontal, 8)
+                            .font(.system(size: 16, weight: .semibold))
+
+                            ForEach(prodList) { prod in
+                                GridRow {
+                                    Text(
+                                        prod.date.formatted(
+                                            date: .numeric,
+                                            time: .omitted
+                                        )
+                                    ).frame(minWidth: 92, alignment: .leading)
+                                    Spacer()
+                                    Text(
+                                        "\(prod.amount, format: .number.precision(.fractionLength(1))) \(prod.unit)"
+                                    ).frame(minWidth: 48, alignment: .trailing)
+
+                                    if let milk = prod as? ProductionMilk {
+                                        Text(
+                                            "\(milk.tB, format: .number.precision(.fractionLength(1)))"
+                                        ).frame(
+                                            minWidth: 24,
+                                            alignment: .trailing
+                                        )
+                                        Text(
+                                            "\(milk.tP, format: .number.precision(.fractionLength(1)))"
+                                        ).frame(
+                                            minWidth: 24,
+                                            alignment: .trailing
+                                        )
+
+                                        if let ketone = milk.ketone {
+                                            Text("\(ketone)").frame(
+                                                minWidth: 16
+                                            )
+                                        } else { Text("-").frame(
+                                            minWidth: 16)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal, 4)
+                            }
+                        }
+                    }
+                }
+
             }
         }
         .navigationTitle("Production de \(animal.name ?? "l'animal")")
@@ -89,7 +173,7 @@ struct ProductionView: View {
                         print(error)
                     }
                 }
-                aniList.sort { $0.date < $1.date }
+                aniList.sort { $0.date > $1.date }
                 prodList = aniList
             }
         }

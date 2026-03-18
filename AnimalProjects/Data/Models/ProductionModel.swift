@@ -223,4 +223,12 @@ enum ViewMode: String, CaseIterable, Identifiable {
         case .monthly: return .month
         }
     }
+    var dateFormat: Date.FormatStyle {
+        switch self {
+        case .weekly:
+            return .dateTime.day().month(.abbreviated)
+        case .monthly:
+            return .dateTime.month(.abbreviated)
+        }
+    }
 }
