@@ -86,43 +86,7 @@ struct CommunityView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $search, prompt: "Rechercher un groupe")
             }
-
         }
-
-    }
-    
-    func communityStyle(for title: String) -> (icon: String, color: Color) {
-        let t = title.lowercased()
-        
-        if t.contains("santé") || t.contains("vétérinaire") || t.contains("soin") {
-            return ("cross.case.fill", .red)
-        }
-        if t.contains("alimentation") || t.contains("nutrition") || t.contains("fourrage") {
-            return ("leaf.fill", .green)
-        }
-        if t.contains("reproduction") || t.contains("élevage") || t.contains("naissance") {
-            return ("heart.fill", .pink)
-        }
-        if t.contains("marché") || t.contains("vente") || t.contains("commerce") {
-            return ("cart.fill", .orange)
-        }
-        if t.contains("équipement") || t.contains("matériel") || t.contains("outil") {
-            return ("wrench.and.screwdriver.fill", .indigo)
-        }
-        if t.contains("météo") || t.contains("climat") || t.contains("saison") {
-            return ("cloud.sun.fill", .cyan)
-        }
-        if t.contains("discussion") || t.contains("entraide") || t.contains("bavardage") || t.contains("général") {
-            return ("bubble.left.fill", .blue)
-        }
-        if t.contains("règlementation") || t.contains("réglementation") || t.contains("aide") {
-            return ("questionmark.circle.fill", .yellow)
-        }
-        if t.contains("conseil") || t.contains("astuce") {
-            return ("lightbulb.fill", .yellow)
-        }
-        
-        return ("bubble.left.fill", .blue)
     }
 }
 
