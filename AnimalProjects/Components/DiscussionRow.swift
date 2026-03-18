@@ -34,7 +34,7 @@ struct DiscussionRow: View {
             
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(.gray)
+                .foregroundStyle(.vertAccent)
         }
         .padding(16)
         .background(.white)

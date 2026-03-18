@@ -112,11 +112,14 @@ struct CommunityView: View {
         if t.contains("météo") || t.contains("climat") || t.contains("saison") {
             return ("cloud.sun.fill", .cyan)
         }
-        if t.contains("conseil") || t.contains("astuce") || t.contains("aide") {
+        if t.contains("règlementation") || t.contains("aide") || t.contains("réglementation") {
+            return ("questionmark.circle.fill", .yellow)
+        }
+        if t.contains("conseil") || t.contains("astuce") {
             return ("lightbulb.fill", .yellow)
         }
-        if t.contains("général") || t.contains("discussion") || t.contains("bavardage") {
-            return ("bubble.left.and.bubble.right.fill", .purple)
+        if t.contains("général") || t.contains("discussion") || t.contains("bavardage") || t.contains("entraide") {
+            return ("bubble.left.fill", .blue)
         }
         
         return ("bubble.left.fill", .blue)
