@@ -12,22 +12,27 @@ struct DiscussionRow: View {
     var topic: DiscussionTopic
 
     var body: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: 16) {
             Image(systemName: "bubble.left.fill")
                 .font(.system(size: 18))
                 .foregroundStyle(.blue)
-                .frame(width: 42, height: 42)
-                .background(Color.blue.opacity(0.2))
-                .clipShape(Circle())
+                .frame(width: 24, height: 24)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(topic.nomDiscussions)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 20, weight: .semibold))
                     .foregroundStyle(.primary)
                 
-                Text("\(topic.nbMessages) discussions")
-                    .font(.system(size: 13))
+                Text("\(topic.nbMessages) messages")
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(.vertAccent)
+                
+                HStack {
+                    Text("Dernier message de")
+                    Text(topic.dernierCommentaire).bold()
+                    Text(topic.formattedDate)
+                }
+                .font(.system(size: 13))
             }
             
             Spacer()
@@ -38,7 +43,7 @@ struct DiscussionRow: View {
         }
         .padding(16)
         .background(.white)
-        .cornerRadius(14)
+        .cornerRadius(12)
         .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
     }
 }

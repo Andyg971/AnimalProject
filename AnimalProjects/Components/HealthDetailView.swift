@@ -52,7 +52,7 @@ struct HealthDetailView: View {
                     VStack(spacing: 12) {
                         EmpDetailRowView(
                             title: "Type",
-                            value: item.type
+                            value: item.type.rawValue
                         )
                         EmpDetailRowView(
                             title: "Statut",
@@ -91,7 +91,7 @@ struct HealthDetailView: View {
             item: HealthItem(
                 id: 1,
                 title: "Contrôle de santé",
-                type: "Health Check",
+                type: .visiteVeterinaire,
                 status: "Scheduled",
                 date: Date(),
                 nextDate: Date(),

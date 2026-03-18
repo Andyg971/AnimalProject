@@ -24,7 +24,7 @@ struct DiscussionTopic: Codable{
     
     var formattedDate: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy 'à' HH:mm"
+        formatter.dateFormat = "'le' dd/MM/yyyy 'à' HH:mm"
         return formatter.string(from: self.date)
     }
 }
