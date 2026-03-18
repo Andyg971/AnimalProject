@@ -45,15 +45,10 @@ struct DetailCard: View {
         }
         .padding(16)
         .background(
-            LinearGradient(
-                colors: [
-                    .gray.opacity(0.1),
-                    .gray.opacity(0.2),
-                ],
-                startPoint: .leading,
-                endPoint: .trailing
+            .white
             )
-        ).cornerRadius(16)
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
     }

@@ -79,76 +79,92 @@ struct ProductionView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 12) {
 
-                        Grid(verticalSpacing: 12) {
-                            GridRow {
-                                Text("Date")
-                                    .frame(minWidth: 100, alignment: .leading)
-                                Spacer()
-                                Text("Qté ")
-                                    .frame(minWidth: 48, alignment: .trailing)
-
-                                if prodList.contains(where: {
-                                    $0.productionType == .milk
-                                }) {
-                                    Text("TB")
+                        if !prodList.isEmpty {
+                            Grid(verticalSpacing: 12) {
+                                GridRow {
+                                    Text("Date")
                                         .frame(
-                                            minWidth: 30,
-                                            alignment: .trailing
+                                            minWidth: 100,
+                                            alignment: .leading
                                         )
-                                    Text("TP")
-                                        .frame(
-                                            minWidth: 30,
-                                            alignment: .trailing
-                                        )
-                                    Text("Acéto")
+                                    Spacer()
+                                    Text("Qté ")
                                         .frame(
                                             minWidth: 48,
                                             alignment: .trailing
                                         )
-                                }
 
-                            }
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 8)
-                            .font(.system(size: 16, weight: .semibold))
-
-                            ForEach(prodList) { prod in
-                                GridRow {
-                                    Text(
-                                        prod.date.formatted(
-                                            date: .numeric,
-                                            time: .omitted
-                                        )
-                                    ).frame(minWidth: 92, alignment: .leading)
-                                    Spacer()
-                                    Text(
-                                        "\(prod.amount, format: .number.precision(.fractionLength(1))) \(prod.unit)"
-                                    ).frame(minWidth: 48, alignment: .trailing)
-
-                                    if let milk = prod as? ProductionMilk {
-                                        Text(
-                                            "\(milk.tB, format: .number.precision(.fractionLength(1)))"
-                                        ).frame(
-                                            minWidth: 24,
-                                            alignment: .trailing
-                                        )
-                                        Text(
-                                            "\(milk.tP, format: .number.precision(.fractionLength(1)))"
-                                        ).frame(
-                                            minWidth: 24,
-                                            alignment: .trailing
-                                        )
-
-                                        if let ketone = milk.ketone {
-                                            Text("\(ketone)").frame(
-                                                minWidth: 16
+                                    if prodList.contains(where: {
+                                        $0.productionType == .milk
+                                    }) {
+                                        Text("TB")
+                                            .frame(
+                                                minWidth: 30,
+                                                alignment: .trailing
                                             )
-                                        } else { Text("-").frame(
-                                            minWidth: 16)
+                                        Text("TP")
+                                            .frame(
+                                                minWidth: 30,
+                                                alignment: .trailing
+                                            )
+                                        Text("Acéto")
+                                            .frame(
+                                                minWidth: 48,
+                                                alignment: .trailing
+                                            )
+                                    }
+
+                                }
+                                .foregroundColor(.gray)
+                                .padding(.horizontal, 8)
+                                .font(.system(size: 16, weight: .semibold))
+
+                                ForEach(prodList) { prod in
+                                    GridRow {
+                                        Text(
+                                            prod.date.formatted(
+                                                date: .numeric,
+                                                time: .omitted
+                                            )
+                                        ).frame(
+                                            minWidth: 92,
+                                            alignment: .leading
+                                        )
+                                        Spacer()
+                                        Text(
+                                            "\(prod.amount, format: .number.precision(.fractionLength(1))) \(prod.unit)"
+                                        ).frame(
+                                            minWidth: 48,
+                                            alignment: .trailing
+                                        )
+
+                                        if let milk = prod as? ProductionMilk {
+                                            Text(
+                                                "\(milk.tB, format: .number.precision(.fractionLength(1)))"
+                                            ).frame(
+                                                minWidth: 24,
+                                                alignment: .trailing
+                                            )
+                                            Text(
+                                                "\(milk.tP, format: .number.precision(.fractionLength(1)))"
+                                            ).frame(
+                                                minWidth: 24,
+                                                alignment: .trailing
+                                            )
+
+                                            if let ketone = milk.ketone {
+                                                Text("\(ketone)").frame(
+                                                    minWidth: 16
+                                                )
+                                            } else {
+                                                Text("-").frame(
+                                                    minWidth: 16
+                                                )
+                                            }
                                         }
                                     }
+                                    .padding(.horizontal, 4)
                                 }
-                                .padding(.horizontal, 4)
                             }
                         }
                     }
