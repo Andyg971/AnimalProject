@@ -197,6 +197,7 @@ struct AnimalDetails: View {
                         print(error)
                     }
                 }
+                aniList.sort { $0.date > $1.date }
                 prodList = aniList
             }
 
