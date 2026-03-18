@@ -87,16 +87,18 @@ struct HealthView: View {
         
         func healthStyle(for type: String) -> (icon: String, color: Color) {
             switch type {
-            case "Vaccination":
+            case "Vaccins":
                 return ("syringe.fill", .blue)
-            case "Vet Visit":
+            case "Visite Vétérinaire":
                 return ("stethoscope", .green)
-            case "Health Check":
+            case "Diagnostic":
                 return ("heart.text.clipboard", .orange)
-            case "Treatment":
+            case "Traitement":
                 return ("pills.fill", .pink)
-            case "Surgery":
+            case "Opération":
                 return ("scissors", .red)
+            case "Maladie":
+                return ("allergens.fill", .purple)
             default:
                 return ("cross.case.fill", .gray)
             }
@@ -106,10 +108,3 @@ struct HealthView: View {
 #Preview {
     HealthView()
 }
-//struct HealthRowView: View {
-//    let item: HealthItem
-//    let style: (icon: String, color: Color)
-//    
-//    }
-//        
-        
