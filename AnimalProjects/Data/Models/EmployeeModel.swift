@@ -54,7 +54,7 @@ class Employee: Codable, Identifiable {
 
         firstName: String,
         lastName: String,
-        photo: [Attachment],
+        photo: [Attachment]?,
         position: String,
         zone: [String]? = nil,
         userName: String,
@@ -64,7 +64,7 @@ class Employee: Codable, Identifiable {
         tasks: [String]? = nil,
         recordID: String? = nil,
         bioUser: String? = nil,
-        photosUser: [Attachment]? = nil
+        photosUser: [Attachment]?
         
     ) {
         self.id = id
