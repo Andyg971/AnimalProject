@@ -45,8 +45,9 @@ struct FactureRowView: View {
                 }
             }
         }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(10)
+        .padding(16)
+        .background(.white)
+        .cornerRadius(14)
+        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
     }
 }

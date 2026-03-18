@@ -53,18 +53,17 @@ struct AnimalView: View {
                                     .background(
                                         speciesFilter.contains(species)
                                             ? Color.vertClair.opacity(0.8)
-                                            : Color.vertAccent
+                                            : Color.white
                                     )
                                     .cornerRadius(12)
-                                    .foregroundStyle(
-                                        speciesFilter.contains(species)
-                                            ? .black : .white
-                                    )
+                                    .foregroundStyle(.black)
                                     .overlay(
-                                        RoundedRectangle(cornerRadius: 16)
+                                        RoundedRectangle(cornerRadius: 12)
                                             .stroke(
-                                                Color.vertAccent.opacity(0.1),
-                                                lineWidth: 1
+                                                speciesFilter.contains(species)
+                                                    ? Color.vertAccent
+                                                    : Color.gray.opacity(0.4),
+                                                lineWidth: speciesFilter.contains(species) ? 1.5 : 2
                                             )
                                     )
                             }
