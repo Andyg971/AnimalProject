@@ -61,13 +61,19 @@ struct HealthDetailView: View {
 //                        if let date = item.date {
                             EmpDetailRowView(
                                 title: "Date",
-                                value: item.date.formatted(date: .long, time: .omitted)
+                                value: item.date.formatted(
+                                    Date.FormatStyle(date: .long, time: .omitted)
+                                        .locale(Locale(identifier: "fr_FR"))
+                                )
                             )
 //                        }
                         if let nextDate = item.nextDate {
                             EmpDetailRowView(
                                 title: "Prochaine date",
-                                value: nextDate.formatted(date: .long, time: .omitted)
+                                value: nextDate.formatted(
+                                    Date.FormatStyle(date: .long, time: .omitted)
+                                        .locale(Locale(identifier: "fr_FR"))
+                                    )
                             )
                         }
                         if let notes = item.notes {
