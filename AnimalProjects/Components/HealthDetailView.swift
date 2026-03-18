@@ -80,9 +80,7 @@ struct HealthDetailView: View {
                 }
             }
             .navigationTitle("Détail santé")
-            .toolbarBackground(.vertClair.opacity(0.8), for: .navigationBar)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
 }
