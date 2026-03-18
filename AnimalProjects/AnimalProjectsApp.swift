@@ -12,7 +12,7 @@ struct AnimalProjectsApp: App {
     init() {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor(.vertClair.opacity(0.8))
+            appearance.backgroundColor = UIColor(.vertDark.opacity(0.8))
             appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
             appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
             

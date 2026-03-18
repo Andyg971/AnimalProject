@@ -14,11 +14,13 @@ struct EmpDetailRowView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.vertAccent)
+                .foregroundStyle(.black)
             Text(value)
                 .font(.system(size:16))
+                .foregroundStyle(.secondary)
             
             Divider()
+                .background(Color.vertDark)
         }
         .padding()
     }

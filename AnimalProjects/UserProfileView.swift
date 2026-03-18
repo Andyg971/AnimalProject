@@ -63,16 +63,20 @@ struct UserProfileView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Bio")
                                     .font(.system(size: 20, weight: .bold))
-                                    .foregroundStyle(Color.vertAccent)
+                                    .foregroundStyle(Color.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 
                                 Text(bio)
                                     .font(.system(size: 15))
-                                    .foregroundStyle(.primary)
+                                    .foregroundStyle(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding()
-                                    .background(Color.vertClair.opacity(0.4))
+//                                    .background(Color.vertAccent.opacity(0.4))
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
+                                        )
                             }
                             .padding(.horizontal, 16)
                             .padding(.top, 12)
@@ -81,7 +85,7 @@ struct UserProfileView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text("Photos")
                                     .font(.system(size: 20, weight: .bold))
-                                    .foregroundStyle(Color.vertAccent)
+                                    .foregroundStyle(Color.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.horizontal, 16)
                                 
@@ -113,11 +117,15 @@ struct UserProfileView: View {
                                     Text("Paramètres")
                                 }
                                 .font(.system(size: 16, weight: .medium))
-                                .foregroundStyle(Color.vertAccent)
+                                .foregroundStyle(Color.vertDark)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 13)
-                                .background(Color.vertClair.opacity(0.5))
+//                                .background(Color.vertClair.opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.secondary.opacity(1), lineWidth: 1)
+                                        )
                             }
                             
                             Button {
@@ -131,7 +139,7 @@ struct UserProfileView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color.red.opacity(0.4), lineWidth: 1)
+                                            .stroke(Color.red.opacity(1), lineWidth: 1)
                                     )
                             }
                         }
@@ -142,7 +150,7 @@ struct UserProfileView: View {
                 }
                 
                 
-                .navigationTitle("Profil")
+                .navigationTitle("Mon Profil")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(isPresented: $showSettings) {
                     SettingsView()

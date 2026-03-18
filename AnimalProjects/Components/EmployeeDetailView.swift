@@ -69,30 +69,7 @@ struct EmployeeDetailView: View {
                                     ?? "Non renseigné"
                             )
                         }
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Tâches")
-                                .font(.system(size: 20, weight: .bold))
-                                .foregroundStyle(Color.vertAccent)
-
-                            if vmTask.tasks.filter({
-                                $0.assignedTo?.contains(employee.recordID ?? "")
-                                    ?? false
-                            }).isEmpty {
-                                Text("Aucune tâche assignée")
-                                    .foregroundStyle(.secondary)
-                            } else {
-                                ForEach(
-                                    vmTask.tasks.filter { task in
-                                        task.assignedTo?.contains(
-                                            employee.recordID ?? ""
-                                        ) ?? false
-                                    }
-                                ) { task in
-                                    TaskRowView(task: task, vmTask: vmTask)
-                                        .padding(.vertical, 4)
-                                }
-                            }
-                        }
+                    
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Tâches")
                                 .font(.system(size: 20, weight: .bold))
