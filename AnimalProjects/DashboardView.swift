@@ -74,9 +74,9 @@ struct DashboardView: View {
                                 Chart(healthByType, id: \.type) { item in
                                     BarMark(
                                         x: .value("Nombre", item.count),
-                                        y: .value("Type", item.type)
+                                        y: .value("Type", item.type.rawValue)
                                     )
-                                    .foregroundStyle(healthColor(for: item.type))
+                                    .foregroundStyle( item.type.color)
                                     .cornerRadius(6)
                                     .annotation(position: .trailing) {
                                         Text("\(item.count)")
@@ -209,7 +209,7 @@ struct DashboardView: View {
             .sorted { $0.total > $1.total }
     }
 
-    private var healthByType: [(type: String, count: Int)] {
+    private var healthByType: [(type: HealthType, count: Int)] {
         let grouped = Dictionary(grouping: healthVM.healthItems) { $0.type }
         return grouped.map { (type: $0.key, count: $0.value.count) }
             .sorted { $0.count > $1.count }
@@ -227,19 +227,8 @@ struct DashboardView: View {
             .sorted { $0.count > $1.count }
     }
 
-    //  Couleurs ( je peux les changés si vous aimez pas)
-
-    private func healthColor(for type: String) -> Color {
-        switch type {
-        case "Vaccination": return .blue
-        case "Vet Visit": return .vertAccent
-        case "Health Check": return .orange
-        case "Treatment": return .pink
-        case "Surgery": return .red
-        default: return .gray
-        }
-    }
-
+    // à déplacer dans les enums appropriées dans les Models, ne pas laisser dans la View
+    
     private func animalColor(for species: String) -> Color {
         switch species {
         case "Porcin": return .pink

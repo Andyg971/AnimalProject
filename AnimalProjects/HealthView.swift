@@ -19,21 +19,20 @@ struct HealthView: View {
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: 12) {
                         ForEach(items) { item in
-                            let style = healthStyle(for: item.type)
                             
                             NavigationLink {
                                 HealthDetailView(
                                     item: item,
-                                    styleIcon: style.icon,
-                                    styleColor: style.color
+                                    styleIcon: item.type.icon,
+                                    styleColor: item.type.color
                                 )
                             } label: {
                                 HStack(spacing: 14) {
-                                    Image(systemName: style.icon)
+                                    Image(systemName: item.type.icon)
                                         .font(.system(size: 18))
-                                        .foregroundStyle(style.color)
+                                        .foregroundStyle(item.type.color)
                                         .frame(width: 42, height: 42)
-                                        .background(style.color.opacity(0.2))
+                                        .background(item.type.color.opacity(0.2))
                                         .clipShape(Circle())
                                     
                                     VStack(alignment: .leading, spacing: 4) {
@@ -85,24 +84,7 @@ struct HealthView: View {
         }
     }
         
-        func healthStyle(for type: String) -> (icon: String, color: Color) {
-            switch type {
-            case "Vaccins":
-                return ("syringe.fill", .blue)
-            case "Visite Vétérinaire":
-                return ("stethoscope", .green)
-            case "Diagnostic":
-                return ("heart.text.clipboard", .orange)
-            case "Traitement":
-                return ("pills.fill", .pink)
-            case "Opération":
-                return ("scissors", .red)
-            case "Maladie":
-                return ("allergens.fill", .purple)
-            default:
-                return ("cross.case.fill", .gray)
-            }
-        }
+        
     }
 
 #Preview {
