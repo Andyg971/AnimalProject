@@ -75,7 +75,9 @@ struct ProductionView: View {
                 }
                 .frame(height: 250)
                 .padding(16)
-
+                Text("Production de \(animal.productionType?.rawValue.lowercased() ?? "")")
+                    .font(.system(size: 16, weight: .semibold))
+                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 12) {
 
