@@ -105,9 +105,11 @@ struct UserProfileView: View {
                         }
                     }
                     .padding(.horizontal, 16)
-                }
+               
                 .padding(.top, 12)
-            }
+          
+        
+
             VStack(spacing: 12) {
                 Button {
                     showSettings = true
@@ -141,16 +143,19 @@ struct UserProfileView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.red.opacity(1), lineWidth: 1)
                         )
+                
                 }
             }
+            
             .padding(.horizontal, 16)
             .padding(.top, 20)
             .padding(.bottom, 32)
-            
+        }
             .navigationTitle("Mon Profil")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $showSettings) {
                 SettingsView()
+        }
         }
         
         }
