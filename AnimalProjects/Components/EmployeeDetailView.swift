@@ -89,7 +89,7 @@ struct EmployeeDetailView: View {
                         }.padding()
                     }
                 }
-                .navigationTitle("Profil")
+                .navigationTitle("Profil employé")
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
